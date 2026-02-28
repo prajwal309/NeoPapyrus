@@ -182,3 +182,48 @@ a { color: inherit; text-decoration: none; }
 .hide-equations .katex-display {
   display: none !important;
 }
+
+
+.readerbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+}
+
+/* Left back button */
+.back {
+  text-decoration: none;
+  font-weight: 500;
+  color: #111;
+}
+
+/* Center title block */
+.readerhead {
+  margin-left: 20px;
+}
+
+/* This pushes actions all the way right */
+.reader-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Clean button style */
+.reader-actions button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.readerbar {
+  background: silver;
+  border-bottom: 1px solid #e2e8f0;
+}

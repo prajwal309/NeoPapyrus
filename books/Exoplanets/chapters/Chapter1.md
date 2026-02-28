@@ -1,5 +1,5 @@
 
-# Chapter 1 — A Universe of Worlds
+# Chapter 1 - A Universe of Worlds
 
 <figure style="float: right; width: 35%; margin: 0 0 1rem 1.5rem;">
   <img src="/books/Exoplanets/chapters/figures/HR8799.gif"
