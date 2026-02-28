@@ -3,52 +3,6 @@ const contentEl  = document.getElementById("content");
 const breadcrumb = document.getElementById("breadcrumb");
 const searchEl   = document.getElementById("search");
 
-// ── Dropdown helpers ──────────────────────────────────────────────
-function setupDropdown(toggleId, menuId) {
-  const toggle = document.getElementById(toggleId);
-  const menu   = document.getElementById(menuId);
-  toggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menu.classList.toggle("open");
-  });
-  document.addEventListener("click", () => menu.classList.remove("open"));
-}
-
-setupDropdown("levelToggle", "levelMenu");
-setupDropdown("equationToggle", "equationMenu");
-
-// ── Level selector ────────────────────────────────────────────────
-let CURRENT_LEVEL = "101";
-const levelToggle = document.getElementById("levelToggle");
-
-document.querySelectorAll("#levelMenu .dropdown-item").forEach(btn => {
-  btn.addEventListener("click", () => {
-    CURRENT_LEVEL = btn.dataset.level;
-    levelToggle.textContent = btn.textContent + " ▾";
-    document.querySelectorAll("#levelMenu .dropdown-item")
-      .forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("levelMenu").classList.remove("open");
-    fetchChapters();
-  });
-});
-
-// ── Equation toggle ───────────────────────────────────────────────
-let SHOW_EQUATIONS = true;
-const equationToggle = document.getElementById("equationToggle");
-
-document.querySelectorAll("#equationMenu .dropdown-item").forEach(btn => {
-  btn.addEventListener("click", () => {
-    SHOW_EQUATIONS = btn.dataset.eq === "show";
-    equationToggle.textContent = btn.textContent + " ▾";
-    document.querySelectorAll("#equationMenu .dropdown-item")
-      .forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("equationMenu").classList.remove("open");
-    document.querySelectorAll(".katex-display, .katex")
-      .forEach(el => el.style.display = SHOW_EQUATIONS ? "" : "none");
-  });
-});
 
 let ALL_CHAPTERS = [];
 
@@ -68,24 +22,33 @@ async function fetchChapters() {
 function renderChapterList(filter = "") {
   const q = filter.toLowerCase();
   chaptersEl.innerHTML = "";
+
   const filtered = ALL_CHAPTERS.filter(c =>
     !q || c.title.toLowerCase().includes(q)
   );
-  filtered.forEach(c => {
-    const btn = document.createElement("button");
-    btn.className = "chapter-btn";
-    btn.dataset.id = c.id;
-    btn.innerHTML = `
-      <div class="chapter-title">${c.title}</div>
-      <div class="chapter-desc">${c.subtitle}</div>
+
+  filtered.forEach((c, index) => {
+    const item = document.createElement("div");
+    item.className = "chapter-item";
+    item.dataset.id = c.id;
+
+    item.innerHTML = `
+      <div class="chapter-number">${index + 1}.</div>
+      <div class="chapter-text">
+        <div class="chapter-title">${c.title}</div>
+        ${c.subtitle ? `<div class="chapter-desc">${c.subtitle}</div>` : ""}
+      </div>
     `;
-    btn.onclick = () => openChapter(c.id, true);
-    chaptersEl.appendChild(btn);
+
+    item.onclick = () => openChapter(c.id, true);
+    chaptersEl.appendChild(item);
   });
+
   if (filtered.length) {
     setActiveButton(getActiveIdFromHash() || filtered[0].id);
   }
 }
+
 
 async function openChapter(id, pushState = false) {
   const chapter = ALL_CHAPTERS.find(c => c.id === id);

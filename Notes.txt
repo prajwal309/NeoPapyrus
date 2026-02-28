@@ -1,6 +1,21 @@
 0. Start github page. [Fixed.]
 1. Make the math formula work. [Fixed.]
-2. Feature 1 [Introductory/Intermediate/Advanced]
+2. Feature 1 [Introductory/Intermediate/Advanced] [Add this.]
+        a. First make the labels correct. 
+        b. What would be the best way to do this.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+3. Improve the content that is there right now. 
+4. Add about orbital mechanics. Connect it with the gravitational chapter in the exoplanets.
+---------------
+4. Display the books from the books in the server. 
+4. Connect the chapter of Exoplanets to Physics.
+5. Connect to a few select research papers when talking about the books. 
+        - Think about which papers to include.
+        - Add a commentary about the papers.
+        - Using the papers from the 
+6. Display these papers with features that they can be published right there.
+7. Remove the search bar on the side.
 
 
 Reach out to Wikipedia editor committee.

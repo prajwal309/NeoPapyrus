@@ -4,55 +4,50 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Exoplanets — Clickable Chapters</title>
-  <link rel="stylesheet" href="/styles/main.css" />
+
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
+
 <body>
-<header>
-  <h1>Exoplanets</h1>
-  <div class="header-controls">
 
-    <div class="dropdown">
-      <button class="dropdown-toggle" id="levelToggle">
-        Introductory 101 ▾
-      </button>
-      <ul class="dropdown-menu" id="levelMenu">
-        <li><button class="dropdown-item active" data-level="101">Introductory 101</button></li>
-        <li><button class="dropdown-item" data-level="201">Intermediate 201</button></li>
-        <li><button class="dropdown-item" data-level="301">Advanced 301</button></li>
-      </ul>
-    </div>
+<header>Exoplanets</header>
 
-    <div class="dropdown">
-      <button class="dropdown-toggle" id="equationToggle">
-        Equations ▾
-      </button>
-      <ul class="dropdown-menu" id="equationMenu">
-        <li><button class="dropdown-item active" data-eq="show">Show Equations</button></li>
-        <li><button class="dropdown-item" data-eq="hide">Hide Equations</button></li>
-      </ul>
-    </div>
+<button class="settings-btn" id="settingsBtn">⚙</button>
 
+<div class="settings-panel" id="settingsPanel">
+  <h4>Reading Mode</h4>
+
+  <div class="segmented">
+    <button data-level="101" class="active">Introductory</button>
+    <button data-level="201">Intermediate</button>
+    <button data-level="301">Advanced</button>
   </div>
-</header>
+
+  <div class="toggle">
+    <input type="checkbox" id="eqToggle" checked />
+    <label for="eqToggle">Show Equations</label>
+  </div>
+</div>
+
 <div class="app">
-  <nav aria-label="Chapters">
-    <input
-      id="search"
-      class="search"
-      type="search"
-      placeholder="Search chapters…"
-      aria-label="Search chapters"
-    />
-    <div id="chapters" class="chapters"></div>
+  <nav>
+    <input type="search" id="search" placeholder="Search chapters…" />
+    <div id="chapters"></div>
   </nav>
+
   <main>
-    <div class="meta" id="breadcrumb">Chapter</div>
-    <section class="content" id="content" aria-live="polite"></section>
+    <div id="breadcrumb" class="meta">Chapter</div>
+    <section class="content" id="content"></section>
   </main>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<script src="/scripts/ui.js"></script>
 <script src="/scripts/chapters.js"></script>
+
 </body>
 </html>

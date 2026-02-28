@@ -1,14 +1,48 @@
-# Chapter 1 - What Are Exoplanets?
 
-## 1.1 A New Kind of World
+# Chapter 1 — A Universe of Worlds
 
-For most of human history, we knew only one planetary system: our own. The Sun, eight planets, dwarf planets, moons, comets, and asteroids formed the complete inventory of known worlds. The idea that other stars might host their own planets was philosophical—beautiful, but unproven.
+<figure style="float: right; width: 35%; margin: 0 0 1rem 1.5rem;">
+  <img src="/Exoplanets/figures/HR8799.gif" alt="Directly Imaged Planets Around HR 8799" style="width: 100%; border-radius: 6px;" />
+  <figcaption style="font-size: 0.85rem; color: #555; margin-top: 0.4rem;">
+    Figure 1. Direct image of the planetary system around HR 8799. The central star is suppressed by a coronagraph, allowing multiple giant planets to be seen directly.
+  </figcaption>
+</figure>
+
+*Figure 1. Direct image of the planetary system around HR 8799. The central star is suppressed by a coronagraph, allowing multiple giant planets to be seen directly.*
+
+For most of human history, the night sky looked permanent and unchanging. The stars were distant lights, the planets wandering points, and our Solar System seemed complete and singular. We knew the Sun, its eight planets, their moons, the asteroid belt, distant comets — and nothing beyond.
+
+The idea that other stars might host their own planets was ancient. Philosophers imagined it. Poets celebrated it. Scientists debated it. But for centuries, it remained speculation — elegant, but untested.
 
 That changed in the 1990s.
 
-An **exoplanet** (or extrasolar planet) is a planet that orbits a star other than the Sun. Today, thousands are confirmed, and many thousands more are candidates. These worlds span an astonishing range of sizes, temperatures, compositions, and orbital architectures—many of which have no analogue in our Solar System.
+With advances in precision spectroscopy and photometry, astronomers finally detected the first planets orbiting other stars. The discovery was not subtle. The first confirmed detections revealed worlds unlike anything in our Solar System: giant planets orbiting scorchingly close to their stars. “Hot Jupiters” were not predicted by classical Solar System theory — yet there they were.
 
-Exoplanet science has transformed astronomy from the study of *one* planetary system to the study of *planetary systems as a population*.
+Soon after, astronomers achieved something even more remarkable: the direct imaging of exoplanets. Systems such as HR 8799 revealed multiple massive planets glowing in infrared light, physically separated from their host star in telescope images. These observations required sophisticated techniques to block out the overwhelming glare of the star, but they demonstrated that planets around other stars could, in some cases, be seen directly.
+
+However, it is important to emphasize that **most exoplanets are not directly observed**. They are detected indirectly — through the tiny wobble they induce on their star, the minute dip in starlight when they transit, or other subtle gravitational and photometric effects. Direct imaging remains challenging and is currently limited primarily to young, massive planets orbiting far from their stars.
+
+The Universe, it turned out, was far more imaginative than we had assumed.
+
+An **exoplanet** (or *extrasolar planet*) is a planet that orbits a star other than the Sun. Today, thousands are confirmed, and thousands more await verification. These worlds range from lava-covered giants hugging their stars to icy super-Earths, from planets orbiting pulsars to compact multi-planet systems tightly packed around red dwarfs.
+
+Some are larger than Jupiter.  
+Some are smaller than Earth.  
+Some may have oceans.  
+Some may have clouds made of glass.
+
+Exoplanet science has transformed astronomy. We are no longer studying a single planetary system — we are studying planetary systems as a population. We now ask statistical questions:
+
+- How common are Earth-sized planets?
+- How do planets form and migrate?
+- What determines whether a planet keeps an atmosphere?
+- Are habitable worlds rare — or inevitable?
+
+This field is young. Most of what we know has been learned within a single human generation. And yet it has already reshaped our understanding of planet formation, stellar physics, atmospheric chemistry, and even the search for life.
+
+We began with one example.
+
+Now we are surrounded by worlds.
 
 ---
 

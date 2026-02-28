@@ -2,11 +2,18 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
+
+
+
 const app = express();
 const CHAPTERS_DIR = path.join(__dirname, "Exoplanets", "chapters");
 
 // Serve frontend
 app.use(express.static("public"));
+
+app.use("/:book/figures", (req, res, next) => {
+  express.static(`${req.params.book}/chapters/figures`)(req, res, next);
+});
 
 // List chapters
 app.get("/api/chapters", (req, res) => {
