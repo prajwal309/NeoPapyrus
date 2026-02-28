@@ -1,216 +1,197 @@
-# Chapter 3 - Transmission Spectroscopy
+# Chapter 2 - Transits and Occultations
 
-## 3.1 A Thin Ring of Light
+## 2.1 Shadows and Light
 
-When a planet transits its host star, most of the starlight is blocked by the opaque planetary disk. But not all of it. A small fraction passes through the planet’s atmosphere—through a thin annulus at the planet’s limb—before reaching our telescopes.
+If Chapter 1 introduced the existence of other worlds, this chapter explains how we learned to weigh and measure them without ever seeing them directly.
 
-That thin ring of light carries extraordinary information.
+A transit occurs when a planet passes in front of its host star, temporarily blocking a small fraction of starlight. An occultation (also called a secondary eclipse) occurs when the planet passes behind the star, briefly removing the planet’s own emitted and reflected light from view.
 
-Transmission spectroscopy is the technique of measuring how the apparent radius of a planet changes with wavelength. At wavelengths where atmospheric gases absorb strongly, the atmosphere becomes opaque higher up. The planet appears slightly larger. At wavelengths where the atmosphere is transparent, we see deeper layers, and the planet appears smaller.
+These events are subtle. A Jupiter-sized planet transiting a Sun-like star blocks about 1% of the starlight. An Earth-sized planet blocks only 0.01%. Yet from these tiny changes in brightness, we can measure planetary radii, orbital geometries, atmospheric compositions, temperatures, albedos, and even maps of distant worlds.
 
-From variations of only tens to hundreds of parts per million in stellar flux, we infer the composition, structure, and physical state of alien atmospheres.
+The method is conceptually simple: measure brightness versus time. The interpretation, however, is rich with physics.
 
 ---
 
-## 3.2 The Basic Idea
+## 2.2 The Geometry of a Transit
 
-The transit depth at wavelength \( \lambda \) is approximately
+Transits require a special alignment. The orbital plane of the planet must be nearly edge-on to our line of sight. The probability of this alignment is approximately
 
 \[
-\delta(\lambda) \approx \left( \frac{R_p(\lambda)}{R_\star} \right)^2,
+P_{\rm transit} \approx \frac{R_\star + R_p}{a},
 \]
 
-where \( R_p(\lambda) \) is the wavelength-dependent planetary radius.
+where \( R_\star \) is the stellar radius, \( R_p \) the planetary radius, and \( a \) the orbital distance.
 
-If the atmosphere were completely transparent, the planet would have a single sharp radius. But real atmospheres are partially opaque and wavelength-dependent. The effective planetary radius shifts with wavelength because the atmosphere absorbs light differently across the spectrum.
+Close-in planets are therefore much more likely to transit than distant ones. This geometric bias explains why many of the first detected transiting planets were hot Jupiters.
 
-The difference in transit depth between two wavelengths reveals the presence of atmospheric absorption features.
+When a transit occurs, the fractional loss of light—known as the **transit depth**—is approximately
 
-This method does not require spatially resolving the planet. It relies only on precise measurements of stellar brightness as a function of wavelength and time.
+\[
+\delta \approx \left( \frac{R_p}{R_\star} \right)^2.
+\]
+
+From this single number, we obtain the planet’s radius relative to its star.
+
+But the light curve contains much more information than just its depth.
 
 ---
 
-## 3.3 The Scale Height: A Natural Ruler
+## 2.3 Anatomy of a Transit Light Curve
 
-The strength of transmission spectral features depends on the atmospheric **scale height**, given by
+A transit light curve has a characteristic shape:
+
+- **Ingress** — the planet begins to cross the stellar disk  
+- **Full transit** — the planet is fully superimposed on the star  
+- **Egress** — the planet exits the stellar disk  
+
+The duration of the transit depends on the orbital speed and geometry. The shape encodes:
+
+- The planet’s radius \( R_p \)
+- The orbital inclination \( i \)
+- The scaled semi-major axis \( a/R_\star \)
+- The impact parameter \( b \)
+
+Remarkably, from the transit duration and orbital period alone, one can derive the stellar density. This fact has made transits a powerful tool not only for studying planets but also for characterizing stars.
+
+---
+
+## 2.4 Limb Darkening: The Star Is Not Uniform
+
+Stars are not uniform disks. Their edges appear dimmer than their centers—a phenomenon known as **limb darkening**. This effect arises because we see deeper, hotter layers at the center of the stellar disk and shallower, cooler layers near the edge.
+
+Accurate modeling of limb darkening is essential for precise transit parameter estimation. The light curve is subtly distorted by the stellar intensity profile. For high signal-to-noise observations, even small mismatches between assumed and actual limb darkening can bias inferred planetary radii.
+
+The star, therefore, is not merely a backdrop. It participates actively in the measurement.
+
+---
+
+## 2.5 Occultations: Measuring Planetary Light
+
+During occultation, the planet disappears behind the star. The observed decrease in total flux is typically much smaller than during transit because we are removing only the planet’s light, not the star’s.
+
+The depth of the occultation tells us:
+
+- The planet’s thermal emission (at infrared wavelengths)
+- The planet’s reflected light (at optical wavelengths)
+- The planet’s day-side temperature
+- The geometric albedo
+
+By measuring occultations at multiple wavelengths, we can estimate atmospheric composition and energy redistribution efficiency between the day and night sides.
+
+Occultations transformed hot Jupiters from abstract masses into physical worlds with temperatures, winds, and chemistry.
+
+---
+
+## 2.6 Phase Curves: Watching a Planet Orbit
+
+If one measures the stellar brightness continuously throughout an orbit, one can detect subtle variations known as **phase curves**.
+
+These arise from:
+
+- Changing visibility of the planet’s illuminated hemisphere  
+- Thermal emission from the planet  
+- Ellipsoidal variations of the star  
+- Doppler beaming  
+
+Phase curves allow us to infer longitudinal temperature gradients and atmospheric circulation patterns. In some cases, the hottest point on a planet is offset from the substellar point, revealing strong equatorial winds.
+
+From a time series of brightness measurements, we reconstruct weather patterns on planets dozens or hundreds of light-years away.
+
+---
+
+## 2.7 Transmission Spectroscopy
+
+When a planet transits, a small fraction of starlight filters through its atmosphere. At wavelengths where atmospheric gases absorb strongly, the planet appears slightly larger.
+
+The variation of transit depth with wavelength yields a **transmission spectrum**.
+
+From this we can detect:
+
+- Water vapor  
+- Sodium and potassium  
+- Methane  
+- Carbon dioxide  
+- Clouds and hazes  
+
+The amplitude of spectral features depends on the atmospheric scale height:
 
 \[
 H = \frac{kT}{\mu g},
 \]
 
-where:
+where \( T \) is temperature, \( \mu \) the mean molecular weight, and \( g \) surface gravity.
 
-- \( k \) is Boltzmann’s constant  
-- \( T \) is atmospheric temperature  
-- \( \mu \) is mean molecular weight  
-- \( g \) is surface gravity  
+Thus, the detectability of atmospheric features connects directly to planetary temperature, gravity, and composition.
 
-The scale height determines how extended the atmosphere is.
-
-Hot, low-gravity, hydrogen-rich atmospheres have large scale heights and strong spectral features. Cooler, high-gravity, high–molecular weight atmospheres have smaller scale heights and weaker signals.
-
-A rough estimate of the amplitude of transmission features is
-
-\[
-\Delta \delta \sim \frac{2 R_p H}{R_\star^2}.
-\]
-
-For hot Jupiters, this may correspond to hundreds of parts per million. For temperate terrestrial planets, the signal can be less than ten parts per million.
-
-Transmission spectroscopy rewards favorable physics: large planets, small stars, high temperatures, and light atmospheres.
+The technique is exquisitely sensitive to stellar heterogeneities—spots and faculae can imprint spectral signatures that mimic or obscure planetary features. Careful modeling of the host star is therefore inseparable from atmospheric inference.
 
 ---
 
-## 3.4 What We Can Detect
+## 2.8 Emission Spectroscopy
 
-Transmission spectroscopy has revealed a rich inventory of atmospheric constituents:
+During occultation, the disappearance of the planet’s thermal emission can be measured spectroscopically. This yields an emission spectrum of the day side.
 
-- **Water vapor (H₂O)**
-- **Sodium (Na)**
-- **Potassium (K)**
-- **Methane (CH₄)**
-- **Carbon monoxide (CO)**
-- **Carbon dioxide (CO₂)**
-- **Clouds and hazes**
+Emission spectroscopy reveals:
 
-Each molecule has a characteristic absorption spectrum determined by quantum mechanics. The pattern of absorption lines serves as a fingerprint.
-
-Low-resolution spectra reveal broad molecular bands. High-resolution spectra can resolve individual lines and measure atmospheric winds via Doppler shifts.
-
-Clouds and hazes often mute spectral features, producing flatter spectra. In some cases, a seemingly featureless spectrum is itself a powerful diagnostic of atmospheric aerosols.
-
----
-
-## 3.5 Radiative Transfer at the Limb
-
-The physics of transmission spectroscopy differs from emission spectroscopy.
-
-In transmission, light travels along a slant path through the atmosphere. The path length is much longer than the vertical scale height. As a result, even tenuous absorbers can produce significant opacity.
-
-The optical depth along a chord at impact parameter \( b \) is
-
-\[
-\tau_\lambda = \int \kappa_\lambda \rho \, ds,
-\]
-
-where \( \kappa_\lambda \) is the wavelength-dependent opacity, \( \rho \) the density, and \( ds \) the path element.
-
-The effective planetary radius at wavelength \( \lambda \) corresponds roughly to the altitude where the slant optical depth reaches unity.
-
-This geometry explains why transmission spectroscopy is particularly sensitive to trace species.
-
----
-
-## 3.6 Retrieval: From Spectrum to Atmosphere
-
-Interpreting a transmission spectrum requires solving an inverse problem.
-
-We measure transit depth as a function of wavelength. We wish to infer:
-
-- Temperature structure  
+- Atmospheric temperature structure  
+- Thermal inversions  
 - Molecular abundances  
-- Cloud properties  
-- Mean molecular weight  
-- Atmospheric pressure at the reference radius  
+- Energy redistribution efficiency  
 
-This process is known as **atmospheric retrieval**.
+Where transmission probes the terminator, emission probes the dayside.
 
-Forward models compute synthetic spectra for assumed atmospheric compositions and temperature profiles. Statistical techniques—often Bayesian—compare models to data and infer posterior probability distributions.
-
-The inference is rarely unique. Degeneracies arise between:
-
-- Clouds and molecular abundances  
-- Temperature and composition  
-- Reference pressure and radius  
-
-Transmission spectroscopy teaches us humility: the data constrain models, but interpretation requires careful attention to assumptions.
+Together, they provide complementary slices of atmospheric physics.
 
 ---
 
-## 3.7 Clouds and Hazes
+## 2.9 Transit Timing Variations
 
-Clouds complicate transmission spectroscopy.
+Not all transits occur exactly on schedule.
 
-High-altitude clouds truncate the atmospheric column, limiting how deeply starlight can penetrate. This suppresses molecular absorption features.
+Gravitational interactions between planets can cause deviations from strict periodicity. These **transit timing variations (TTVs)** allow the detection of additional planets—even those that do not transit.
 
-Hazes—produced by photochemistry—can introduce wavelength-dependent scattering, often manifesting as a Rayleigh slope in the optical.
-
-In some planets, clouds dominate the transmission spectrum. Rather than revealing molecular fingerprints, the spectrum becomes flat or gently sloped.
-
-Clouds are not merely nuisances. They are physical clues to atmospheric chemistry and circulation.
+TTVs provide planetary masses independent of radial velocity measurements and have revealed dynamically interacting multi-planet systems.
 
 ---
 
-## 3.8 Stellar Contamination
+## 2.10 Limitations and Biases
 
-Transmission spectroscopy measures relative changes in stellar flux. Therefore, it is sensitive not only to the planet but also to the star.
+Transit surveys are biased toward:
 
-Stellar heterogeneities—spots and faculae—modify the apparent transit depth as a function of wavelength. If the stellar photosphere is not uniform, the measured spectrum may include a stellar imprint.
+- Short orbital periods  
+- Large planets  
+- Bright stars  
+- Favorable inclinations  
 
-Unocculted starspots can mimic molecular absorption features. Faculae can produce slopes resembling scattering signatures.
+Only a small fraction of planetary systems are aligned to produce transits from our vantage point. Correcting for these biases is essential when estimating planet occurrence rates.
 
-Careful modeling of stellar activity is therefore essential, especially for active K and M dwarfs.
+The transit method does not reveal everything. It gives us planetary radii but not masses (unless combined with radial velocities or TTVs). It probes atmospheres but is sensitive to stellar contamination. It favors close-in planets.
 
-The star is part of the signal.
-
----
-
-## 3.9 From Hot Jupiters to Small Planets
-
-The first successful transmission detections were made for hot Jupiters—large, inflated planets with extended hydrogen atmospheres.
-
-As observational precision improved, smaller and cooler planets became accessible.
-
-For super-Earths and mini-Neptunes, the question often becomes: hydrogen-rich envelope or high–molecular weight atmosphere? The difference dramatically alters the scale height and spectral amplitude.
-
-For terrestrial planets, transmission spectroscopy is far more challenging. The signals are small, and clouds may obscure molecular features.
-
-Yet even nondetections constrain atmospheric properties.
+And yet, it remains the most productive exoplanet detection method to date.
 
 ---
 
-## 3.10 The Role of Space Telescopes
+## 2.11 From Light Curves to Worlds
 
-Transmission spectroscopy has progressed alongside advances in instrumentation.
+It is difficult to overstate the conceptual leap that transits represent.
 
-- The Hubble Space Telescope enabled early water detections.
-- Ground-based high-resolution spectrographs resolved individual molecular lines.
-- The James Webb Space Telescope has expanded wavelength coverage and sensitivity.
+We begin with a time series of brightness measurements. From that we infer:
 
-Broad wavelength coverage is critical. Molecular identification relies on detecting multiple absorption bands to avoid false positives.
+- Planetary radius  
+- Orbital geometry  
+- Stellar density  
+- Atmospheric composition  
+- Temperature maps  
+- Planetary albedo  
+- System architecture  
 
-Future observatories aim to probe smaller planets orbiting nearby M dwarfs, where favorable star-to-planet size ratios enhance signals.
+The method is geometrical, radiative, and dynamical all at once.
 
----
+A transit is a shadow.  
+An occultation is a disappearance.  
 
-## 3.11 Beyond Detection: Toward Characterization
+From these small changes in light, we reconstruct distant worlds in remarkable detail.
 
-Transmission spectroscopy has evolved from simple detection of water to quantitative atmospheric characterization.
-
-We now seek to measure:
-
-- Carbon-to-oxygen ratios  
-- Metallicity trends with planet mass  
-- Atmospheric escape  
-- Photochemical products  
-- Disequilibrium chemistry  
-
-The ultimate goal is to characterize terrestrial exoplanet atmospheres in the habitable zones of nearby stars.
-
-Whether such planets possess water vapor, oxygen, methane, or other biosignature gases remains one of the defining questions of modern astronomy.
-
----
-
-## 3.12 A Subtle Signal
-
-Transmission spectroscopy depends on a subtle measurement: a small change in apparent planetary size with wavelength.
-
-The effect is delicate, the modeling complex, the interpretation cautious.
-
-And yet, from that thin atmospheric annulus—no more than a few scale heights thick—we can infer the presence of water, clouds, winds, and chemistry on planets light-years away.
-
-It is a remarkable triumph of physics.
-
-We cannot see these atmospheres directly.
-
-But by watching how a planet dims its star, we learn what its air is made of.
+The physics is elegant.  
+The measurements are subtle.  
+The implications are profound.

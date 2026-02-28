@@ -1,247 +1,216 @@
-# Chapter 4 - The Radial Velocity Method
+# Chapter 3 - Transmission Spectroscopy
 
-## 4.1 The Stellar Wobble
+## 3.1 A Thin Ring of Light
 
-A planet does not orbit a stationary star.
+When a planet transits its host star, most of the starlight is blocked by the opaque planetary disk. But not all of it. A small fraction passes through the planet’s atmosphere—through a thin annulus at the planet’s limb—before reaching our telescopes.
 
-Instead, both the planet and the star orbit their common center of mass. Because the star is far more massive, its motion is small—but not zero. The star executes a subtle reflex motion, moving alternately toward and away from us as the planet orbits.
+That thin ring of light carries extraordinary information.
 
-This motion shifts the star’s spectral lines via the Doppler effect.
+Transmission spectroscopy is the technique of measuring how the apparent radius of a planet changes with wavelength. At wavelengths where atmospheric gases absorb strongly, the atmosphere becomes opaque higher up. The planet appears slightly larger. At wavelengths where the atmosphere is transparent, we see deeper layers, and the planet appears smaller.
 
-When the star moves toward us, its light is blueshifted.  
-When it moves away, its light is redshifted.
-
-By measuring these shifts with exquisite precision, we detect planets.
+From variations of only tens to hundreds of parts per million in stellar flux, we infer the composition, structure, and physical state of alien atmospheres.
 
 ---
 
-## 4.2 The Doppler Effect
+## 3.2 The Basic Idea
 
-The fractional wavelength shift due to motion along the line of sight is
+The transit depth at wavelength \( \lambda \) is approximately
 
 \[
-\frac{\Delta \lambda}{\lambda} = \frac{v_r}{c},
+\delta(\lambda) \approx \left( \frac{R_p(\lambda)}{R_\star} \right)^2,
+\]
+
+where \( R_p(\lambda) \) is the wavelength-dependent planetary radius.
+
+If the atmosphere were completely transparent, the planet would have a single sharp radius. But real atmospheres are partially opaque and wavelength-dependent. The effective planetary radius shifts with wavelength because the atmosphere absorbs light differently across the spectrum.
+
+The difference in transit depth between two wavelengths reveals the presence of atmospheric absorption features.
+
+This method does not require spatially resolving the planet. It relies only on precise measurements of stellar brightness as a function of wavelength and time.
+
+---
+
+## 3.3 The Scale Height: A Natural Ruler
+
+The strength of transmission spectral features depends on the atmospheric **scale height**, given by
+
+\[
+H = \frac{kT}{\mu g},
 \]
 
 where:
 
-- \( v_r \) is the radial velocity of the star  
-- \( c \) is the speed of light  
+- \( k \) is Boltzmann’s constant  
+- \( T \) is atmospheric temperature  
+- \( \mu \) is mean molecular weight  
+- \( g \) is surface gravity  
 
-For a Jupiter-mass planet orbiting a Sun-like star at 1 AU, the stellar velocity amplitude is about 12 m/s.
+The scale height determines how extended the atmosphere is.
 
-For an Earth analog, the signal is only about 9 cm/s.
+Hot, low-gravity, hydrogen-rich atmospheres have large scale heights and strong spectral features. Cooler, high-gravity, high–molecular weight atmospheres have smaller scale heights and weaker signals.
 
-Detecting such small velocities requires spectrographs capable of measuring wavelength shifts of less than one part in a billion.
-
----
-
-## 4.3 The Radial Velocity Curve
-
-The star’s velocity varies periodically. For a single planet on a circular orbit, the radial velocity follows a sinusoidal pattern:
+A rough estimate of the amplitude of transmission features is
 
 \[
-v_r(t) = K \sin \left( \frac{2\pi t}{P} + \phi \right),
+\Delta \delta \sim \frac{2 R_p H}{R_\star^2}.
 \]
 
-where:
+For hot Jupiters, this may correspond to hundreds of parts per million. For temperate terrestrial planets, the signal can be less than ten parts per million.
 
-- \( K \) is the velocity semi-amplitude  
-- \( P \) is the orbital period  
-- \( \phi \) is the phase  
-
-For eccentric orbits, the curve becomes asymmetric, encoding information about orbital shape and orientation.
-
-From radial velocity data, we measure:
-
-- Orbital period \( P \)
-- Velocity semi-amplitude \( K \)
-- Orbital eccentricity \( e \)
-- Argument of periastron \( \omega \)
+Transmission spectroscopy rewards favorable physics: large planets, small stars, high temperatures, and light atmospheres.
 
 ---
 
-## 4.4 From Velocity to Mass
+## 3.4 What We Can Detect
 
-The radial velocity semi-amplitude is given by
+Transmission spectroscopy has revealed a rich inventory of atmospheric constituents:
+
+- **Water vapor (H₂O)**
+- **Sodium (Na)**
+- **Potassium (K)**
+- **Methane (CH₄)**
+- **Carbon monoxide (CO)**
+- **Carbon dioxide (CO₂)**
+- **Clouds and hazes**
+
+Each molecule has a characteristic absorption spectrum determined by quantum mechanics. The pattern of absorption lines serves as a fingerprint.
+
+Low-resolution spectra reveal broad molecular bands. High-resolution spectra can resolve individual lines and measure atmospheric winds via Doppler shifts.
+
+Clouds and hazes often mute spectral features, producing flatter spectra. In some cases, a seemingly featureless spectrum is itself a powerful diagnostic of atmospheric aerosols.
+
+---
+
+## 3.5 Radiative Transfer at the Limb
+
+The physics of transmission spectroscopy differs from emission spectroscopy.
+
+In transmission, light travels along a slant path through the atmosphere. The path length is much longer than the vertical scale height. As a result, even tenuous absorbers can produce significant opacity.
+
+The optical depth along a chord at impact parameter \( b \) is
 
 \[
-K = \left( \frac{2\pi G}{P} \right)^{1/3}
-\frac{M_p \sin i}{(M_\star + M_p)^{2/3}}
-\frac{1}{\sqrt{1 - e^2}},
+\tau_\lambda = \int \kappa_\lambda \rho \, ds,
 \]
 
-where:
+where \( \kappa_\lambda \) is the wavelength-dependent opacity, \( \rho \) the density, and \( ds \) the path element.
 
-- \( M_p \) is the planetary mass  
-- \( M_\star \) is the stellar mass  
-- \( i \) is the orbital inclination  
+The effective planetary radius at wavelength \( \lambda \) corresponds roughly to the altitude where the slant optical depth reaches unity.
 
-Because the inclination \( i \) is generally unknown, radial velocities yield only the **minimum mass**, \( M_p \sin i \).
-
-If the planet also transits, then \( i \) is close to 90°, and the true mass can be determined. Combining radial velocity with transit measurements provides both mass and radius—leading to bulk density.
-
-Density is the gateway to composition.
+This geometry explains why transmission spectroscopy is particularly sensitive to trace species.
 
 ---
 
-## 4.5 Precision and Instrumentation
+## 3.6 Retrieval: From Spectrum to Atmosphere
 
-Modern radial velocity spectrographs achieve precision of 1 m/s or better.
+Interpreting a transmission spectrum requires solving an inverse problem.
 
-This is accomplished through:
+We measure transit depth as a function of wavelength. We wish to infer:
 
-- High spectral resolution  
-- Extreme instrumental stability  
-- Temperature and pressure control  
-- Precise wavelength calibration (e.g., iodine cells, laser frequency combs)  
+- Temperature structure  
+- Molecular abundances  
+- Cloud properties  
+- Mean molecular weight  
+- Atmospheric pressure at the reference radius  
 
-The challenge is not merely detecting Doppler shifts, but distinguishing them from stellar variability.
+This process is known as **atmospheric retrieval**.
 
-Stars are not static surfaces. They pulsate, rotate, harbor spots, and exhibit convective motions. These phenomena can produce apparent velocity shifts comparable to planetary signals.
+Forward models compute synthetic spectra for assumed atmospheric compositions and temperature profiles. Statistical techniques—often Bayesian—compare models to data and infer posterior probability distributions.
 
-Extracting planetary signals requires modeling stellar noise with care.
+The inference is rarely unique. Degeneracies arise between:
 
----
+- Clouds and molecular abundances  
+- Temperature and composition  
+- Reference pressure and radius  
 
-## 4.6 Stellar Activity and False Signals
-
-Stellar activity can mimic planetary radial velocity signals.
-
-Rotating starspots distort spectral line profiles. As the star rotates, the asymmetry shifts, producing apparent Doppler variations.
-
-Granulation and magnetic cycles introduce additional velocity variability.
-
-To disentangle planets from stellar activity, astronomers use:
-
-- Activity indicators (e.g., Ca II H & K lines)  
-- Line bisector analysis  
-- Simultaneous photometry  
-- Multi-wavelength observations  
-
-Understanding the host star is inseparable from detecting its planets.
+Transmission spectroscopy teaches us humility: the data constrain models, but interpretation requires careful attention to assumptions.
 
 ---
 
-## 4.7 Multiple-Planet Systems
+## 3.7 Clouds and Hazes
 
-Radial velocity data often reveal more than one periodic signal.
+Clouds complicate transmission spectroscopy.
 
-Multi-planet systems produce superpositions of sinusoidal curves. Long-term monitoring allows detection of planets with periods spanning years or decades.
+High-altitude clouds truncate the atmospheric column, limiting how deeply starlight can penetrate. This suppresses molecular absorption features.
 
-Some systems exhibit resonances, dynamical interactions, and measurable gravitational perturbations.
+Hazes—produced by photochemistry—can introduce wavelength-dependent scattering, often manifesting as a Rayleigh slope in the optical.
 
-Radial velocities have uncovered:
+In some planets, clouds dominate the transmission spectrum. Rather than revealing molecular fingerprints, the spectrum becomes flat or gently sloped.
 
-- Compact multi-planet systems  
-- Long-period gas giants  
-- Highly eccentric planets  
-- Planets orbiting evolved stars  
-
-The method is sensitive to a wide range of orbital separations, particularly those inaccessible to transit surveys.
+Clouds are not merely nuisances. They are physical clues to atmospheric chemistry and circulation.
 
 ---
 
-## 4.8 The First Exoplanet Around a Sun-like Star
+## 3.8 Stellar Contamination
 
-In 1995, astronomers detected a periodic radial velocity signal from the star 51 Pegasi.
+Transmission spectroscopy measures relative changes in stellar flux. Therefore, it is sensitive not only to the planet but also to the star.
 
-The planet, 51 Pegasi b, was a gas giant orbiting extremely close to its star—a configuration previously thought unlikely.
+Stellar heterogeneities—spots and faculae—modify the apparent transit depth as a function of wavelength. If the stellar photosphere is not uniform, the measured spectrum may include a stellar imprint.
 
-The discovery reshaped theories of planetary formation and migration.
+Unocculted starspots can mimic molecular absorption features. Faculae can produce slopes resembling scattering signatures.
 
-It demonstrated that precise radial velocity measurements could reveal entirely new classes of planets.
+Careful modeling of stellar activity is therefore essential, especially for active K and M dwarfs.
 
----
-
-## 4.9 Long-Period and Massive Planets
-
-Radial velocity surveys are particularly well-suited to detecting:
-
-- Massive planets  
-- Planets at moderate orbital distances  
-- Non-transiting planets  
-
-Unlike the transit method, radial velocity does not require special geometric alignment.
-
-However, it is biased toward higher-mass planets and those orbiting lower-mass stars.
-
-Long-period planets require patience. Some detections span decades of data collection.
+The star is part of the signal.
 
 ---
 
-## 4.10 The Earth Analog Challenge
+## 3.9 From Hot Jupiters to Small Planets
 
-Detecting an Earth-mass planet in a 1-year orbit around a Sun-like star requires measuring velocity shifts of about 9 cm/s.
+The first successful transmission detections were made for hot Jupiters—large, inflated planets with extended hydrogen atmospheres.
 
-This is comparable to:
+As observational precision improved, smaller and cooler planets became accessible.
 
-- The walking speed of a human  
-- The convective motions on the stellar surface  
-- Instrumental systematics  
+For super-Earths and mini-Neptunes, the question often becomes: hydrogen-rich envelope or high–molecular weight atmosphere? The difference dramatically alters the scale height and spectral amplitude.
 
-Achieving this precision remains one of the grand challenges of exoplanet detection.
+For terrestrial planets, transmission spectroscopy is far more challenging. The signals are small, and clouds may obscure molecular features.
 
-Future instruments aim to reach this level, but stellar noise may ultimately limit detectability.
+Yet even nondetections constrain atmospheric properties.
 
 ---
 
-## 4.11 Complementarity with Transits
+## 3.10 The Role of Space Telescopes
 
-Radial velocity and transit methods are complementary.
+Transmission spectroscopy has progressed alongside advances in instrumentation.
 
-Transits provide:
+- The Hubble Space Telescope enabled early water detections.
+- Ground-based high-resolution spectrographs resolved individual molecular lines.
+- The James Webb Space Telescope has expanded wavelength coverage and sensitivity.
 
-- Planetary radius  
-- Orbital inclination  
-- Atmospheric access  
+Broad wavelength coverage is critical. Molecular identification relies on detecting multiple absorption bands to avoid false positives.
 
-Radial velocities provide:
-
-- Planetary mass  
-- Orbital eccentricity  
-- Detection of non-transiting companions  
-
-Together, they yield planetary density:
-
-\[
-\rho_p = \frac{M_p}{\frac{4}{3}\pi R_p^3}.
-\]
-
-Density distinguishes rocky planets from gas-rich worlds.
-
-Without radial velocities, many transiting planets would remain dimensionless shadows.
+Future observatories aim to probe smaller planets orbiting nearby M dwarfs, where favorable star-to-planet size ratios enhance signals.
 
 ---
 
-## 4.12 Beyond Detection
+## 3.11 Beyond Detection: Toward Characterization
 
-Radial velocity measurements also reveal:
+Transmission spectroscopy has evolved from simple detection of water to quantitative atmospheric characterization.
 
-- Planet–planet interactions  
-- Secular evolution  
-- Long-term orbital stability  
-- Spin–orbit alignment (via the Rossiter–McLaughlin effect during transit)  
+We now seek to measure:
 
-The Rossiter–McLaughlin effect arises because a transiting planet blocks part of a rotating stellar disk, distorting spectral lines and revealing the projected angle between stellar spin and planetary orbit.
+- Carbon-to-oxygen ratios  
+- Metallicity trends with planet mass  
+- Atmospheric escape  
+- Photochemical products  
+- Disequilibrium chemistry  
 
-Such measurements probe planetary migration histories.
+The ultimate goal is to characterize terrestrial exoplanet atmospheres in the habitable zones of nearby stars.
+
+Whether such planets possess water vapor, oxygen, methane, or other biosignature gases remains one of the defining questions of modern astronomy.
 
 ---
 
-## 4.13 A Dynamic Universe
+## 3.12 A Subtle Signal
 
-The radial velocity method teaches us that planetary systems are dynamic.
+Transmission spectroscopy depends on a subtle measurement: a small change in apparent planetary size with wavelength.
 
-Stars move in response to unseen companions.  
-Orbits can be circular or eccentric.  
-Planets may migrate inward or remain distant.  
+The effect is delicate, the modeling complex, the interpretation cautious.
 
-From tiny shifts in spectral lines, we infer gravitational architectures across light-years.
+And yet, from that thin atmospheric annulus—no more than a few scale heights thick—we can infer the presence of water, clouds, winds, and chemistry on planets light-years away.
 
-The method is fundamentally dynamical. It relies on Newton’s laws and the Doppler effect.
+It is a remarkable triumph of physics.
 
-The physics is centuries old.  
-The measurements are modern.  
+We cannot see these atmospheres directly.
 
-And the result is a census of planetary masses in the galaxy.
+But by watching how a planet dims its star, we learn what its air is made of.
