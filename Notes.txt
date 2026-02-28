@@ -1,6 +1,22 @@
-0. Start github page. 
-1. Chapter -- Chapter1.md fix this. 
+0. Start github page. [Fixed.]
+1. Make the math formula work. [Fixed.]
+2. Feature 1 [Introductory/Intermediate/Advanced]
 
+
+Reach out to Wikipedia editor committee.
+Can you assign a chapter to each one. 
+How do you get enough money for doing this. [What is the business model here.]
+
+2. Chapter -- Chapter1.md fix this. 
+2. Add Donation to the books. For funding. https://buymeacoffee.com/fznfire?new=1
+4. Start Adding pictures to the text. 
+5. Think about organizing the files into three different modes.
+6. Linking different concepts with 
+        - If Chapter 1 introduced the existence of other worlds, 
+        - Gravity with the law of gravitation in physics.
+        - General Relativity in Physics.
+        - Special Relativity in Physics.
+        - Connect to research papers in Physics.    
 
 
 Essential Features

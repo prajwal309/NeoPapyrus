@@ -1,4 +1,4 @@
-# Chapter 2 — Transits and Occultations
+# Chapter 2 - Transits and Occultations
 
 ## 2.1 Shadows and Light
 

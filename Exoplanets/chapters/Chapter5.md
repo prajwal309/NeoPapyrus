@@ -1,4 +1,4 @@
-# Chapter 5 — Biosignatures: Searching for Life Beyond Earth
+# Chapter 5 - Biosignatures: Searching for Life Beyond Earth
 
 ## 5.1 The Question Behind All Questions
 

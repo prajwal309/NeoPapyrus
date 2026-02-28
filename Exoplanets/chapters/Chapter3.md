@@ -1,4 +1,4 @@
-# Chapter 3 — Transmission Spectroscopy
+# Chapter 3 - Transmission Spectroscopy
 
 ## 3.1 A Thin Ring of Light
 

@@ -1,4 +1,4 @@
-# Chapter 1 — What Are Exoplanets?
+# Chapter 1 - What Are Exoplanets?
 
 ## 1.1 A New Kind of World
 

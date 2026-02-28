@@ -1,4 +1,4 @@
-# Chapter 4 — The Radial Velocity Method
+# Chapter 4 - The Radial Velocity Method
 
 ## 4.1 The Stellar Wobble
 

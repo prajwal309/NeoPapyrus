@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exoplanets — Clickable Chapters</title>
+
+  <style>
+    :root {
+      --border:#e7e7e7;
+      --text:#111;
+      --muted:#666;
+      --bg:#fff;
+      --soft:#fafafa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+
+    nav {
+      border-right: 1px solid var(--border);
+      background: var(--soft);
+      padding: 14px;
+      overflow: auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    .chapters {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 6px 0 12px;
+    }
+
+    .chapter-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform .02s ease, background .15s ease;
+      display: grid;
+      gap: 2px;
+    }
+
+    .chapter-btn:hover { background: #f6f6f6; }
+    .chapter-btn:active { transform: translateY(1px); }
+
+    .chapter-btn[aria-current="true"] {
+      border-color: #cfcfcf;
+      background: #f3f3f3;
+    }
+
+    .chapter-title {
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 22px;
+      max-width: 980px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .content {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      nav { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Exoplanets</h1>
+    <p>Clickable chapters (single-page).</p>
+  </header>
+
+  <div class="app">
+
+    <nav aria-label="Chapters">
+      <input
+        id="search"
+        class="search"
+        type="search"
+        placeholder="Search chapters…"
+        aria-label="Search chapters"
+      />
+
+      <div id="chapters" class="chapters"></div>
+    </nav>
+
+    <main>
+      <div class="meta" id="breadcrumb">Chapter</div>
+      <section class="content" id="content" aria-live="polite"></section>
+    </main>
+
+  </div>
+
+  <!-- Markdown parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Your app logic -->
+  <script src="/scripts/chapters.js"></script>
+
+</body>
+</html>
