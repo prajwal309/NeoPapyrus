@@ -1,332 +1,296 @@
-# Chapter 1 — Gravity: The Architecture of the Universe
+# Chapter 2 — Momentum: The Language of Motion
 
-## 1.1 Why Begin with Gravity?
+Momentum is one of the most powerful ideas in physics.  
+It connects force to motion, explains collisions, governs planetary orbits, and determines how rockets escape Earth.
 
-If we are to understand planets, stars, galaxies—or even apples falling from trees—we must begin with gravity.
-
-Gravity is the force that binds matter across cosmic scales. It governs the fall of a stone, the motion of the Moon, the orbit of Earth, and the architecture of planetary systems. It is at once familiar and profound: the weakest of the fundamental forces, yet the dominant one on astronomical scales.
-
-In this first chapter, we build gravity from the ground up. We begin with Newton’s law, derive the full solution to the two-body problem, and then glimpse the complexity that emerges in the three-body problem.
+If gravity tells us *why* objects attract, momentum tells us *how motion is exchanged*.
 
 ---
 
-## 1.2 Newton’s Law of Universal Gravitation
+## 2.1 Linear Momentum
 
-Newton proposed that any two masses attract each other with a force
+The linear momentum **p** of a particle of mass *m* moving with velocity **v** is defined as
 
-\[
-F = G \frac{m_1 m_2}{r^2},
-\]
+$$
+\mathbf{p} = m\mathbf{v}.
+$$
 
-where:
+Momentum is a **vector quantity**. Its direction is the same as the velocity.
 
-- \(m_1\), \(m_2\) are the masses  
-- \(r\) is their separation  
-- \(G\) is the gravitational constant  
+### Why Momentum Matters
 
-In vector form, the force on mass \(m_1\) due to \(m_2\) is
+Velocity alone does not measure “impact.”  
+A truck and a bicycle moving at the same speed have very different momenta because their masses differ.
 
-\[
-\mathbf{F}_{12} = -G \frac{m_1 m_2}{r^3} \mathbf{r},
-\]
-
-where \(\mathbf{r} = \mathbf{r}_1 - \mathbf{r}_2\).
-
-The force is:
-- Attractive
-- Central (along the line joining the masses)
-- Inversely proportional to \(r^2\)
+Momentum captures both:
+- How fast something moves
+- How much matter is moving
 
 ---
 
-## 1.3 The Two-Body Problem
+## 2.2 Newton’s Second Law in Momentum Form
 
-The two-body problem asks:
+Newton’s Second Law is more fundamentally written as:
 
-> Given two masses interacting gravitationally, how do they move?
+$$
+\mathbf{F} = \frac{d\mathbf{p}}{dt}.
+$$
 
-We begin with Newton’s second law:
+If mass is constant:
 
-\[
-m_1 \ddot{\mathbf{r}}_1 = \mathbf{F}_{12},
-\quad
-m_2 \ddot{\mathbf{r}}_2 = -\mathbf{F}_{12}.
-\]
+$$
+\mathbf{F} = m\frac{d\mathbf{v}}{dt} = m\mathbf{a}.
+$$
 
-Substituting the gravitational force:
-
-\[
-m_1 \ddot{\mathbf{r}}_1 = -G \frac{m_1 m_2}{r^3} \mathbf{r}.
-\]
+But the momentum form is more general. It works even when mass changes — such as in rockets.
 
 ---
 
-## 1.4 Reduction to a One-Body Problem
+## 2.3 Impulse
 
-Instead of solving for two coupled vectors, we introduce:
+If a force acts over a time interval, it produces an **impulse**:
 
-### Center of Mass
+$$
+\mathbf{J} = \int \mathbf{F}\,dt.
+$$
 
-\[
-\mathbf{R} = \frac{m_1 \mathbf{r}_1 + m_2 \mathbf{r}_2}{m_1 + m_2}.
-\]
+Impulse equals the change in momentum:
 
-Differentiating twice:
+$$
+\mathbf{J} = \Delta \mathbf{p}.
+$$
 
-\[
-\ddot{\mathbf{R}} = 0.
-\]
-
-Thus, the center of mass moves uniformly.
-
-### Relative Coordinate
-
-Define:
-
-\[
-\mathbf{r} = \mathbf{r}_1 - \mathbf{r}_2.
-\]
-
-Subtracting the two equations of motion gives:
-
-\[
-\ddot{\mathbf{r}} = -G (m_1 + m_2)\frac{\mathbf{r}}{r^3}.
-\]
-
-Now define the **reduced mass**
-
-\[
-\mu = \frac{m_1 m_2}{m_1 + m_2}.
-\]
-
-The equation becomes equivalent to a single particle of mass \(\mu\) moving in a central potential:
-
-\[
-\mu \ddot{\mathbf{r}} = -G m_1 m_2 \frac{\mathbf{r}}{r^3}.
-\]
-
-We have reduced the two-body problem to a one-body problem.
+This explains why airbags reduce injury:
+- They increase the time of impact
+- The same change in momentum occurs
+- The force is reduced
 
 ---
 
-## 1.5 Conservation Laws
+## 2.4 Conservation of Momentum
 
-Because gravity is a central force:
+If no external force acts on a system:
 
-### Angular Momentum is Conserved
+$$
+\frac{d\mathbf{p}_{\text{total}}}{dt} = 0.
+$$
 
-\[
-\mathbf{L} = \mu \mathbf{r} \times \dot{\mathbf{r}}.
-\]
+Therefore,
 
-This implies motion is confined to a plane.
+$$
+\mathbf{p}_{\text{total}} = \text{constant}.
+$$
 
-### Energy is Conserved
-
-Total energy:
-
-\[
-E = \frac{1}{2}\mu \dot{r}^2 + \frac{L^2}{2\mu r^2} - \frac{G m_1 m_2}{r}.
-\]
-
-This separates into:
-- Radial kinetic energy
-- Effective centrifugal barrier
-- Gravitational potential energy
+Momentum is conserved in all isolated systems.
 
 ---
 
-## 1.6 Deriving the Orbital Equation
+## 2.5 Collisions
 
-We move to polar coordinates \((r, \theta)\).
+Consider two objects with masses \(m_1\) and \(m_2\).
 
-Angular momentum conservation gives:
+Before collision:
 
-\[
-L = \mu r^2 \dot{\theta}.
-\]
+$$
+m_1 v_1 + m_2 v_2
+$$
 
-Using this, we rewrite radial motion in terms of \(u = 1/r\).
+After collision:
 
-After substitution and simplification, we obtain:
+$$
+m_1 v_1' + m_2 v_2'
+$$
 
-\[
-\frac{d^2 u}{d\theta^2} + u =
-\frac{G (m_1 + m_2)}{L^2/\mu}.
-\]
+Conservation of momentum gives:
 
-This linear differential equation has solution:
+$$
+m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'.
+$$
 
-\[
-u(\theta) =
-\frac{G (m_1 + m_2)\mu}{L^2}
-\left(1 + e \cos \theta\right).
-\]
+### Elastic Collisions
 
-Returning to \(r\):
+Both momentum and kinetic energy are conserved.
 
-\[
-r(\theta) =
-\frac{a(1 - e^2)}{1 + e \cos \theta}.
-\]
+### Inelastic Collisions
 
-This is the equation of a conic section.
+Momentum is conserved.  
+Kinetic energy is not.
 
 ---
 
-## 1.7 Types of Orbits
+## 2.6 Center of Mass
 
-The parameter \(e\) is the eccentricity.
+The center of mass of a system is:
 
-- \(e = 0\) → Circle  
-- \(0 < e < 1\) → Ellipse  
-- \(e = 1\) → Parabola  
-- \(e > 1\) → Hyperbola  
+$$
+\mathbf{R}_{\text{CM}} = \frac{1}{M}\sum m_i \mathbf{r}_i.
+$$
 
-Bound systems have:
+Total momentum of a system:
 
-\[
-E < 0.
-\]
+$$
+\mathbf{P} = M\mathbf{V}_{\text{CM}}.
+$$
 
-Unbound systems have:
-
-\[
-E \ge 0.
-\]
-
-Thus, all gravitational two-body orbits are conic sections.
+This means:
+The entire system behaves as if all mass were concentrated at the center of mass.
 
 ---
 
-## 1.8 Kepler’s Laws from Newton
+## 2.7 Rocket Propulsion
 
-From our derivation we recover:
+A rocket expels mass backward.
 
-### 1. Elliptical Orbits
-Planets move in ellipses with the center of mass at one focus.
+Using conservation of momentum:
 
-### 2. Equal Areas in Equal Times
-Angular momentum conservation implies constant areal velocity.
+$$
+M dv = - v_e dM.
+$$
 
-### 3. Period–Semi-Major Axis Relation
+Integrating:
 
-From orbital mechanics:
+$$
+v = v_e \ln \left(\frac{M_0}{M}\right).
+$$
 
-\[
-T^2 =
-\frac{4\pi^2 a^3}{G(m_1 + m_2)}.
-\]
+This is the **Tsiolkovsky rocket equation**.
 
-This is Kepler’s Third Law in its general form.
-
----
-
-## 1.9 Physical Example: Earth–Sun System
-
-For Earth orbiting the Sun:
-
-- \(m_1 \gg m_2\)
-- \(m_1 + m_2 \approx M_\odot\)
-
-Then:
-
-\[
-T^2 = \frac{4\pi^2 a^3}{G M_\odot}.
-\]
-
-With \(a = 1\) AU, we recover:
-
-\[
-T = 1 \text{ year}.
-\]
-
-Gravity predicts the calendar.
+Escape from Earth requires enormous momentum change — not just high velocity.
 
 ---
 
-## 1.10 The Three-Body Problem
+## 2.8 Angular Momentum
 
-Add one more mass.
+For a particle:
 
-That is all it takes to destroy exact solvability.
+$$
+\mathbf{L} = \mathbf{r} \times \mathbf{p}.
+$$
 
-The three-body problem asks:
+For circular motion:
 
-> How do three masses move under mutual gravity?
+$$
+L = mvr.
+$$
 
-The equations become:
+Angular momentum changes according to torque:
 
-\[
-m_i \ddot{\mathbf{r}}_i =
-\sum_{j \ne i}
-G m_i m_j
-\frac{\mathbf{r}_j - \mathbf{r}_i}
-{|\mathbf{r}_j - \mathbf{r}_i|^3}.
-\]
-
-There is no general closed-form solution.
+$$
+\boldsymbol{\tau} = \frac{d\mathbf{L}}{dt}.
+$$
 
 ---
 
-## 1.11 Why Three Bodies Are Hard
+## 2.9 Conservation of Angular Momentum
 
-In the two-body case:
+If no external torque acts:
 
-- Motion is integrable.
-- Conserved quantities fully constrain trajectories.
+$$
+\mathbf{L} = \text{constant}.
+$$
 
-In the three-body case:
-
-- The system becomes nonlinear and chaotic.
-- Small changes in initial conditions can produce radically different outcomes.
-- Resonances emerge.
-- Energy can transfer between bodies.
-
-This complexity governs:
-
-- Planetary migration
-- Orbital resonances
-- Stability of multiplanet systems
-- Trojan asteroids
-- Lagrange points
+This explains:
+- Why planets sweep equal areas (Kepler’s Second Law)
+- Why figure skaters spin faster when pulling arms inward
+- Why collapsing stars spin rapidly
 
 ---
 
-## 1.12 Special Solutions
+## 2.10 Angular Momentum in Astronomy
 
-Although no general solution exists, special cases are solvable:
+For a planet orbiting a star:
 
-- Lagrange equilateral solutions  
-- Restricted three-body problem  
-- Circular restricted problem  
+$$
+L = m r^2 \dot{\theta}.
+$$
 
-In the restricted problem (e.g., Sun–Earth–asteroid), the third mass is negligible and does not influence the other two. This leads to the famous Lagrange points \(L_1\) through \(L_5\).
+Because angular momentum is conserved:
+
+$$
+r^2 \dot{\theta} = \text{constant}.
+$$
+
+Planets move faster when closer to the star.
+
+This governs:
+- Orbital motion
+- Accretion disks
+- Galaxy formation
+- Black hole spin
 
 ---
 
-## 1.13 From Order to Complexity
+## 2.11 Momentum in Two-Body Systems
 
-The two-body problem is elegant and exact.
+For two gravitating masses:
 
-The three-body problem is unstable and rich.
+Total momentum is conserved:
 
-Together, they form the backbone of celestial mechanics.
+$$
+m_1 \mathbf{v}_1 + m_2 \mathbf{v}_2 = 0.
+$$
 
-Gravity is simple in law:
+Both bodies orbit their common center of mass.
 
-\[
-F \propto \frac{1}{r^2}.
-\]
+This is how we detect exoplanets:
+- The star moves slightly
+- We measure its Doppler shift
+- That shift reveals planetary momentum
 
-Yet from this simple inverse-square dependence emerges:
+---
 
-- Elliptical orbits  
-- Resonances  
-- Chaos  
-- Planetary systems  
-- The architecture of galaxies  
+## 2.12 Momentum in Modern Physics
 
-Gravity is the quiet sculptor of the universe.
+In relativity:
 
-And with it, we begin physics.
+$$
+\mathbf{p} = \gamma m\mathbf{v},
+$$
+
+where
+
+$$
+\gamma = \frac{1}{\sqrt{1 - v^2/c^2}}.
+$$
+
+Momentum grows rapidly as velocity approaches the speed of light.
+
+In quantum mechanics:
+
+$$
+\mathbf{p} = -i\hbar \nabla.
+$$
+
+Momentum becomes an operator.
+
+---
+
+# Summary
+
+Momentum is conserved in isolated systems.  
+Angular momentum is conserved when no torque acts.  
+These principles govern:
+
+- Collisions
+- Rocket propulsion
+- Planetary orbits
+- Stellar collapse
+- Galaxy dynamics
+
+Momentum is not merely a quantity — it is the symmetry of motion.
+
+---
+
+# Key Takeaways
+
+- Momentum: \( \mathbf{p} = m\mathbf{v} \)
+- Force: \( \mathbf{F} = \frac{d\mathbf{p}}{dt} \)
+- Impulse: \( \mathbf{J} = \Delta \mathbf{p} \)
+- Angular momentum: \( \mathbf{L} = \mathbf{r} \times \mathbf{p} \)
+- Torque: \( \boldsymbol{\tau} = \frac{d\mathbf{L}}{dt} \)
+- Momentum is conserved in isolated systems
+- Angular momentum conservation governs orbital motion
+
+---
+
+Next Chapter: **Blackbody Radiation and the Physics of Light**

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book</title>
+
+  <link rel="stylesheet" href="/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<header class="readerbar">
+  <a class="back" href="/">← Library</a>
+  <div class="readerhead">
+    <h1 id="bookTitle" class="brand">Book</h1>
+    <div class="sub" id="bookSub"></div>
+  </div>
+  <button class="settings-btn" id="settingsBtn">⚙</button>
+</header>
+
+<div class="settings-panel" id="settingsPanel">
+  <h4>Reading Mode</h4>
+
+  <div class="segmented">
+    <button data-level="101" class="active">Introductory</button>
+    <button data-level="201">Intermediate</button>
+    <button data-level="301">Advanced</button>
+  </div>
+
+  <div class="toggle">
+    <input type="checkbox" id="eqToggle" checked />
+    <label for="eqToggle">Show Equations</label>
+  </div>
+</div>
+
+<main class="reader">
+  <aside class="sidebar">
+    <input id="search" class="search" placeholder="Search chapters..." />
+    <div id="chapters" class="chapters"></div>
+  </aside>
+
+  <section class="content">
+    <div id="breadcrumb" class="meta">Chapter</div>
+    <div id="content" class="prose">Select a chapter.</div>
+  </section>
+</main>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="/scripts/book.js"></script>
+
+</body>
+</html>

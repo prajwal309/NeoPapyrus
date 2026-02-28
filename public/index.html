@@ -2,52 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Exoplanets — Clickable Chapters</title>
-
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Library</title>
+  <link rel="stylesheet" href="/css/book.css" />
 </head>
-
 <body>
-
-<header>Exoplanets</header>
-
-<button class="settings-btn" id="settingsBtn">⚙</button>
-
-<div class="settings-panel" id="settingsPanel">
-  <h4>Reading Mode</h4>
-
-  <div class="segmented">
-    <button data-level="101" class="active">Introductory</button>
-    <button data-level="201">Intermediate</button>
-    <button data-level="301">Advanced</button>
+  <header class="books-header">
+  <div>
+    <h1>My Books</h1>
+    <p class="subtitle">Pick a book to start reading</p>
   </div>
+</header>
 
-  <div class="toggle">
-    <input type="checkbox" id="eqToggle" checked />
-    <label for="eqToggle">Show Equations</label>
-  </div>
-</div>
-
-<div class="app">
-  <nav>
-    <input type="search" id="search" placeholder="Search chapters…" />
-    <div id="chapters"></div>
-  </nav>
-
-  <main>
-    <div id="breadcrumb" class="meta">Chapter</div>
-    <section class="content" id="content"></section>
+  <main class="wrap">
+    <div id="books" class="grid"></div>
+    <div id="error" class="error" hidden></div>
   </main>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-
-<script src="/scripts/ui.js"></script>
-<script src="/scripts/chapters.js"></script>
-
+  <script src="/scripts/index.js"></script>
 </body>
 </html>
