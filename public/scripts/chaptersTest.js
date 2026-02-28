@@ -32,12 +32,10 @@ function renderChapterList(filter = "") {
     item.className = "chapter-item";
     item.dataset.id = c.id;
 
-    const cleanTitle = c.title.replace(/^Chapter\s+\d+\s*[-–—]\s*/i, "");
-
     item.innerHTML = `
       <div class="chapter-number">${index + 1}.</div>
       <div class="chapter-text">
-        <div class="chapter-title">${cleanTitle}</div>
+        <div class="chapter-title">${c.title}</div>
         ${c.subtitle ? `<div class="chapter-desc">${c.subtitle}</div>` : ""}
       </div>
     `;
