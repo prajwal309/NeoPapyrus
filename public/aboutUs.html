@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | NeoPapyrus</title>
+  <meta name="description" content="Learn about NeoPapyrus, a new way of reading and learning through interactive, layered scientific books." />
+  <style>
+    :root {
+      --bg: #f7f3ec;
+      --paper: #fffdf8;
+      --ink: #1e1e1b;
+      --muted: #6d665d;
+      --line: #ded6ca;
+      --gold: #b88a3b;
+      --deep: #1d3557;
+      --accent: #355c7d;
+      --shadow: 0 18px 45px rgba(35, 31, 24, 0.08);
+      --radius: 20px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top, rgba(184,138,59,0.10), transparent 28%),
+        linear-gradient(180deg, #f9f6f0 0%, #f5f0e7 100%);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 253, 248, 0.78);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(222, 214, 202, 0.8);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--deep), var(--gold));
+      color: white;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-name {
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      padding: 88px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255,255,255,0.65);
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 16px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.98rem;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--deep), #27496d);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      border-color: var(--line);
+      background: rgba(255,255,255,0.65);
+      color: var(--ink);
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,246,238,0.95));
+      border: 1px solid rgba(222, 214, 202, 0.9);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% -35% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(184,138,59,0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .book-shelf {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .book {
+      border-radius: 16px;
+      padding: 18px 14px;
+      min-height: 150px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 14px 24px rgba(20, 20, 20, 0.12);
+    }
+
+    .book:nth-child(1) { background: linear-gradient(160deg, #1d3557, #457b9d); }
+    .book:nth-child(2) { background: linear-gradient(160deg, #6d3f1f, #b88a3b); }
+    .book:nth-child(3) { background: linear-gradient(160deg, #2b2d42, #4a4e69); }
+
+    .book small {
+      opacity: 0.85;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .book strong {
+      font-size: 1.05rem;
+      line-height: 1.25;
+    }
+
+    main section {
+      padding: 34px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 42px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 999px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+
+    .card p:last-child,
+    .story p:last-child,
+    .lead:last-child {
+      margin-bottom: 0;
+    }
+
+    .mission-points {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .point {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .point-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(53, 92, 125, 0.1);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .story {
+      column-count: 1;
+    }
+
+    .values {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .value {
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--line);
+    }
+
+    .value h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 18px;
+      padding-left: 26px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--gold), rgba(184,138,59,0.1));
+    }
+
+    .step {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(184,138,59,0.12);
+    }
+
+    .quote {
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--deep);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 20px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(248,243,234,0.95));
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--deep);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .cta {
+      padding: 36px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #1d3557, #2f506f 55%, #7b5a2f 110%);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .cta p {
+      color: rgba(255,255,255,0.86);
+      max-width: 58ch;
+    }
+
+    footer {
+      padding: 36px 0 60px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .values,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .book-shelf {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        flex-direction: column;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 12vw, 3.6rem);
+      }
+
+      .hero-actions,
+      .footer-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cta {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="NeoPapyrus home">
+        <div class="brand-mark">N</div>
+        <div class="brand-name">NeoPapyrus</div>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#mission">Mission</a>
+        <a href="#story">Story</a>
+        <a href="#values">Values</a>
+        <a href="#future">Future</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">About NeoPapyrus</span>
+          <h1>Books that think with the reader.</h1>
+          <p class="lead">
+            NeoPapyrus is an interactive publishing platform built for a new kind of learning: layered,
+            visual, elegant, and alive. We create books that do more than display information — they help
+            readers move between intuition, story, mathematics, and depth at their own pace.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#mission">Explore our mission</a>
+            <a class="btn btn-secondary" href="#future">See what we are building</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Featured NeoPapyrus themes">
+          <h2 style="font-size:1.4rem; margin-bottom: 6px;">A living bookshelf</h2>
+          <p style="color: var(--muted); margin-top: 0;">
+            Science, mathematics, astronomy, and ideas presented with narrative clarity and interactive depth.
+          </p>
+          <div class="book-shelf">
+            <div class="book">
+              <small>Exploration</small>
+              <strong>Exoplanets</strong>
+            </div>
+            <div class="book">
+              <small>Foundations</small>
+              <strong>Statistics</strong>
+            </div>
+            <div class="book">
+              <small>Methods</small>
+              <strong>Numerical Thinking</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="mission">
+      <div class="container grid-2">
+
+        
+        <div class="card">
+          <div class="section-title"><h2>Our mission</h2></div>
+          <p>
+            NeoPapyrus exists to reimagine the book for the digital age without losing the beauty,
+            seriousness, and intimacy of reading. We believe deep learning should feel inviting rather than
+            intimidating, and that rigorous subjects can be made accessible without making them shallow.
+          </p>
+          <div class="mission-points">
+            <div class="point">
+              <div class="point-icon">1</div>
+              <div>
+                <strong>Layered understanding</strong><br />
+                Readers should be able to begin with intuition and move naturally toward technical depth.
+              </div>
+            </div>
+            <div class="point">
+              <div class="point-icon">2</div>
+              <div>
+                <strong>Elegant presentation</strong><br />
+                Design is not decoration. It shapes attention, memory, and intellectual pleasure.
+              </div>
+            </div>
+            <div class="point">
+              <div class="point-icon">3</div>
+              <div>
+                <strong>Interactive scholarship</strong><br />
+                Books can include equations, figures, visual layers, and pathways tailored to different readers.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>What makes us different</h2></div>
+          <p>
+            Traditional textbooks often force every reader through the same path. NeoPapyrus is built around
+            flexibility. A curious beginner, a student, and an expert should all be able to inhabit the same
+            book in different ways.
+          </p>
+          <p>
+            Instead of static pages alone, we imagine a reading environment where readers can reveal advanced
+            layers, hide equations, compare perspectives, and move fluidly across a subject. The result is a
+            platform designed not just for publishing, but for understanding.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <strong>3</strong>
+              <span>reading levels</span>
+            </div>
+            <div class="stat">
+              <strong>1</strong>
+              <span>shared narrative</span>
+            </div>
+            <div class="stat">
+              <strong>∞</strong>
+              <span>paths to insight</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="story">
+      <div class="container grid-2">
+        <div class="card story">
+          <div class="section-title"><h2>Our story</h2></div>
+          <p>
+            NeoPapyrus began with a simple frustration: many of the most important ideas in science are hard
+            not because they are beyond people, but because they are poorly introduced. Too often, beauty is
+            stripped away from technical knowledge, and readers are left with information without invitation.
+          </p>
+          <p>
+            We wanted to build something different — a platform where a book could feel as expansive as a
+            conversation, as structured as a textbook, and as visually compelling as a carefully curated
+            exhibition. The goal is not merely to digitize books, but to reinvent how serious ideas are read,
+            taught, and remembered.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>How we think</h2></div>
+          <blockquote class="quote">
+            “A great book should not only contain knowledge. It should create a way of seeing.”
+          </blockquote>
+          <div class="timeline" aria-label="NeoPapyrus approach">
+            <div class="step">
+              <strong>Start with wonder</strong>
+              <div>Invite the reader in through story, imagery, and intuition.</div>
+            </div>
+            <div class="step">
+              <strong>Build structure</strong>
+              <div>Organize ideas so complexity unfolds naturally rather than abruptly.</div>
+            </div>
+            <div class="step">
+              <strong>Reveal depth</strong>
+              <div>Make advanced content available without overwhelming the first encounter.</div>
+            </div>
+            <div class="step">
+              <strong>Encourage return</strong>
+              <div>Create books worth revisiting, not just finishing once.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="values">
+      <div class="container">
+        <div class="section-title"><h2>Our values</h2></div>
+        <div class="values">
+          <div class="value">
+            <h3>Clarity</h3>
+            <p>Complexity deserves precision, but precision does not require obscurity.</p>
+          </div>
+          <div class="value">
+            <h3>Beauty</h3>
+            <p>Design can deepen understanding by making ideas feel legible and memorable.</p>
+          </div>
+          <div class="value">
+            <h3>Depth</h3>
+            <p>We take serious subjects seriously and build for readers who want to keep going.</p>
+          </div>
+          <div class="value">
+            <h3>Access</h3>
+            <p>Knowledge should open outward, welcoming readers from different backgrounds and stages.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="future">
+      <div class="container">
+        <div class="cta">
+          <div class="section-title" style="margin-bottom: 12px;">
+            <h2 style="margin: 0;">What we are building next</h2>
+          </div>
+          <p>
+            NeoPapyrus is growing into a home for interactive books across science, mathematics, astronomy,
+            and beyond. We are designing a reading experience where books can adapt to the reader while
+            preserving the coherence, dignity, and authorial voice that make books powerful in the first place.
+          </p>
+          <p>
+            Our long-term vision is to build a new kind of library: one where each book is not just read, but
+            explored.
+          </p>
+          <div class="hero-actions" style="margin-top: 24px;">
+            <a class="btn btn-secondary" href="mailto:hello@neopapyrus.com" style="background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.22); color: white;">Contact us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© 2026 NeoPapyrus. Built for readers who want depth.</div>
+      <div>About · Mission · Interactive Books</div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+:root {
+  --bg: #f8f9fb;
+  --panel: #ffffff;
+  --accent: #1e2a38;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--accent);
+}
+
+header {
+  padding: 1.5rem 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.app {
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+nav {
+  width: 260px;
+  background: white;
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content {
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Floating gear button */
+
+.settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Settings panel */
+
+.settings-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 260px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  display: none;
+}
+
+.settings-panel h4 {
+  margin-top: 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.segmented {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.segmented button {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.segmented button.active {
+  background: var(--accent);
+  color: white;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.chapter-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chapter-item:hover {
+  background: #f3f4f6;
+}

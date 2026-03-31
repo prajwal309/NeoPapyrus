@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NeoPapyrus Book Tree</title>
+  <style>
+    :root {
+      --bg-1: #04141b;
+      --bg-2: #0b2230;
+      --bg-3: #102b35;
+      --text: #eaf6ff;
+      --muted: #9ec4d6;
+      --line: rgba(255,255,255,.16);
+      --gold: #f1d77a;
+      --blue: #9dd8ff;
+      --red: #ff8d8d;
+      --card: rgba(8,22,30,.78);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(48,112,121,.28), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(72,46,106,.24), transparent 24%),
+        radial-gradient(circle at 70% 75%, rgba(19,106,111,.24), transparent 26%),
+        linear-gradient(180deg, var(--bg-2), var(--bg-1) 55%, #030a0f);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .45;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.5px 1.5px at 70% 20%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.65), transparent 60%),
+        radial-gradient(1px 1px at 85% 65%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1px 1px at 10% 75%, rgba(255,255,255,.55), transparent 60%);
+      background-size: 320px 320px, 380px 380px, 410px 410px, 360px 360px, 300px 300px;
+      animation: drift 45s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      to { transform: translateY(0); }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(4,16,24,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .header-copy h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      letter-spacing: .02em;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .98rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      transition: .2s ease;
+      font-size: .95rem;
+    }
+
+    .pill:hover {
+      background: rgba(255,255,255,.09);
+      transform: translateY(-1px);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1460px;
+      margin: 0 auto;
+      padding: 26px 22px 80px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 10px 0 20px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .tree-wrap {
+      position: relative;
+      width: min(100%, 1100px);
+      aspect-ratio: 1 / 1;
+      min-height: 700px;
+      margin: 0 auto;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(10,25,35,.55), rgba(2,8,13,.72));
+      box-shadow: 0 20px 60px rgba(0,0,0,.35), inset 0 0 80px rgba(91,198,220,.05);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    svg.lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .branch {
+      fill: none;
+      stroke-width: 2.4;
+      opacity: .95;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .branch.gold { stroke: var(--gold); filter: drop-shadow(0 0 7px rgba(241,215,122,.45)); }
+    .branch.red  { stroke: var(--red);  filter: drop-shadow(0 0 7px rgba(255,141,141,.45)); }
+    .branch.blue { stroke: var(--blue); filter: drop-shadow(0 0 7px rgba(157,216,255,.45)); }
+
+    .nodes {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .node {
+      position: absolute;
+      width: 180px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .node:hover {
+      transform: translate(-50%, -50%) scale(1.04);
+      z-index: 4;
+      filter: brightness(1.08);
+    }
+
+    .node.right {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .orb {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.95), currentColor 45%, rgba(255,255,255,.05) 100%);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.04), 0 0 18px currentColor;
+    }
+
+    .node:hover .orb {
+      box-shadow: 0 0 0 4px rgba(255,255,255,.08), 0 0 26px currentColor;
+    }
+
+    .node span {
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: .01em;
+      text-shadow: 0 0 8px rgba(0,0,0,.75);
+      word-break: break-word;
+    }
+
+    .root {
+      position: absolute;
+      left: 50%;
+      top: 63%;
+      width: 28px;
+      height: 28px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 2;
+      background: radial-gradient(circle, #fff, #d4ecff 38%, rgba(255,255,255,.14) 68%, rgba(255,255,255,0) 100%);
+      box-shadow: 0 0 28px rgba(212,236,255,.8), 0 0 80px rgba(212,236,255,.2);
+    }
+
+    .cluster-title {
+      position: absolute;
+      font-size: .88rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .about {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.24);
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin-top: 0;
+    }
+
+    .panel p {
+      color: #d7e9f5;
+      line-height: 1.65;
+    }
+
+    .credits {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-top: 14px;
+    }
+
+    .gold { color: var(--gold); }
+    .blue { color: var(--blue); }
+    .red { color: var(--red); }
+
+    @media (max-width: 1100px) {
+      .about {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .tree-wrap {
+        aspect-ratio: auto;
+        height: 1100px;
+      }
+
+      .node {
+        width: 140px;
+      }
+
+      .node span {
+        font-size: .82rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .tree-wrap {
+        height: 1250px;
+      }
+
+      .node {
+        width: 120px;
+      }
+
+      .pill {
+        font-size: .88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="header-copy">
+        <h1>Books on Shelfs</h1>
+        <p class="subtitle">Explore NeoPapyrus as a living constellation of ideas</p>
+      </div>
+      <nav class="header-actions">
+        <a class="pill" href="/aboutUs.html">About Us</a>
+        <a class="pill" href="/book.html?book=Exoplanets">Open Featured Book</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="legend">
+      <span><i class="dot" style="background:var(--gold);"></i> Foundations</span>
+      <span><i class="dot" style="background:var(--red);"></i> Frontiers</span>
+      <span><i class="dot" style="background:var(--blue);"></i> Tools & Methods</span>
+    </div>
+
+    <section class="tree-wrap">
+      <div class="cluster-title" style="left:13%; top:68%;">Foundations</div>
+      <div class="cluster-title" style="left:43%; top:17%;">Frontiers</div>
+      <div class="cluster-title" style="left:77%; top:66%;">Tools</div>
+
+      <div class="root" aria-hidden="true"></div>
+
+      <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <!-- gold -->
+        <path class="branch gold" d="M500 630 L420 640 L365 585 L275 600 L188 535 L118 475" />
+        <path class="branch gold" d="M420 640 L410 735 L348 790 L275 828" />
+        <path class="branch gold" d="M365 585 L305 520 L232 540 L165 610" />
+        <path class="branch gold" d="M420 640 L470 740 L450 840 L420 920" />
+        <path class="branch gold" d="M470 740 L390 760 L335 710" />
+        <path class="branch gold" d="M450 840 L330 845 L250 760" />
+
+        <!-- red -->
+        <path class="branch red" d="M500 630 L500 525 L550 470 L600 390 L675 360 L770 330" />
+        <path class="branch red" d="M550 470 L475 430 L405 395 L350 330" />
+        <path class="branch red" d="M475 430 L455 335 L515 260 L600 230" />
+        <path class="branch red" d="M600 390 L650 300 L720 235 L810 190" />
+        <path class="branch red" d="M675 360 L760 410 L845 330" />
+        <path class="branch red" d="M405 395 L310 390 L225 355" />
+
+        <!-- blue -->
+        <path class="branch blue" d="M500 630 L595 640 L665 600 L760 550 L835 485" />
+        <path class="branch blue" d="M595 640 L610 740 L710 780 L855 815" />
+        <path class="branch blue" d="M610 740 L690 835 L770 910" />
+        <path class="branch blue" d="M710 780 L810 710 L900 760" />
+        <path class="branch blue" d="M760 550 L835 420 L905 350" />
+        <path class="branch blue" d="M835 485 L925 540 L955 650" />
+      </svg>
+
+      <div class="nodes">
+        <!-- gold cluster -->
+        <a class="node gold" href="/book.html?book=Physics" style="left:42%; top:64%;">
+          <div class="orb"></div><span>Classical<br>Physics</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=Mathematics" style="left:36.5%; top:58.5%;">
+          <div class="orb"></div><span>Mathematical<br>Methods</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=Calculus" style="left:27.5%; top:60%;">
+          <div class="orb"></div><span>Calculus</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=Statistics" style="left:11.8%; top:47.5%;">
+          <div class="orb"></div><span>Statistics</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=SignalProcessing" style="left:41%; top:73.5%;">
+          <div class="orb"></div><span>Signal<br>Processing</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=NumericalMethods" style="left:27.5%; top:83.8%;">
+          <div class="orb"></div><span>Numerical<br>Methods</span>
+        </a>
+
+        <a class="node gold" href="/book.html?book=DataAnalysis" style="left:47%; top:84%;">
+          <div class="orb"></div><span>Data<br>Analysis</span>
+        </a>
+
+        <!-- red cluster -->
+        <a class="node red" href="/book.html?book=Exoplanets" style="left:50%; top:52.5%;">
+          <div class="orb"></div><span>Exoplanets</span>
+        </a>
+
+        <a class="node red" href="/book.html?book=PlanetaryScience" style="left:55%; top:47%;">
+          <div class="orb"></div><span>Planetary<br>Science</span>
+        </a>
+
+        <a class="node red" href="/book.html?book=Atmospheres" style="left:60%; top:39%;">
+          <div class="orb"></div><span>Atmospheres</span>
+        </a>
+
+        <a class="node red" href="/book.html?book=Stars" style="left:67.5%; top:36%;">
+          <div class="orb"></div><span>Stellar<br>Physics</span>
+        </a>
+
+        <a class="node red" href="/book.html?book=Astronomy" style="left:45.5%; top:43%;">
+          <div class="orb"></div><span>Astronomy</span>
+        </a>
+
+        <a class="node red" href="/book.html?book=Astrobiology" style="left:84.5%; top:33%;">
+          <div class="orb"></div><span>Astrobiology</span>
+        </a>
+
+        <!-- blue cluster -->
+        <a class="node blue right" href="/book.html?book=Python" style="left:59.5%; top:64%;">
+          <div class="orb"></div><span>Python</span>
+        </a>
+
+        <a class="node blue right" href="/book.html?book=MachineLearning" style="left:66.5%; top:60%;">
+          <div class="orb"></div><span>Machine<br>Learning</span>
+        </a>
+
+        <a class="node blue" href="/book.html?book=HPC" style="left:69%; top:91%;">
+          <div class="orb"></div><span>High-Performance<br>Computing</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="about">
+      <article class="panel">
+        <p style="font-style:italic; color:#b8d3e3; margin-top:0;">
+          Prajwal Niraula is a postdoctoral researcher and holds a PhD from the Department of Earth, Atmospheric, and Planetary Sciences at the Massachusetts Institute of Technology.
+        </p>
+
+        <h2>About NeoPapyrus</h2>
+        <p>
+          NeoPapyrus is an interactive digital library designed to make reading feel exploratory. Instead of a flat list of books, this page presents knowledge as a branching tree, where each glowing node becomes an entry point into a subject.
+        </p>
+        <p>
+          The three major branches can represent foundations, scientific frontiers, and computational tools. You can rename these clusters, move nodes around, and connect them to the actual books already served by your <code>/book.html?book=...</code> route.
+        </p>
+      </article>
+
+      <aside class="panel">
+        <h3>How to use this</h3>
+        <p>
+          Replace each book slug in the links with your real NeoPapyrus book names. This version is static, but it is ready to be connected to your <code>/api/books</code> endpoint later.
+        </p>
+        <p class="credits">© 2026 NeoPapyrus</p>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
