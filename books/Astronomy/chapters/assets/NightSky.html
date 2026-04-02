@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moving Night Sky</title>
+  <style>
+    body {
+      margin: 0;
+      background: #020812;
+      color: #e8f0ff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #controls {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 10;
+      background: rgba(10, 18, 32, 0.85);
+      padding: 12px 14px;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+      max-width: 320px;
+    }
+
+    #controls h2 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+
+    #controls label,
+    #controls select,
+    #controls input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    #controls select,
+    #controls input {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #3d5270;
+      background: #0c1524;
+      color: #e8f0ff;
+    }
+
+    #info {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #bfd2ff;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <h2>Night Sky Viewer</h2>
+
+    <label for="citySelect">Choose a city</label>
+    <select id="citySelect"></select>
+
+    <label for="speedRange">Sky speed</label>
+    <input id="speedRange" type="range" min="1" max="600" value="60" />
+
+    <div id="info"></div>
+  </div>
+
+  <canvas id="sky"></canvas>
+
+  <script>
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    const citySelect = document.getElementById("citySelect");
+    const speedRange = document.getElementById("speedRange");
+    const info = document.getElementById("info");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Major cities
+    const cities = [
+      { name: "New York", lat: 40.7128, lon: -74.0060 },
+      { name: "London", lat: 51.5074, lon: -0.1278 },
+      { name: "Paris", lat: 48.8566, lon: 2.3522 },
+      { name: "Tokyo", lat: 35.6762, lon: 139.6503 },
+      { name: "Sydney", lat: -33.8688, lon: 151.2093 },
+      { name: "Kathmandu", lat: 27.7172, lon: 85.3240 },
+      { name: "Cairo", lat: 30.0444, lon: 31.2357 },
+      { name: "Cape Town", lat: -33.9249, lon: 18.4241 },
+      { name: "Los Angeles", lat: 34.0522, lon: -118.2437 },
+      { name: "Buenos Aires", lat: -34.6037, lon: -58.3816 }
+    ];
+
+    for (const city of cities) {
+      const opt = document.createElement("option");
+      opt.value = city.name;
+      opt.textContent = city.name;
+      citySelect.appendChild(opt);
+    }
+    citySelect.value = "New York";
+
+    function getSelectedCity() {
+      return cities.find(c => c.name === citySelect.value);
+    }
+
+    // A simple bright-star catalog for major constellations
+    // RA in hours, Dec in degrees
+    const stars = {
+      // Orion
+      betelgeuse: { ra: 5.9195, dec: 7.4071, mag: 0.5, name: "Betelgeuse" },
+      bellatrix:  { ra: 5.4189, dec: 6.3497, mag: 1.6, name: "Bellatrix" },
+      alnitak:    { ra: 5.6793, dec: -1.9426, mag: 1.7, name: "Alnitak" },
+      alnilam:    { ra: 5.6036, dec: -1.2019, mag: 1.7, name: "Alnilam" },
+      mintaka:    { ra: 5.5334, dec: -0.2991, mag: 2.2, name: "Mintaka" },
+      rigel:      { ra: 5.2423, dec: -8.2016, mag: 0.1, name: "Rigel" },
+      saiph:      { ra: 5.7959, dec: -9.6696, mag: 2.1, name: "Saiph" },
+
+      // Ursa Major (Big Dipper)
+      dubhe:      { ra: 11.0621, dec: 61.7508, mag: 1.8, name: "Dubhe" },
+      merak:      { ra: 11.0307, dec: 56.3824, mag: 2.4, name: "Merak" },
+      phecda:     { ra: 11.8972, dec: 53.6948, mag: 2.4, name: "Phecda" },
+      megrez:     { ra: 12.2571, dec: 57.0326, mag: 3.3, name: "Megrez" },
+      alioth:     { ra: 12.9004, dec: 55.9598, mag: 1.8, name: "Alioth" },
+      mizar:      { ra: 13.3987, dec: 54.9254, mag: 2.2, name: "Mizar" },
+      alkaid:     { ra: 13.7923, dec: 49.3133, mag: 1.9, name: "Alkaid" },
+
+      // Cassiopeia
+      schedar:    { ra: 0.6751, dec: 56.5373, mag: 2.2, name: "Schedar" },
+      caph:       { ra: 0.1529, dec: 59.1498, mag: 2.3, name: "Caph" },
+      gammaCas:   { ra: 0.9451, dec: 60.7167, mag: 2.5, name: "Gamma Cas" },
+      ruchbah:    { ra: 1.4303, dec: 60.2353, mag: 2.7, name: "Ruchbah" },
+      segin:      { ra: 2.2939, dec: 63.6701, mag: 3.4, name: "Segin" },
+
+      // Scorpius
+      antares:    { ra: 16.4901, dec: -26.4320, mag: 1.0, name: "Antares" },
+      acrab:      { ra: 16.0906, dec: -19.8054, mag: 2.6, name: "Acrab" },
+      dschubba:   { ra: 16.0056, dec: -22.6217, mag: 2.3, name: "Dschubba" },
+      shaula:     { ra: 17.5601, dec: -37.1038, mag: 1.6, name: "Shaula" },
+      lesath:     { ra: 17.5127, dec: -37.2958, mag: 2.7, name: "Lesath" },
+
+      // Leo
+      regulus:    { ra: 10.1395, dec: 11.9672, mag: 1.4, name: "Regulus" },
+      denebola:   { ra: 11.8177, dec: 14.5721, mag: 2.1, name: "Denebola" },
+      zosma:      { ra: 11.2351, dec: 20.5237, mag: 2.6, name: "Zosma" },
+      chertan:    { ra: 11.2373, dec: 15.4296, mag: 3.3, name: "Chertan" }
+    };
+
+    const constellations = [
+      {
+        name: "Orion",
+        lines: [
+          ["betelgeuse", "bellatrix"],
+          ["betelgeuse", "alnitak"],
+          ["bellatrix", "mintaka"],
+          ["mintaka", "alnilam"],
+          ["alnilam", "alnitak"],
+          ["alnitak", "saiph"],
+          ["mintaka", "rigel"],
+          ["rigel", "saiph"]
+        ]
+      },
+      {
+        name: "Ursa Major",
+        lines: [
+          ["dubhe", "merak"],
+          ["merak", "phecda"],
+          ["phecda", "megrez"],
+          ["megrez", "alioth"],
+          ["alioth", "mizar"],
+          ["mizar", "alkaid"]
+        ]
+      },
+      {
+        name: "Cassiopeia",
+        lines: [
+          ["caph", "schedar"],
+          ["schedar", "gammaCas"],
+          ["gammaCas", "ruchbah"],
+          ["ruchbah", "segin"]
+        ]
+      },
+      {
+        name: "Scorpius",
+        lines: [
+          ["acrab", "dschubba"],
+          ["dschubba", "antares"],
+          ["antares", "shaula"],
+          ["shaula", "lesath"]
+        ]
+      },
+      {
+        name: "Leo",
+        lines: [
+          ["regulus", "chertan"],
+          ["chertan", "zosma"],
+          ["zosma", "denebola"]
+        ]
+      }
+    ];
+
+    // Random background stars
+    const backgroundStars = [];
+    for (let i = 0; i < 350; i++) {
+      backgroundStars.push({
+        ra: Math.random() * 24,
+        dec: -80 + Math.random() * 160,
+        mag: 2 + Math.random() * 4
+      });
+    }
+
+    function degToRad(d) {
+      return d * Math.PI / 180;
+    }
+
+    function radToDeg(r) {
+      return r * 180 / Math.PI;
+    }
+
+    function normalizeAngleDeg(a) {
+      a %= 360;
+      if (a < 0) a += 360;
+      return a;
+    }
+
+    // Julian Date
+    function julianDate(date) {
+      return date.getTime() / 86400000 + 2440587.5;
+    }
+
+    // Approximate GMST in degrees
+    function gmstDegrees(date) {
+      const JD = julianDate(date);
+      const T = (JD - 2451545.0) / 36525.0;
+      let GMST =
+        280.46061837 +
+        360.98564736629 * (JD - 2451545.0) +
+        0.000387933 * T * T -
+        (T * T * T) / 38710000.0;
+      return normalizeAngleDeg(GMST);
+    }
+
+    // Convert RA/Dec -> Alt/Az
+    function raDecToAltAz(raHours, decDeg, latDeg, lonDeg, date) {
+      const raDeg = raHours * 15.0;
+      const lst = normalizeAngleDeg(gmstDegrees(date) + lonDeg);
+      const haDeg = normalizeAngleDeg(lst - raDeg);
+
+      const ha = degToRad(haDeg);
+      const dec = degToRad(decDeg);
+      const lat = degToRad(latDeg);
+
+      const sinAlt =
+        Math.sin(dec) * Math.sin(lat) +
+        Math.cos(dec) * Math.cos(lat) * Math.cos(ha);
+
+      const alt = Math.asin(sinAlt);
+
+      const cosAz =
+        (Math.sin(dec) - Math.sin(alt) * Math.sin(lat)) /
+        (Math.cos(alt) * Math.cos(lat));
+
+      let az = Math.acos(Math.max(-1, Math.min(1, cosAz)));
+
+      if (Math.sin(ha) > 0) {
+        az = 2 * Math.PI - az;
+      }
+
+      return {
+        alt: radToDeg(alt),
+        az: radToDeg(az)
+      };
+    }
+
+    // Project sky to circular dome
+    function altAzToScreen(alt, az, width, height) {
+      const cx = width / 2;
+      const cy = height / 2 + 40;
+      const radius = Math.min(width, height) * 0.42;
+
+      const z = (90 - alt) / 90; // 0 at zenith, 1 at horizon
+      const r = z * radius;
+
+      const a = degToRad(az);
+      const x = cx + r * Math.sin(a);
+      const y = cy + r * Math.cos(a);
+
+      return { x, y, visible: alt > 0 };
+    }
+
+    function drawGradientBackground() {
+      const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      grad.addColorStop(0, "#020814");
+      grad.addColorStop(0.55, "#061325");
+      grad.addColorStop(1, "#0d1d2f");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawHorizon() {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2 + 40;
+      const radius = Math.min(canvas.width, canvas.height) * 0.42;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(180, 220, 255, 0.25)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,0.06)";
+      ctx.font = "14px Arial";
+      ctx.fillText("N", cx - 5, cy - radius - 10);
+      ctx.fillText("S", cx - 5, cy + radius + 20);
+      ctx.fillText("E", cx + radius + 10, cy + 5);
+      ctx.fillText("W", cx - radius - 20, cy + 5);
+    }
+
+    function starRadiusFromMag(mag) {
+      return Math.max(1, 4.8 - mag);
+    }
+
+    function drawStarProjected(p, mag, color = "white") {
+      const r = starRadiusFromMag(mag);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    function projectStar(star, city, date) {
+      const aa = raDecToAltAz(star.ra, star.dec, city.lat, city.lon, date);
+      return altAzToScreen(aa.alt, aa.az, canvas.width, canvas.height);
+    }
+
+    function drawBackgroundStars(city, date) {
+      for (const s of backgroundStars) {
+        const p = projectStar(s, city, date);
+        if (!p.visible) continue;
+        drawStarProjected(p, s.mag, "rgba(255,255,255,0.8)");
+      }
+    }
+
+    function drawConstellations(city, date) {
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = "rgba(120, 180, 255, 0.7)";
+      ctx.fillStyle = "rgba(210, 230, 255, 0.95)";
+      ctx.font = "12px Arial";
+
+      for (const constellation of constellations) {
+        let visiblePoints = [];
+
+        // Draw lines
+        for (const [a, b] of constellation.lines) {
+          const pa = projectStar(stars[a], city, date);
+          const pb = projectStar(stars[b], city, date);
+
+          if (pa.visible && pb.visible) {
+            ctx.beginPath();
+            ctx.moveTo(pa.x, pa.y);
+            ctx.lineTo(pb.x, pb.y);
+            ctx.stroke();
+            visiblePoints.push(pa, pb);
+          }
+        }
+
+        // Draw named stars
+        const used = new Set(constellation.lines.flat());
+        for (const key of used) {
+          const s = stars[key];
+          const p = projectStar(s, city, date);
+          if (!p.visible) continue;
+          drawStarProjected(p, s.mag, "white");
+        }
+
+        // Draw constellation name near centroid
+        if (visiblePoints.length > 0) {
+          const mx = visiblePoints.reduce((sum, p) => sum + p.x, 0) / visiblePoints.length;
+          const my = visiblePoints.reduce((sum, p) => sum + p.y, 0) / visiblePoints.length;
+          ctx.fillStyle = "rgba(130, 190, 255, 0.85)";
+          ctx.fillText(constellation.name, mx + 6, my - 6);
+        }
+      }
+    }
+
+    let simTime = new Date();
+    let lastFrame = performance.now();
+
+    function animate(now) {
+      const city = getSelectedCity();
+      const speed = Number(speedRange.value);
+
+      const dtSec = (now - lastFrame) / 1000;
+      lastFrame = now;
+
+      // Advance simulated time
+      simTime = new Date(simTime.getTime() + dtSec * speed * 1000);
+
+      drawGradientBackground();
+      drawHorizon();
+      drawBackgroundStars(city, simTime);
+      drawConstellations(city, simTime);
+
+      info.innerHTML = `
+        <strong>City:</strong> ${city.name}<br>
+        <strong>Latitude:</strong> ${city.lat.toFixed(2)}°, 
+        <strong>Longitude:</strong> ${city.lon.toFixed(2)}°<br>
+        <strong>Simulated time:</strong> ${simTime.toLocaleString()}<br>
+        <strong>Speed:</strong> ${speed}× real time
+      `;
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
