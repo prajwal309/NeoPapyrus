@@ -3,53 +3,330 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Library</title>
-  <link rel="stylesheet" href="/css/book.css" />
+  <title>NeoPapyrus Book Tree</title>
+  <link rel="stylesheet" href="/css/book.css"/>
 </head>
 <body>
-  <header class="books-header">
-    <div>
-      <h1>Books on Shelfs</h1>
-      <p class="subtitle">Pick a book to start reading</p>
+  <header>
+    <div class="header-inner">
+      <div class="header-copy">
+        <h1>Books on Shelfs</h1>
+        <p class="subtitle">Explore NeoPapyrus as a living constellation of ideas</p>
+      </div>
+      <nav class="header-actions">
+        <a class="pill" href="/aboutUs.html">About Us</a>
+        <a class="pill" href="/book.html?book=Exoplanets">Open Featured Book</a>
+      </nav>
     </div>
-    <nav style="margin-top:10px;">
-      <a href="/aboutUs.html" style="text-decoration:none; font-weight:500;">About Us</a>
-    </nav>
   </header>
 
-  <main class="wrap">
-    <div id="books" class="grid"></div>
-    <div id="error" class="error" hidden></div>
+  <main class="page">
+    <div class="legend">
+      <span><i class="dot" style="background:var(--gold);"></i> Foundations</span>
+      <span><i class="dot" style="background:var(--red);"></i> Frontiers</span>
+      <span><i class="dot" style="background:var(--blue);"></i> Tools & Methods</span>
+      <span><i class="dot" style="background:#ff9b52;"></i> Recommended</span>
+    </div>
 
-    <!-- About Us Section -->
-    <section style="margin-top:60px; padding-top:30px; border-top:1px solid #ddd;">
-      <p style="font-style:italic; color:#444;">Prajwal Niraula is a postdoctoral researcher and holds a PhD from the Department of Earth, Atmospheric, and Planetary Sciences (EAPS) at the Massachusetts Institute of Technology (MIT).</p>
-      <h2>About NeoPapyrus</h2>
-      <p>
-        NeoPapyrus is an interactive digital library designed to rethink how we read and learn.
-        Instead of static pages, our books are layered, visual, and adaptive — allowing readers
-        to explore ideas at different levels of depth.
-      </p>
-      <p>
-        I am Prajwal Niraula, a postdoctoral researcher and the creator of NeoPapyrus. I have PhD 
-        from the Department of Earth, Atmospheric, and Planetary Sciences (EAPS) at the Massachusetts
-        Institute of Technology (MIT).
-      </p>
-      <p>
-        From exoplanets to statistics and numerical methods, NeoPapyrus aims to make complex
-        scientific ideas accessible without sacrificing rigor. Each book is designed as both a
-        narrative and a tool for understanding.
-      </p>
-      <p>
-        <a href="/aboutUs.html">Learn more →</a>
-      </p>
+    <section class="tree-wrap">
+      <div class="cluster-title" style="left:13%; top:68%;">Foundations</div>
+      <div class="cluster-title" style="left:43%; top:17%;">Frontiers</div>
+      <div class="cluster-title" style="left:77%; top:66%;">Tools</div>
+
+      <div class="root" aria-hidden="true"></div>
+
+      <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <g id="branches"></g>
+      </svg>
+
+      <div class="nodes" id="bookNodes"></div>
+    </section>
+
+    <section class="about">
+      <article class="panel">
+        <p style="font-style:italic; color:#b8d3e3; margin-top:0;">
+          Prajwal Niraula is a postdoctoral researcher and holds a PhD from the Department of Earth, Atmospheric, and Planetary Sciences at the Massachusetts Institute of Technology.
+        </p>
+
+        <h2>About NeoPapyrus</h2>
+        <p>
+          NeoPapyrus is an interactive digital library designed to make reading feel exploratory. Instead of a flat list of books, this page presents knowledge as a branching tree, where each glowing connection leads to a book.
+        </p>
+        <p>
+          This version coordinates branches and books from the same data model, so the geometry stays aligned. It also allows you to mark selected books as recommended using a fire badge.
+        </p>
+      </article>
+
+      <aside class="panel">
+        <h3>How to use this</h3>
+        <p>
+          Change the titles and <code>slug</code> values below to match your real NeoPapyrus books. To recommend a book, set <code>recommended: true</code>.
+        </p>
+        <p class="credits">© 2026 NeoPapyrus</p>
+      </aside>
     </section>
   </main>
 
-  <footer style="margin-top:60px; padding:20px; text-align:center; font-size:0.9rem; color:#666;">
-    © 2026 NeoPapyrus
-  </footer>
+  <script>
+    const ROOT = { x: 500, y: 630 };
 
-  <script src="/scripts/index.js"></script>
+    const books = [
+      // Foundations
+      {
+        id: "physics",
+        title: "Classical Physics",
+        subtitle: "Foundations",
+        slug: "Physics",
+        cluster: "gold",
+        x: 420,
+        y: 640,
+        recommended: false,
+        parent: "root"
+      },
+      {
+        id: "math",
+        title: "Mathematical Methods",
+        subtitle: "Foundations",
+        slug: "Mathematics",
+        cluster: "gold",
+        x: 365,
+        y: 585,
+        recommended: true,
+        parent: "physics"
+      },
+      {
+        id: "calculus",
+        title: "Calculus",
+        subtitle: "Foundations",
+        slug: "Calculus",
+        cluster: "gold",
+        x: 275,
+        y: 600,
+        recommended: false,
+        parent: "math"
+      },
+      {
+        id: "statistics",
+        title: "Statistics",
+        subtitle: "Foundations",
+        slug: "Statistics",
+        cluster: "gold",
+        x: 118,
+        y: 475,
+        recommended: false,
+        parent: "calculus"
+      },
+      {
+        id: "signal",
+        title: "Signal Processing",
+        subtitle: "Foundations",
+        slug: "SignalProcessing",
+        cluster: "gold",
+        x: 410,
+        y: 735,
+        recommended: false,
+        parent: "physics"
+      },
+      {
+        id: "numerical",
+        title: "Numerical Methods",
+        subtitle: "Foundations",
+        slug: "NumericalMethods",
+        cluster: "gold",
+        x: 275,
+        y: 828,
+        recommended: false,
+        parent: "signal"
+      },
+      {
+        id: "data",
+        title: "Data Analysis",
+        subtitle: "Foundations",
+        slug: "DataAnalysis",
+        cluster: "gold",
+        x: 450,
+        y: 840,
+        recommended: false,
+        parent: "signal"
+      },
+
+      // Frontiers
+      {
+        id: "exoplanets",
+        title: "Exoplanets",
+        subtitle: "Frontiers",
+        slug: "Exoplanets",
+        cluster: "red",
+        x: 500,
+        y: 525,
+        recommended: true,
+        parent: "root"
+      },
+      {
+        id: "planetary",
+        title: "Planetary Science",
+        subtitle: "Frontiers",
+        slug: "PlanetaryScience",
+        cluster: "red",
+        x: 550,
+        y: 470,
+        recommended: false,
+        parent: "exoplanets"
+      },
+      {
+        id: "atmospheres",
+        title: "Atmospheres",
+        subtitle: "Frontiers",
+        slug: "Atmospheres",
+        cluster: "red",
+        x: 600,
+        y: 390,
+        recommended: true,
+        parent: "planetary"
+      },
+      {
+        id: "stars",
+        title: "Stellar Physics",
+        subtitle: "Frontiers",
+        slug: "Stars",
+        cluster: "red",
+        x: 675,
+        y: 360,
+        recommended: false,
+        parent: "atmospheres"
+      },
+      {
+        id: "astronomy",
+        title: "Astronomy",
+        subtitle: "Frontiers",
+        slug: "Astronomy",
+        cluster: "red",
+        x: 405,
+        y: 395,
+        recommended: false,
+        parent: "exoplanets"
+      },
+      {
+        id: "astrobiology",
+        title: "Astrobiology",
+        subtitle: "Frontiers",
+        slug: "Astrobiology",
+        cluster: "red",
+        x: 810,
+        y: 190,
+        recommended: false,
+        parent: "stars"
+      },
+
+      // Tools
+      {
+        id: "python",
+        title: "Python",
+        subtitle: "Tools",
+        slug: "Python",
+        cluster: "blue",
+        x: 595,
+        y: 640,
+        recommended: false,
+        parent: "root"
+      },
+      {
+        id: "ml",
+        title: "Machine Learning",
+        subtitle: "Tools",
+        slug: "MachineLearning",
+        cluster: "blue",
+        x: 665,
+        y: 600,
+        recommended: true,
+        parent: "python"
+      },
+      {
+        id: "hpc",
+        title: "High-Performance Computing",
+        subtitle: "Tools",
+        slug: "HPC",
+        cluster: "blue",
+        x: 770,
+        y: 910,
+        recommended: false,
+        parent: "python"
+      }
+    ];
+
+    const nodeMap = Object.fromEntries(books.map(book => [book.id, book]));
+
+    function getPoint(id) {
+      if (id === "root") return ROOT;
+      return nodeMap[id];
+    }
+
+    function createCurvedPath(from, to) {
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      const curve = Math.max(24, Math.abs(dx) * 0.18);
+
+      const c1x = from.x + dx * 0.35;
+      const c1y = from.y + (dy > 0 ? curve : -curve * 0.25);
+
+      const c2x = from.x + dx * 0.72;
+      const c2y = to.y - (dy > 0 ? curve * 0.2 : -curve * 0.45);
+
+      return `M ${from.x} ${from.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${to.x} ${to.y}`;
+    }
+
+    function renderBranches() {
+      const svgGroup = document.getElementById("branches");
+
+      books.forEach(book => {
+        const from = getPoint(book.parent);
+        const to = { x: book.x, y: book.y };
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("class", `branch ${book.cluster}`);
+        path.setAttribute("d", createCurvedPath(from, to));
+        svgGroup.appendChild(path);
+      });
+    }
+
+    function renderBooks() {
+      const nodes = document.getElementById("bookNodes");
+
+      books.forEach(book => {
+        const a = document.createElement("a");
+        a.className = "book-node";
+        a.href = `/book.html?book=${encodeURIComponent(book.slug)}`;
+        a.style.left = `${book.x / 10}%`;
+        a.style.top = `${book.y / 10}%`;
+        a.setAttribute("aria-label", book.title);
+
+        const card = document.createElement("div");
+        card.className = `book-card book-${book.cluster}`;
+
+        if (book.recommended) {
+          const badge = document.createElement("div");
+          badge.className = "fire-badge";
+          badge.innerHTML = `<span class="emoji">🔥</span><span>Recommended</span>`;
+          card.appendChild(badge);
+        }
+
+        const title = document.createElement("div");
+        title.className = "book-title";
+        title.textContent = book.title;
+
+        const subtitle = document.createElement("div");
+        subtitle.className = "book-subtitle";
+        subtitle.textContent = book.subtitle;
+
+        card.appendChild(title);
+        card.appendChild(subtitle);
+        a.appendChild(card);
+        nodes.appendChild(a);
+      });
+    }
+
+    renderBranches();
+    renderBooks();
+  </script>
 </body>
 </html>
