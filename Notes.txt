@@ -1,0 +1,110 @@
+---> Skill tree but for books. [Refine the landing page. ]
+        a. Just try to make a mini version of this, and then get it working for the book.
+---> Add Picture for number of exoplanets discovered per year. 
+---> Add visualization for transmission spectra from Laura Kreidberg.
+---> Phase curve visualization from Me.
+---> Icon for Fire and view.
+
+
+
+e. Night sky rotating. 
+        -- Icon for misconception
+        -- Icon for concepts.
+        -- Icon for ---> Did I get that?
+        -- Use a counter for view. Increase it everytime the book is clicked on.
+
+--> Use a knowledge tree kind of graph for the beginning. 
+What does braintree means. Is it taken?
+
+
+
+--> What sort of feature would I need for my Novels    
+    a. Proper display of message. With sound. 
+    b. Diary entry.
+    c. Murgasana--- use easy way to describe the word for easy consumption.
+    d. 
+
+3.1 Refine the content of the first book such that you can share with Pramit in a week. Focus on the high school thing, and then at a college level. Also try a research version. 
+        --- Create a version that loo
+4. Create a knowledge tree and connect chapters from one book to another one. [To statistics, and modeling.]
+5. Implemented through vercel. 
+https://neopapers-git-main-prajwal309s-projects.vercel.app/
+
+6. Add views and fire symbol next to the books.
+
+
+7. Add all the cool visualization for the books.
+  a. Night Sky visualization [Can it be added]
+  b. Law of conservation of momentum. Writing numerical method for this.
+  c. Rebound code and integration
+  d. Solving for Kepler's law. 
+
+How to add voice capabilities.
+6. Create a template for a book. And have a proper invitation for people to work on the entries. 
+7. Categorize books by different types. [Novels vs Science books.]
+8. Create entries of entries for the books.
+9. Create and advertize in linkedin. Talk about wanting to do something with the new kind of books in linkedin. Ask for help and feedback.
+10. Find a beach head market, and ask them for astronomy among other things.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+4. Improve the content. Divide the content into 101, 201, and 301 case. 
+   -- Add figures to the text. 
+   -- Add some programming text. 
+
+5. Add about orbital mechanics. Connect it with the gravitational chapter in the exoplanets.
+---------------
+
+
+5. Connect to a few select research papers when talking about the books. 
+        - Think about which papers to include.
+        - Add a commentary about the papers.
+        - Using the papers from the 
+6. Display these papers with features that they can be published right there.
+7. Remove the search bar on the side.
+
+
+Reach out to Wikipedia editor committee.
+Can you assign a chapter to each one. 
+How do you get enough money for doing this. [What is the business model here.]
+
+2. Chapter -- Chapter1.md fix this. 
+2. Add Donation to the books. For funding. https://buymeacoffee.com/fznfire?new=1
+4. Start Adding pictures to the text. 
+5. Think about organizing the files into three different modes.
+6. Linking different concepts with 
+        - If Chapter 1 introduced the existence of other worlds, 
+        - Gravity with the law of gravitation in physics.
+        - General Relativity in Physics.
+        - Special Relativity in Physics.
+        - Connect to research papers in Physics.    
+
+
+Essential Features
+a. How long do you have to master the topic. 
+b. What chapter do you need?
+c. What is your level?
+
+Make a human like figure
+And ask these question.
+Ask Feedback about the books.
+Ask what they need it for. 
+
+
+a. Make a form for this
+
+
+
+---> 
+1. Make the book shelf more like book shelf.
+2. Make Exoplanet book work on its own.
+3. Not try different type of books.
+4. Add Alice in Wonderland and think about the book in the public space. Redesigning the old books.
+5. Host this is github.io
+6. Add Buy me coffee or Support me on Ko-fi. 
+
+Donation. How to make it work. What are the fremium version that works.
+--- Courses on Chessables. 
+--- Make things better based on the books.
+--- Have a research question part.
+--- What sort of homework to give?
+--- Enable learning.
