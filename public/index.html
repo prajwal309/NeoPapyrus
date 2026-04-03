@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NeoPapyrus Book Tree</title>
-  <link rel="stylesheet" href="/css/book.css"/>
+  <title>NeoPapyrus Knowledge Tree</title>
+  <link rel="stylesheet" href="/css/landingPage.css"/>
 </head>
 <body>
   <header>
     <div class="header-inner">
       <div class="header-copy">
-        <h1>Books on Shelfs</h1>
-        <p class="subtitle">Explore NeoPapyrus as a living constellation of ideas</p>
+        <h1>NeoPapyrus</h1>
+        <p class="subtitle">A living codex of ideas — explore the library as a ceremonial skill tree</p>
       </div>
+
       <nav class="header-actions">
         <a class="pill" href="/aboutUs.html">About Us</a>
         <a class="pill" href="/book.html?book=Exoplanets">Open Featured Book</a>
@@ -22,18 +23,23 @@
 
   <main class="page">
     <div class="legend">
-      <span><i class="dot" style="background:var(--gold);"></i> Foundations</span>
-      <span><i class="dot" style="background:var(--red);"></i> Frontiers</span>
-      <span><i class="dot" style="background:var(--blue);"></i> Tools & Methods</span>
-      <span><i class="dot" style="background:#ff9b52;"></i> Recommended</span>
+      <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Foundations</span>
+      <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Frontiers</span>
+      <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Tools & Methods</span>
+      <span><i class="dot" style="background:#ff9b52; color:#ff9b52;"></i> Recommended</span>
     </div>
 
     <section class="tree-wrap">
-      <div class="cluster-title" style="left:13%; top:68%;">Foundations</div>
-      <div class="cluster-title" style="left:43%; top:17%;">Frontiers</div>
-      <div class="cluster-title" style="left:77%; top:66%;">Tools</div>
+      <div class="cluster-title gold" style="left:8%; top:73%;">Foundations</div>
+      <div class="cluster-title red"  style="left:45%; top:8%;">Frontiers</div>
+      <div class="cluster-title blue" style="left:79%; top:73%;">Tools</div>
 
-      <div class="root" aria-hidden="true"></div>
+      <div class="root-core" aria-hidden="true">
+        <div class="root-mark">
+          NeoPapyrus
+          <span>Knowledge Core</span>
+        </div>
+      </div>
 
       <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <g id="branches"></g>
@@ -50,17 +56,20 @@
 
         <h2>About NeoPapyrus</h2>
         <p>
-          NeoPapyrus is an interactive digital library designed to make reading feel exploratory. Instead of a flat list of books, this page presents knowledge as a branching tree, where each glowing connection leads to a book.
+          This design moves away from rectangular cards and toward a more iconic visual language: circular medallions, luminous paths, and a central knowledge core. Each book uses its own cover art as the node background, so the tree feels less like a sitemap and more like a world map of disciplines.
         </p>
         <p>
-          This version coordinates branches and books from the same data model, so the geometry stays aligned. It also allows you to mark selected books as recommended using a fire badge.
+          The result is closer to an Assassin’s Creed skill tree: ritual, symmetric, atmospheric, and unlock-like. The structure still comes from your book graph, but the experience feels more legendary and less utilitarian.
         </p>
       </article>
 
       <aside class="panel">
-        <h3>How to use this</h3>
+        <h3>Design Notes</h3>
         <p>
-          Change the titles and <code>slug</code> values below to match your real NeoPapyrus books. To recommend a book, set <code>recommended: true</code>.
+          Each node can have a cover image, subtitle, and recommendation badge. You can later add states like <code>locked</code>, <code>completed</code>, <code>featured</code>, or <code>new</code>.
+        </p>
+        <p>
+          For the best effect, make all cover images similar in aspect ratio and store them consistently as <code>/books/BookSlug/coverPage/frontpage.png</code>.
         </p>
         <p class="credits">© 2026 NeoPapyrus</p>
       </aside>
@@ -68,150 +77,116 @@
   </main>
 
   <script>
-    const ROOT = { x: 500, y: 630 };
+    const ROOT = { x: 500, y: 500 };
 
     const books = [
-          // Foundations (spread left-bottom)
-          {
-            id: "physics",
-            title: "Classical Physics",
-            slug: "Physics",
-            cluster: "gold",
-            x: 350,
-            y: 700,
-            parent: "root"
-          },
-          {
-            id: "math",
-            title: "Mathematical Methods",
-            slug: "Mathematics",
-            cluster: "gold",
-            x: 250,
-            y: 650,
-            parent: "physics"
-          },
-          {
-            id: "calculus",
-            title: "Calculus",
-            slug: "Calculus",
-            cluster: "gold",
-            x: 150,
-            y: 700,
-            parent: "math"
-          },
-          {
-            id: "statistics",
-            title: "Statistics",
-            slug: "Statistics",
-            cluster: "gold",
-            x: 80,
-            y: 550,
-            parent: "calculus"
-          },
-          {
-            id: "signal",
-            title: "Signal Processing",
-            slug: "SignalProcessing",
-            cluster: "gold",
-            x: 350,
-            y: 820,
-            parent: "physics"
-          },
-          {
-            id: "numerical",
-            title: "Numerical Methods",
-            slug: "NumericalMethods",
-            cluster: "gold",
-            x: 200,
-            y: 920,
-            parent: "signal"
-          },
-          {
-            id: "data",
-            title: "Data Analysis",
-            slug: "DataAnalysis",
-            cluster: "gold",
-            x: 420,
-            y: 950,
-            parent: "signal"
-          },
+      {
+        id: "physics",
+        title: "Classical Physics",
+        subtitle: "Motion, force, and the fabric of mechanics",
+        slug: "Physics",
+        cluster: "gold",
+        x: 310,
+        y: 600,
+        parent: "root",
+        background: "/books/Physics/coverPage/frontpage.png"
+      },
+      {
+        id: "calculus",
+        title: "Calculus",
+        subtitle: "Change written precisely",
+        slug: "Calculus",
+        cluster: "gold",
+        x: 300,
+        y: 890,
+        parent: "physics",
+        background: "/books/Calculus/coverPage/frontpage.png"
+      },
+      {
+        id: "statistics",
+        title: "Statistics",
+        subtitle: "Inference under uncertainty",
+        slug: "Statistics",
+        cluster: "gold",
+        x: 95,
+        y: 450,
+        parent: "root",
+        background: "/books/Statistics/coverPage/frontpage.png"
+      },
+    
 
-          // Frontiers (spread upward)
-          {
-            id: "exoplanets",
-            title: "Exoplanets",
-            slug: "Exoplanets",
-            cluster: "red",
-            x: 500,
-            y: 500,
-            parent: "root"
-          },
-          {
-            id: "planetary",
-            title: "Planetary Science",
-            slug: "PlanetaryScience",
-            cluster: "red",
-            x: 560,
-            y: 420,
-            parent: "exoplanets"
-          },
-          {
-            id: "atmospheres",
-            title: "Atmospheres",
-            slug: "Atmospheres",
-            cluster: "red",
-            x: 650,
-            y: 320,
-            parent: "planetary"
-          },
-          {
-            id: "stars",
-            title: "Stellar Physics",
-            slug: "Stars",
-            cluster: "red",
-            x: 900,
-            y: 120,
-            parent: "atmospheres"
-          },
-          {
-            id: "astronomy",
-            title: "Astronomy",
-            slug: "Astronomy",
-            cluster: "red",
-            x: 350,
-            y: 320,
-            parent: "exoplanets"
-          },
+      {
+        id: "exoplanets",
+        title: "Exoplanets",
+        subtitle: "Worlds beyond our star",
+        slug: "Exoplanets",
+        cluster: "red",
+        x: 600,
+        y: 125,
+        parent: "root",
+        background: "/books/Exoplanets/coverPage/frontpage.png",
+        recommended: true
+      },
+      
+      {
+        id: "astronomy",
+        title: "Astronomy",
+        subtitle: "The broad sky of understanding",
+        slug: "Astronomy",
+        cluster: "red",
+        x: 392,
+        y: 250,
+        parent: "exoplanets",
+        background: "/books/Astronomy/coverPage/frontpage.png"
+      },
+    
+      {
+        id: "stars",
+        title: "Stellar Physics",
+        subtitle: "The engine behind every system",
+        slug: "StellarPhysics",
+        cluster: "red",
+        x: 830,
+        y: 104,
+        parent: "exoplanets",
+        background: "/books/StellarPhysics/coverPage/frontpage.png"
+      },
 
-          // Tools (spread right-bottom)
-          {
-            id: "python",
-            title: "Python",
-            slug: "Python",
-            cluster: "blue",
-            x: 650,
-            y: 700,
-            parent: "root"
-          },
-          {
-            id: "ml",
-            title: "Machine Learning",
-            slug: "MachineLearning",
-            cluster: "blue",
-            x: 780,
-            y: 650,
-            parent: "python"
-          },
-          {
-            id: "hpc",
-            title: "High-Performance Computing",
-            slug: "HPC",
-            cluster: "blue",
-            x: 900,
-            y: 900,
-            parent: "python"
-          }
-        ];
+      
+      {
+        id: "ml",
+        title: "Machine Learning",
+        subtitle: "Learning patterns from data",
+        slug: "MachineLearning",
+        cluster: "blue",
+        x: 788,
+        y: 610,
+        parent: "root",
+        background: "/books/MachineLearning/coverPage/frontpage.png"
+      },
+        {
+        id: "numerical",
+        title: "Numerical Methods",
+        subtitle: "Computation as approximation",
+        slug: "NumericalMethods",
+        cluster: "blue",
+        x: 650,
+        y: 900,
+        parent: "ml",
+        background: "/books/NumericalMethods/coverPage/frontpage.png"
+      },
+      {
+        id: "hpc",
+        title: "High-Performance Computing",
+        subtitle: "Scaling thought through machines",
+        slug: "HPC",
+        cluster: "blue",
+        x: 904,
+        y: 860,
+        parent: "ml",
+        background: "/books/HPC/coverPage/frontpage.png"
+      }
+    ];
 
     const nodeMap = Object.fromEntries(books.map(book => [book.id, book]));
 
@@ -223,13 +198,14 @@
     function createCurvedPath(from, to) {
       const dx = to.x - from.x;
       const dy = to.y - from.y;
-      const curve = Math.max(24, Math.abs(dx) * 0.18);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const curveStrength = Math.min(120, Math.max(40, distance * 0.18));
 
-      const c1x = from.x + dx * 0.35;
-      const c1y = from.y + (dy > 0 ? curve : -curve * 0.25);
+      const c1x = from.x + dx * 0.28;
+      const c1y = from.y + dy * 0.18 - Math.sign(dy || 1) * curveStrength * 0.24;
 
       const c2x = from.x + dx * 0.72;
-      const c2y = to.y - (dy > 0 ? curve * 0.2 : -curve * 0.45);
+      const c2y = from.y + dy * 0.82 + Math.sign(dy || 1) * curveStrength * 0.18;
 
       return `M ${from.x} ${from.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${to.x} ${to.y}`;
     }
@@ -240,6 +216,13 @@
       books.forEach(book => {
         const from = getPoint(book.parent);
         const to = { x: book.x, y: book.y };
+
+        const glowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        glowPath.setAttribute("class", `branch ${book.cluster}`);
+        glowPath.setAttribute("d", createCurvedPath(from, to));
+        glowPath.setAttribute("stroke-width", "5.5");
+        glowPath.setAttribute("opacity", "0.13");
+        svgGroup.appendChild(glowPath);
 
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("class", `branch ${book.cluster}`);
@@ -259,27 +242,47 @@
         a.style.top = `${book.y / 10}%`;
         a.setAttribute("aria-label", book.title);
 
-        const card = document.createElement("div");
-        card.className = `book-card book-${book.cluster}`;
+        const ring = document.createElement("div");
+        ring.className = `node-ring ${book.cluster}`;
+
+        const glyph = document.createElement("div");
+        glyph.className = "node-glyph";
+
+        const image = document.createElement("div");
+        image.className = "node-image";
+        if (book.background) {
+          image.style.backgroundImage = `
+            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.22)),
+            url('${book.background}')
+          `;
+        }
 
         if (book.recommended) {
           const badge = document.createElement("div");
           badge.className = "fire-badge";
-          badge.innerHTML = `<span class="emoji">🔥</span><span>Recommended</span>`;
-          card.appendChild(badge);
+          badge.innerHTML = `<span>🔥</span><span>Featured</span>`;
+          ring.appendChild(badge);
         }
 
+        ring.appendChild(glyph);
+        ring.appendChild(image);
+
+        const label = document.createElement("div");
+        label.className = "node-label";
+
         const title = document.createElement("div");
-        title.className = "book-title";
+        title.className = "node-title";
         title.textContent = book.title;
 
         const subtitle = document.createElement("div");
-        subtitle.className = "book-subtitle";
-        subtitle.textContent = book.subtitle;
+        subtitle.className = "node-subtitle";
+        subtitle.textContent = book.subtitle || "";
 
-        card.appendChild(title);
-        card.appendChild(subtitle);
-        a.appendChild(card);
+        label.appendChild(title);
+        label.appendChild(subtitle);
+
+        a.appendChild(ring);
+        a.appendChild(label);
         nodes.appendChild(a);
       });
     }
