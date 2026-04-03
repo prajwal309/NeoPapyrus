@@ -1,5 +1,6 @@
----> Skill tree but for books. [Refine the landing page. ]
-        a. Just try to make a mini version of this, and then get it working for the book.
+---> Get it to work on vercel. Need to restructure some of the directories.
+
+Visualization Ideas...
 ---> Add Picture for number of exoplanets discovered per year. 
 ---> Add visualization for transmission spectra from Laura Kreidberg.
 ---> Phase curve visualization from Me.
