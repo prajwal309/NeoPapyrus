@@ -82,6 +82,42 @@ A transit spectrum compares the light lost during transit with the light from th
 
 Suppose a planet crosses a quiet strip while cool spots lie elsewhere on the star. The spots dim the out-of-transit baseline. The planet still blocks the same bright strip, so the fraction of light lost appears larger. Because the contrast between the spots and the quiet surface changes with wavelength, the bias can appear as a slope or a molecular band. Unocculted bright faculae can have the opposite effect when they increase the baseline. A spot crossed by the planet may leave a bump in the light curve. Spots outside the path can bias the spectrum even when the light curve shows no such bump. [Rackham et al. (2018)](https://doi.org/10.3847/1538-4357/aaa08c)
 
+### Programming demonstration — A flat planet spectrum around an active star
+
+Start with an atmosphere-free planet whose transit depth is 1,000 ppm on a quiet star. The planet always crosses the same quiet chord. Change the surface outside the chord and see how the inferred depth changes. Cool spots deepen the transit, bright faculae make it shallower, and their different colors make the size of the bias depend on wavelength.
+
+![Simulated transit depth versus wavelength. The quiet-star spectrum is flat at 1,000 ppm. Cool spots shift the spectrum up, especially at short wavelengths. Bright faculae shift the spectrum down, and the combined case partly cancels the bias.](/books/Exoplanets/chapters/figures/transit-light-source-demo.png)
+
+*The curves use synthetic blackbody spectra to illustrate the continuum bias. Stellar atmosphere spectra are needed to model features such as water bands. The disk normalization follows Rackham, Apai & Giampapa (2018). [Paper](https://doi.org/10.3847/1538-4357/aaa08c)*
+
+[Download the Python script](/books/Exoplanets/chapters/assets/labs/transit-light-source.py)
+
+<div data-level="201">
+
+Use Python with NumPy and Matplotlib. From the folder where you saved the script, run:
+
+```sh
+python3 -m pip install numpy matplotlib
+python3 transit-light-source.py
+```
+
+The script writes `transit-light-source.png`. It was tested with Python 3.9.5, NumPy 1.26.2, and Matplotlib 3.9.4.
+
+For each wavelength in micrometers, the script divides the spot and facular blackbody intensities by the intensity of the quiet photosphere. It weights the three components by their projected disk fractions. The numerator stays at 1,000 ppm because the chord remains quiet.
+
+```python
+disk_contrast = (
+    (1 - spot_fraction - facula_fraction)
+    + spot_fraction * spot_contrast
+    + facula_fraction * facula_contrast
+)
+depth_ppm = 1000 / disk_contrast
+```
+
+Set both covering fractions to zero to recover a flat 1,000 ppm spectrum. With only 5% spot coverage and a spot intensity half that of the quiet surface, the check gives 1,025.64 ppm. If the spot and facular contributions cancel at one wavelength, why might the bias persist elsewhere? Their contrasts vary differently with wavelength.
+
+</div>
+
 <div data-level="301">
 
 ### From stellar contrast to a contaminated transit depth

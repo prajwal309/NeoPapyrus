@@ -23,7 +23,21 @@
     <h1 id="bookTitle" class="brand">Book</h1>
   </div>
 
+  <nav class="reader-chapters" aria-label="Chapter navigation" id="readerChapters" hidden>
+    <button type="button" id="toolbarPrevious" aria-label="Previous chapter" title="Previous chapter" disabled>
+      <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </button>
+    <select id="chapterSelect" aria-label="Jump to chapter"></select>
+    <button type="button" id="toolbarNext" aria-label="Next chapter" title="Next chapter" disabled>
+      <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+    </button>
+  </nav>
+
   <div class="reader-actions">
+    <button type="button" id="findBtn" aria-label="Find in chapter" title="Find in chapter" aria-expanded="false" aria-controls="findPanel" disabled>
+      <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+      <span>Find</span>
+    </button>
     <button type="button" id="pdfBtn" aria-label="Print" title="Print">
       <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 17H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6zm12-2h1" /></svg>
       <span>Print</span>
@@ -32,6 +46,13 @@
       <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h5m4 0h7M4 12h10m4 0h2M4 18h2m4 0h10" /><circle cx="11" cy="6" r="2" /><circle cx="16" cy="12" r="2" /><circle cx="8" cy="18" r="2" /></svg>
       <span>Reading settings</span>
     </button>
+  </div>
+
+  <div class="settings-panel find-panel" id="findPanel" hidden>
+    <label for="chapterFind">Find in this chapter</label>
+    <input type="search" id="chapterFind" autocomplete="off" />
+    <p id="findStatus" role="status"></p>
+    <ul id="findResults"></ul>
   </div>
 
 <div class="settings-panel" id="settingsPanel" hidden>
@@ -43,11 +64,20 @@
     <button data-level="301">Advanced</button>
   </div>
 
+  <label class="text-size" for="textSize">Text size
+    <select id="textSize">
+      <option value="default">Default</option>
+      <option value="large">Large</option>
+      <option value="extra-large">Extra large</option>
+    </select>
+  </label>
+
   <div class="toggle">
     <input type="checkbox" id="eqToggle" checked />
     <label for="eqToggle">Show Equations</label>
   </div>
 </div>
+  <progress id="readingProgress" max="100" value="0" aria-label="Chapter reading progress" hidden></progress>
 </header>
 
 <main class="reader">

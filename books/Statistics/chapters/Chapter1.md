@@ -1,182 +1,56 @@
-# Chapter 1 — Statistical Concepts
-*How do we know when we are right?*
+# Chapter 1 — Statistical Concepts for Finding Planets
 
-Before we explore complex ideas, models, or discoveries, we need to understand **how to evaluate whether a method works**. Science, machine learning, medicine, and even everyday decision-making rely on a few simple statistical ideas that help us judge the quality of predictions.
+## 1.1 A detection pipeline proposes candidates
 
-Imagine a test designed to detect something — a disease, a fraudulent transaction, or even life on another planet. The test makes predictions, but predictions can be **right or wrong in different ways**. Understanding these possibilities is the foundation of statistical thinking.
+A transit search flags periodic dips in stellar brightness. Some are planetary transits. Others come from eclipsing binaries blended into the target aperture, stellar variability, or detector artifacts. A planet can also go undetected if its transits are shallow, fall in data gaps, or fail a vetting cut. Which kind of mistake matters depends on the question. A follow-up team wants a clean list of candidates. A team estimating how common planets are also needs to know which planets the survey missed. [Morton et al. (2016)](https://arxiv.org/abs/1605.02825) · [Christiansen et al. (2015)](https://doi.org/10.1088/0004-637X/810/2/95)
 
-In this chapter we introduce six key concepts:
+## 1.2 Read a confusion matrix
 
-- False Positive  
-- False Negative  
-- Recall  
-- Precision  
-- Bias  
-- Accuracy  
+Imagine a labeled, synthetic test set of 10,000 stars. Exactly 100 host a transiting planet in the period and radius range being searched. The pipeline accepts 80 of those planets and incorrectly flags 99 other stars.
 
-These ideas may seem abstract at first, but they appear everywhere: from medical diagnostics to spam filters, from climate models to exoplanet detection.
+| True class | Flagged as a candidate | Not flagged | Total |
+| --- | ---: | ---: | ---: |
+| Transiting planet in scope | 80 true positives | 20 false negatives | 100 |
+| No transiting planet in scope | 99 false positives | 9,801 true negatives | 9,900 |
 
----
+- **Recall or sensitivity** is the fraction of actual positives recovered, $80/100=80\%$.
+- **Precision or positive predictive value** is the fraction of flagged cases that are genuine, $80/179\approx45\%$. Here “precision” describes candidate classification. Elsewhere it often describes the size of a measurement uncertainty.
+- **False-positive rate** is the fraction of actual negatives mistakenly flagged, $99/9900=1\%$. The fraction of candidates that are false is much larger, $99/179\approx55\%$.
+- **Accuracy** is the fraction of all classifications that are right, $(80+9801)/10000\approx98.8\%$. A rule that flags nothing reaches 99% in this test and recovers zero planets.
 
-# 1.1 Predictions Can Be Wrong in Different Ways
+### Why prevalence changes the answer
 
-Suppose we build a system that tries to determine whether something is **present** or **absent**. For example:
+In a sample where planets are rare, a small false-positive rate still acts on a large number of stars. Write $p$ for the fraction of tested stars that have a signal of the kind sought, $s$ for the sensitivity, and $q$ for the false-positive rate. Then
 
-- Does a patient have a disease?  
-- Is this email spam?  
-- Is there a planet around this star?  
+$$
+P(\mathrm{planet}\mid\mathrm{flagged})=
+\frac{sp}{sp+q(1-p)}.
+$$
 
-The system gives an answer: **Yes** or **No**. But the *true state* of the world might be different.
+The numerator is the expected fraction of the whole sample that contains a real flagged planet. The denominator adds false alarms. If a preselected sample increases $p$ from 1% to 10% and the same $s$ and $q$ apply, precision rises from about 45% to about 90%. A change in target selection can also change the sensitivity and false-positive rate, so test that assumption before transferring those numbers to another survey.
 
-This leads to four possible outcomes.
+## 1.3 Completeness, reliability, and follow-up
 
-| Prediction | Reality | Outcome |
-|---|---|---|
-| Positive | Positive | True Positive |
-| Positive | Negative | False Positive |
-| Negative | Positive | False Negative |
-| Negative | Negative | True Negative |
+In a real survey we rarely know the correct label for every star. **Injection–recovery** puts simulated transit signals into the data and runs the full search and vetting pipeline. The recovered fraction estimates completeness for the types of signals injected. It is generally a function of period, radius, stellar properties, and data quality. The Kepler team injected signals into calibrated pixel data to measure this sensitivity empirically. Run the same preprocessing and cuts used for the catalog. Injecting signals after detrending can miss transits that detrending would suppress. [Christiansen et al. (2015)](https://doi.org/10.1088/0004-637X/810/2/95)
 
-The two errors we care most about are **False Positives** and **False Negatives**.
+**Reliability** concerns contamination among the candidates that survive. Test for instrumental false alarms and compare astrophysical alternatives, such as a faint eclipsing binary near the target. Centroid motion, secondary eclipses, and high-resolution imaging constrain different alternatives. A false-positive probability for an individual candidate is conditional on the scenarios considered and the prior odds assigned to them. [Morton et al. (2016)](https://arxiv.org/abs/1605.02825)
 
----
+<div data-level="201">
 
-# 1.2 False Positives
+### Worked occurrence-rate correction
 
-A **false positive** occurs when a test says something **is present**, but in reality it **is not**.
+Suppose a synthetic survey of 2,000 comparable stars finds 20 candidates in a narrow bin. Follow-up and vetting imply an expected 18 genuine detections. Given a planet in this bin, let the geometric transit probability be 5% and the conditional pipeline recovery probability, given a transit, be 60%. The expected number of detections per planet in the surveyed population is then $0.05\times0.60=0.03$. A rough occurrence estimate is
 
-Example:
+$$
+\frac{18}{2000\times0.05\times0.60}=0.30\ \text{planets per star}.
+$$
 
-- A medical test says a patient has a disease, but they are actually healthy.
-- A spam filter marks a legitimate email as spam.
-- A telescope detection claims a planet exists, but the signal was actually stellar noise.
+This calculation assumes the same detection probability across the bin and across targets. It also treats the reliability and completeness estimates as fixed. A population analysis should propagate their uncertainty and account for imperfect radius and period measurements near the bin boundaries. This estimate is the average number of planets per target star in that bin. To infer the fraction of stars that host at least one, you also need information about multiplicity. [Foreman-Mackey, Hogg & Morton (2014)](https://arxiv.org/abs/1406.3020)
 
-False positives are often called **Type I errors**.
+</div>
 
-These errors can be dangerous because they may lead us to **believe something exists when it does not**.
+## 1.4 Selection also biases measured properties
 
----
+Planet samples can be biased after detection. When observers publish only high-significance radial-velocity masses, weak signals whose estimates fluctuate upward are more likely to pass the cut. Across a sample, this can inflate inferred masses at a given radius. Burt and colleagues demonstrated the effect in simulated TESS follow-up and found that including weak constraints helped reduce it. A survey with nondetections can therefore teach us about the population, provided the analysis models how targets were chosen and which measurements were reported. [Burt et al. (2018)](https://doi.org/10.3847/1538-3881/aae697)
 
-# 1.3 False Negatives
-
-A **false negative** occurs when a test says something **is absent**, but it actually **is present**.
-
-Example:
-
-- A patient actually has a disease, but the test fails to detect it.
-- A spam email reaches your inbox because the filter missed it.
-- A planet exists in the data, but the detection algorithm fails to identify it.
-
-False negatives are sometimes called **Type II errors**.
-
-These errors are dangerous because they cause us to **miss real signals**.
-
----
-
-# 1.4 Precision
-
-**Precision** measures how many of the predicted positives are actually correct.
-
-\[
-\text{Precision} = \frac{\text{True Positives}}{\text{True Positives + False Positives}}
-\]
-
-High precision means:
-
-> When the model says something is positive, it is **usually correct**.
-
-Example:
-
-If an exoplanet detection pipeline reports 10 planets and 9 of them are real, the precision is very high.
-
-Precision answers the question:
-
-**“When we claim a detection, how often are we right?”**
-
----
-
-# 1.5 Recall
-
-**Recall** measures how many of the real positives we successfully detect.
-
-\[
-\text{Recall} = \frac{\text{True Positives}}{\text{True Positives + False Negatives}}
-\]
-
-High recall means:
-
-> The system finds **most of the real signals**.
-
-Example:
-
-If there are 100 planets in the dataset and our algorithm detects 90 of them, recall is very high.
-
-Recall answers the question:
-
-**“How many of the real signals did we manage to find?”**
-
----
-
-# 1.6 Accuracy
-
-**Accuracy** measures how often the predictions are correct overall.
-
-\[
-\text{Accuracy} =
-\frac{\text{True Positives + True Negatives}}
-{\text{Total Predictions}}
-\]
-
-Accuracy can be useful, but it can also be misleading.
-
-For example:
-
-If only 1% of emails are spam, a model that labels **everything as "not spam"** would still be **99% accurate**, but completely useless.
-
-Because of this, scientists often rely more on **precision and recall** than on accuracy alone.
-
----
-
-# 1.7 Bias
-
-**Bias** refers to a systematic tendency of a model or measurement to deviate from the truth.
-
-Bias can arise from many sources:
-
-- Incomplete data
-- Instrument limitations
-- Incorrect assumptions in models
-- Human decision-making
-
-Example:
-
-If a telescope systematically measures planet radii slightly too large due to calibration errors, the results contain **bias**.
-
-Bias is different from random noise:
-
-- **Noise** fluctuates randomly.
-- **Bias** pushes results consistently in one direction.
-
-Understanding and correcting bias is essential for reliable science.
-
----
-
-# 1.8 Why These Concepts Matter
-
-These statistical ideas are not just mathematical definitions. They shape how we interpret evidence.
-
-Every detection method must balance trade-offs:
-
-- Reducing false positives may increase false negatives.
-- Increasing recall may reduce precision.
-- Maximizing accuracy may hide deeper problems.
-
-Whether we are diagnosing diseases, filtering spam, or searching for planets around distant stars, the same statistical framework helps us answer a fundamental question:
-
-> **How much should we trust our conclusions?**
-
-In the chapters ahead, we will use these concepts repeatedly as we analyze data, evaluate models, and explore how knowledge is extracted from observations.
-
-
-
-
+**Check your reasoning.** If two transit searches have the same 80% recall but one has fewer false positives in the same test sample, which has the higher precision? The search with fewer false positives. Would this imply better occurrence-rate estimates on its own? Only if detection efficiency and the remaining contamination are also understood. [Next: Forward and Inverse Models](#Chapter2)

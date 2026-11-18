@@ -1,343 +1,55 @@
-# Chapter 2 — How Machines Learn: Models, Loss, and Optimization
+# Chapter 2 — Numerical Integration and Transit Light Curves
 
----
+## 2.1 A detector measures an average
 
-## 2.1 From Patterns to Models
+When an exposure straddles the beginning of a transit, the detector collects light both before and after the planet starts blocking the star. A model evaluated at the midpoint can disagree with the recorded flux. This matters most when the exposure duration is comparable to ingress or egress. [Kipping (2010)](https://arxiv.org/abs/1004.3741)
 
-<div data-level="101">
+For uniform sensitivity during an exposure of duration $\Delta t_i$ centered at $t_i$, the model prediction is
 
-In Chapter 1, we learned that machine learning is about finding patterns.
+$$
+\bar F_i=\frac{1}{\Delta t_i}
+\int_{t_i-\Delta t_i/2}^{t_i+\Delta t_i/2}F(t)\,dt.
+$$
 
-But how does a machine actually *store* what it has learned?
+The model $F(t)$ gives the instantaneous normalized flux. Use the same time units in the limits and normalization. If a reported point combines several integrations with gaps, evaluate the correct intervals and combine them with the appropriate weights.
 
-It does so using a **model**.
+## 2.2 Two quadrature rules
 
-A model is simply a mathematical structure that tries to mimic reality.  
-It takes an input and produces an output.
+**Quadrature** approximates an integral with a weighted sum. Divide the exposure into $n$ equal pieces. The composite midpoint rule evaluates the model in the middle of each piece and averages the values. The composite trapezoidal rule evaluates the boundaries, weights the first and last values by one-half and each interior value by one, then divides the weighted sum by $n$. For smooth functions, both errors typically scale as the square of the step size. Transit contact can introduce a kink in a simplified model, so the error also depends on how the sampling grid lines up with contact.
 
-Think of it like fitting a curve to data.
-
-If you observe a transit in a light curve, the model tries to reproduce that dip.  
-If you observe a spectrum, the model tries to explain its shape.
-
-Learning, then, is about adjusting the model so that it matches the data.
-
-</div>
-
----
+**Worked exposure.** Let a synthetic transit first make contact at time zero. Over the next 20 minutes, its depth grows linearly from zero to 10,000 ppm. One exposure runs from −8 to +12 minutes. The midpoint is +2 minutes, where the instantaneous depth is 1,000 ppm. The integrated deficit is a triangle with base 12 minutes and height 6,000 ppm. Dividing the area by 20 minutes gives **1,800 ppm**. Midpoint-only evaluation misses 800 ppm of the measured deficit. An exposure wholly inside the linear part of ingress would give identical answers by both methods.
 
 <div data-level="201">
 
-A model is typically written as:
+### Programming exercise: refine the integration
 
-\[
-f_\theta(x)
-\]
+Run with Python 3. Time is in minutes relative to first contact and depth is in ppm.
 
-where:
+~~~python
+def depth_ppm(time):
+    return 10_000 * min(1.0, max(0.0, time / 20))
 
-- \(x\) = input data  
-- \(\theta\) = parameters of the model  
+def mean_depth(start, end, subdivisions):
+    step = (end - start) / subdivisions
+    return sum(
+        depth_ppm(start + (index + 0.5) * step)
+        for index in range(subdivisions)
+    ) / subdivisions
 
-The parameters control how the model behaves.
+for n in (1, 2, 4, 8, 16, 32):
+    print(n, round(mean_depth(-8, 12, n), 2))
 
-For example:
+assert mean_depth(-8, 12, 1) == 1000
+assert abs(mean_depth(-8, 12, 32) - 1800) < 1
+assert mean_depth(-20, -1, 32) == 0
+~~~
 
-- A straight line: \(f(x) = mx + b\) → parameters are \(m, b\)  
-- A neural network: thousands to millions of parameters  
-
-The goal of learning is to find the **best parameters** \(\theta\).
-
-</div>
-
----
-
-<div data-level="301">
-
-From a statistical perspective, the model defines a family of functions:
-
-\[
-\{ f_\theta \mid \theta \in \Theta \}
-\]
-
-Learning is the process of selecting the optimal \(\theta\) given data.
-
-This can be interpreted as:
-
-- **Frequentist:** minimize error  
-- **Bayesian:** infer posterior \(p(\theta | \mathcal{D})\)
-
-In exoplanet science, this mirrors forward modeling:
-
-- Choose a model (e.g., transit model, spectral model)  
-- Fit parameters to match observations  
-
-Machine learning generalizes this to highly flexible function spaces.
+Try shifting the exposure by one minute. Its average changes because the physical overlap changes. The quadrature error also changes because contact falls at a different point in the grid. Splitting the original exposure at time zero and using the trapezoidal rule on each side gives the exact answer for this piecewise-linear example.
 
 </div>
 
----
+## 2.3 Convergence in a real transit fit
 
-## 2.2 Measuring Error: The Loss Function
+A realistic transit forward model depends on the overlap of the stellar and planetary disks and the change in stellar intensity from center to limb. Mandel and Agol developed analytic models for commonly used limb-darkening laws. Kreidberg’s batman implementation provides transit calculations and exposure supersampling. The geometry is explained in [Transits and Occultations](#Exoplanets/Chapter3). [Mandel & Agol (2002)](https://doi.org/10.1086/345520) · [Kreidberg (2015)](https://doi.org/10.1086/683602) · [batman implementation](https://github.com/lkreidberg/batman/blob/master/batman/transitmodel.py)
 
-<div data-level="101">
-
-How do we know if a model is good or bad?
-
-We need a way to measure its mistakes.
-
-This is called the **loss function**.
-
-It tells us:
-
-> “How wrong is the model?”
-
-If the prediction is very close to the data → small loss  
-If it is far away → large loss  
-
-Learning is simply about making this loss as small as possible.
-
-</div>
-
----
-
-<div data-level="201">
-
-A common loss function is the **mean squared error (MSE)**:
-
-\[
-\mathcal{L}(\theta) = \frac{1}{N} \sum_{i=1}^{N} (y_i - f_\theta(x_i))^2
-\]
-
-Other examples include:
-
-- **Absolute error**  
-- **Cross-entropy loss** (for classification)  
-
-The choice of loss function depends on the problem.
-
-</div>
-
----
-
-<div data-level="301">
-
-The loss function often corresponds to a statistical assumption.
-
-For example:
-
-- MSE ↔ Gaussian noise  
-- Absolute error ↔ Laplace noise  
-
-More generally, minimizing loss is equivalent to maximizing likelihood:
-
-\[
-\mathcal{L}(\theta) = - \log p(\mathcal{D} | \theta)
-\]
-
-Thus, machine learning is deeply connected to **statistical inference**.
-
-In exoplanet retrievals, this is exactly what we do:
-
-- Define likelihood  
-- Fit model  
-- Infer parameters  
-
-Machine learning simply scales this idea.
-
-</div>
-
----
-
-## 2.3 Learning as Optimization
-
-<div data-level="101">
-
-Once we define a model and a loss, the problem becomes:
-
-> How do we find the best parameters?
-
-We solve this using **optimization**.
-
-Think of it like searching for the lowest point in a landscape.
-
-The height of the landscape is the loss.  
-We want to go downhill until we reach the bottom.
-
-</div>
-
----
-
-<div data-level="201">
-
-The most common method is **gradient descent**.
-
-We update parameters as:
-
-\[
-\theta \leftarrow \theta - \eta \nabla_\theta \mathcal{L}
-\]
-
-where:
-
-- \(\eta\) = learning rate  
-- \(\nabla_\theta \mathcal{L}\) = gradient (direction of steepest increase)
-
-We move in the opposite direction — toward lower loss.
-
-</div>
-
----
-
-<div data-level="301">
-
-In practice, optimization is more complex:
-
-- Loss surfaces are high-dimensional  
-- Many local minima exist  
-- Noise from data affects gradients  
-
-Variants include:
-
-- Stochastic Gradient Descent (SGD)  
-- Adam optimizer  
-- Momentum-based methods  
-
-In astrophysics, this is analogous to:
-
-- MCMC → exploring posterior  
-- Nested sampling → mapping likelihood  
-
-Machine learning emphasizes **fast optimization**, while traditional methods emphasize **uncertainty estimation**.
-
-</div>
-
----
-
-## 2.4 Overfitting and Generalization
-
-<div data-level="101">
-
-A model can learn too well.
-
-It might memorize the data instead of understanding it.
-
-This is called **overfitting**.
-
-Such a model performs well on known data,  
-but fails on new data.
-
-</div>
-
----
-
-<div data-level="201">
-
-We distinguish between:
-
-- **Training error** — error on known data  
-- **Test error** — error on unseen data  
-
-Good models **generalize** — they perform well on new data.
-
-Techniques to prevent overfitting:
-
-- Simpler models  
-- Regularization  
-- More data  
-
-</div>
-
----
-
-<div data-level="301">
-
-Overfitting reflects the **bias–variance tradeoff**:
-
-- High bias → model too simple  
-- High variance → model too complex  
-
-Optimal performance lies in balancing both.
-
-In exoplanet science, this appears as:
-
-- Overfitting noise in light curves  
-- Degenerate atmospheric retrievals  
-- Misinterpreting stellar contamination  
-
-Regularization techniques include:
-
-\[
-\mathcal{L}_{\text{total}} = \mathcal{L} + \lambda \|\theta\|^2
-\]
-
-which penalize overly complex models.
-
-</div>
-
----
-
-## 2.5 A Physical Perspective on Learning
-
-<div data-level="101">
-
-Learning is like tuning a telescope.
-
-You adjust it until the image becomes clear.
-
-</div>
-
----
-
-<div data-level="201">
-
-A model is like a physical theory:
-
-- It tries to explain observations  
-- It has parameters  
-- It can succeed or fail  
-
-</div>
-
----
-
-<div data-level="301">
-
-At a deeper level, machine learning is a form of **approximate physics**.
-
-Instead of deriving equations from first principles,  
-we infer them from data.
-
-This is particularly powerful when:
-
-- The system is too complex  
-- The physics is incomplete  
-- The data is abundant  
-
-This is why machine learning is becoming central to:
-
-- Stellar variability modeling  
-- Transmission spectroscopy  
-- Time-domain astronomy  
-
-</div>
-
----
-
-## Summary
-
-- Models represent patterns using parameters  
-- Loss functions measure how wrong a model is  
-- Optimization finds the best parameters  
-- Generalization ensures the model works on new data  
-- Machine learning is deeply connected to statistical inference  
-
----
-
-## Looking Ahead
-
-In the next chapter, we will explore:
-
-> **Different types of models — from linear regression to neural networks**
-
-— and how they shape what machines can learn.
+Choose a quadrature resolution by comparing predicted fluxes at successive refinements. Check the steepest parts of the transit first. Then ask whether a finer rule changes inferred quantities such as the impact parameter or radius ratio by a meaningful fraction of their uncertainty. Exposure integration addresses a numerical error in the forward model. Limb darkening, contaminating light, and a poorly characterized instrumental baseline remain separate sources of uncertainty. [Statistics: Forward and Inverse Models](#Statistics/Chapter2)

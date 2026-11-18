@@ -88,7 +88,8 @@ header {
 }
 
 .header-actions a { display: inline-flex; align-items: center; min-height: 44px; }
-.header-actions a:hover { color: #ffd0a4; }
+.header-actions a:hover,
+.header-actions a[aria-current="page"] { color: #ffd0a4; }
 
 .pill {
     display: inline-flex;
@@ -141,8 +142,7 @@ header {
 }
 
 .featured-copy { max-width: 31rem; }
-.featured-kicker { margin: 0 0 0.7rem; color: #f5c38b; font-size: 0.8rem; font-weight: 650; }
-.featured-book h1 {
+.featured-book :is(h1, h2) {
     margin: 0;
     font: 500 clamp(3rem, 7vw, 6rem) / 1 Georgia, serif;
     letter-spacing: -0.055em;
@@ -150,9 +150,10 @@ header {
 .featured-description { max-width: 28rem; color: #dbe6ef; font-size: 1.05rem; line-height: 1.55; }
 .featured-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.35rem; }
 
-.library { margin-top: clamp(2.25rem, 5vw, 4rem); scroll-margin-top: 84px; }
+.library { scroll-margin-top: 84px; }
+.page > .featured-book:last-child { margin-top: clamp(2.25rem, 5vw, 4rem); }
 .library-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
-.library-heading h2 { margin: 0; font: 500 clamp(1.55rem, 4vw, 2.3rem) Georgia, serif; }
+.library-heading h1 { margin: 0; font: 500 clamp(1.55rem, 4vw, 2.3rem) Georgia, serif; }
 .library-controls { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem; margin: 0.95rem 0; }
 .library-search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.35rem 0.5rem; width: min(100%, 28rem); }
 .library-search label { grid-column: 1 / -1; font-size: 0.86rem; font-weight: 650; color: var(--text); }
@@ -446,6 +447,33 @@ svg.lines {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
+}
+
+.featured-book.about-intro {
+    min-height: clamp(17rem, 30vw, 23rem);
+    align-items: center;
+    background:
+        radial-gradient(ellipse at 90% 20%, #263657 0%, transparent 65%),
+        #0d1727;
+}
+
+.about-intro .featured-copy { max-width: 45rem; }
+.about-intro h1 { font-size: clamp(2.45rem, 6vw, 4.5rem); }
+.about-intro .featured-description { max-width: 38rem; }
+.about.about-details { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.about-details .panel { scroll-margin-top: 84px; }
+.text-link { color: #ffd0a4; text-decoration: underline; text-underline-offset: 0.22em; }
+.text-link:hover { color: var(--text); }
+.page-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--panel-border);
+    color: var(--muted);
+    font-size: 0.88rem;
 }
 
 .panel {

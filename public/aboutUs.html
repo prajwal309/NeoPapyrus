@@ -1,537 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Us | NeoPapyrus</title>
-  <meta name="description" content="Learn about NeoPapyrus, a new way of reading and learning through interactive, layered scientific books." />
-  <style>
-    :root {
-      --bg: #f7f3ec;
-      --paper: #fffdf8;
-      --ink: #1e1e1b;
-      --muted: #6d665d;
-      --line: #ded6ca;
-      --gold: #b88a3b;
-      --deep: #1d3557;
-      --accent: #355c7d;
-      --shadow: 0 18px 45px rgba(35, 31, 24, 0.08);
-      --radius: 20px;
-      --max: 1120px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top, rgba(184,138,59,0.10), transparent 28%),
-        linear-gradient(180deg, #f9f6f0 0%, #f5f0e7 100%);
-      line-height: 1.7;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: min(92%, var(--max));
-      margin: 0 auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 253, 248, 0.78);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(222, 214, 202, 0.8);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      min-height: 76px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--deep), var(--gold));
-      color: white;
-      font-size: 1.1rem;
-      box-shadow: var(--shadow);
-    }
-
-    .brand-name {
-      font-size: 1.1rem;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      color: var(--muted);
-      font-size: 0.98rem;
-    }
-
-    .nav-links a:hover {
-      color: var(--ink);
-    }
-
-    .hero {
-      padding: 88px 0 56px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 34px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 16px;
-      padding: 6px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--accent);
-      background: rgba(255,255,255,0.65);
-      font-size: 0.9rem;
-      letter-spacing: 0.03em;
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 16px;
-      line-height: 1.15;
-      font-weight: 700;
-    }
-
-    h1 {
-      font-size: clamp(2.6rem, 5vw, 5rem);
-      letter-spacing: -0.03em;
-    }
-
-    .lead {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 62ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 20px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 0.98rem;
-      transition: 0.2s ease;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--deep), #27496d);
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      border-color: var(--line);
-      background: rgba(255,255,255,0.65);
-      color: var(--ink);
-    }
-
-    .hero-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,246,238,0.95));
-      border: 1px solid rgba(222, 214, 202, 0.9);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      inset: auto -20% -35% auto;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(184,138,59,0.18), transparent 70%);
-      pointer-events: none;
-    }
-
-    .book-shelf {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .book {
-      border-radius: 16px;
-      padding: 18px 14px;
-      min-height: 150px;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 14px 24px rgba(20, 20, 20, 0.12);
-    }
-
-    .book:nth-child(1) { background: linear-gradient(160deg, #1d3557, #457b9d); }
-    .book:nth-child(2) { background: linear-gradient(160deg, #6d3f1f, #b88a3b); }
-    .book:nth-child(3) { background: linear-gradient(160deg, #2b2d42, #4a4e69); }
-
-    .book small {
-      opacity: 0.85;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .book strong {
-      font-size: 1.05rem;
-      line-height: 1.25;
-    }
-
-    main section {
-      padding: 34px 0;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .section-title::before {
-      content: "";
-      width: 42px;
-      height: 2px;
-      background: var(--gold);
-      border-radius: 999px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-    }
-
-    .card {
-      background: rgba(255, 253, 248, 0.92);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 26px;
-    }
-
-    .card p:last-child,
-    .story p:last-child,
-    .lead:last-child {
-      margin-bottom: 0;
-    }
-
-    .mission-points {
-      display: grid;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .point {
-      display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 14px;
-      align-items: start;
-    }
-
-    .point-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: rgba(53, 92, 125, 0.1);
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .story {
-      column-count: 1;
-    }
-
-    .values {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .value {
-      padding: 20px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--line);
-    }
-
-    .value h3 {
-      font-size: 1.05rem;
-      margin-bottom: 8px;
-    }
-
-    .timeline {
-      position: relative;
-      margin-top: 18px;
-      padding-left: 26px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      top: 6px;
-      bottom: 6px;
-      width: 2px;
-      background: linear-gradient(180deg, var(--gold), rgba(184,138,59,0.1));
-    }
-
-    .step {
-      position: relative;
-      padding-left: 18px;
-    }
-
-    .step::before {
-      content: "";
-      position: absolute;
-      left: -2px;
-      top: 7px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 0 5px rgba(184,138,59,0.12);
-    }
-
-    .quote {
-      font-size: 1.25rem;
-      line-height: 1.55;
-      color: var(--deep);
-      font-style: italic;
-      margin: 0;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .stat {
-      padding: 20px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(248,243,234,0.95));
-      border: 1px solid var(--line);
-      text-align: center;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 2rem;
-      color: var(--deep);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .cta {
-      padding: 36px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, #1d3557, #2f506f 55%, #7b5a2f 110%);
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .cta p {
-      color: rgba(255,255,255,0.86);
-      max-width: 58ch;
-    }
-
-    footer {
-      padding: 36px 0 60px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      border-top: 1px solid var(--line);
-      padding-top: 22px;
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .grid-2,
-      .values,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .book-shelf {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .nav {
-        flex-direction: column;
-        justify-content: center;
-        padding: 14px 0;
-      }
-
-      .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 14px;
-      }
-
-      .hero {
-        padding-top: 54px;
-      }
-
-      h1 {
-        font-size: clamp(2.2rem, 12vw, 3.6rem);
-      }
-
-      .hero-actions,
-      .footer-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .cta {
-        padding: 28px;
-      }
-    }
-  </style>
+  <meta name="description" content="Learn about NeoPapyrus, its interactive science books, and the people behind them." />
+  <link rel="stylesheet" href="/css/landingPage.css" />
 </head>
 <body>
   <header>
-    <div class="container nav">
-      <a href="/" class="brand" aria-label="NeoPapyrus library">
-        <div class="brand-mark">N</div>
-        <div class="brand-name">NeoPapyrus</div>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="/">Library</a>
-        <a href="#prajwal">Prajwal Niraula</a>
-        <a href="#nepal">Education in Nepal</a>
+    <div class="header-inner">
+      <a class="wordmark" href="/">NeoPapyrus</a>
+      <nav class="header-actions" aria-label="Main navigation">
+        <a href="/#library">Library</a>
+        <a href="/aboutUs.html" aria-current="page">About Us</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <h1>About NeoPapyrus</h1>
-          <p class="lead">
-            NeoPapyrus is a library of interactive science and mathematics books.
-            Start with the main explanation, then use the reading settings to
-            reveal more detail or hide equations as you read.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="/book.html?book=Exoplanets">Read Exoplanets</a>
-            <a class="btn btn-secondary" href="/">Browse the library</a>
-          </div>
+  <main class="page">
+    <section class="featured-book about-intro" aria-labelledby="about-title">
+      <div class="featured-copy">
+        <h1 id="about-title">About NeoPapyrus</h1>
+        <p class="featured-description">
+          NeoPapyrus is a library of interactive science and mathematics books.
+          Start with the main explanation, then use the reading settings to
+          reveal more detail or hide equations as you read.
+        </p>
+        <div class="featured-actions">
+          <a class="pill pill-primary" href="/book.html?book=Exoplanets">Read Exoplanets <span aria-hidden="true">→</span></a>
+          <a class="pill" href="/#library">Browse the library</a>
         </div>
-
-        <aside class="hero-card">
-          <h2>Pause a planet mid-orbit</h2>
-          <p>
-            A small perk of doing astronomy in a browser. In <em>Exoplanets</em>,
-            you can scrub through an orbit to see why a planet speeds up near its star.
-          </p>
-          <a href="/book.html?book=Exoplanets#Chapter2">Try the orbit demo →</a>
-        </aside>
       </div>
     </section>
 
-    <section>
-      <div class="container grid-2">
-        <article class="card" id="prajwal">
-          <div class="section-title"><h2>Prajwal Niraula</h2></div>
-          <p>
-            Prajwal started NeoPapyrus to make technical subjects easier to explore.
-            He earned his PhD in Earth, Atmospheric, and Planetary Sciences at MIT
-            and studies what starlight can tell us about the atmospheres of exoplanets.
-            <a href="https://dspace.mit.edu/entities/publication/2c5e36dd-967e-4dfa-8691-cc530b313b66">Read his research</a>.
-          </p>
-        </article>
+    <section class="about about-details" aria-label="People and education">
+      <article class="panel" id="prajwal">
+        <h2>Prajwal Niraula</h2>
+        <p>
+          Prajwal started NeoPapyrus to make technical subjects easier to explore.
+          He earned his PhD in Earth, Atmospheric, and Planetary Sciences at MIT
+          and studies what starlight can tell us about the atmospheres of exoplanets.
+        </p>
+        <a class="text-link" href="https://dspace.mit.edu/entities/publication/2c5e36dd-967e-4dfa-8691-cc530b313b66">Read his research</a>
+      </article>
 
-        <article class="card" id="nepal">
-          <div class="section-title"><h2>Education in Nepal</h2></div>
-          <p>
-            Prajwal wants to devote more time to science education in Nepal.
-            He is interested in building resources that students can explore
-            at their own pace and teachers can use alongside their lessons.
-          </p>
-        </article>
-      </div>
+      <article class="panel" id="nepal">
+        <h2>Education in Nepal</h2>
+        <p>
+          Prajwal wants to devote more time to science education in Nepal.
+          He is interested in building resources that students can explore
+          at their own pace and teachers can use alongside their lessons.
+        </p>
+      </article>
+
+      <aside class="panel">
+        <h2>Pause a planet mid-orbit</h2>
+        <p>
+          A small perk of doing astronomy in a browser. In <em>Exoplanets</em>,
+          you can scrub through an orbit to see why a planet speeds up near its star.
+        </p>
+        <a class="text-link" href="/book.html?book=Exoplanets#Chapter2">Try the orbit demo <span aria-hidden="true">→</span></a>
+      </aside>
     </section>
+
+    <footer class="page-footer">
+      <span>© 2026 NeoPapyrus</span>
+      <a class="text-link" href="mailto:hello@neopapyrus.com">Contact us</a>
+    </footer>
   </main>
-
-  <footer>
-    <div class="container footer-row">
-      <div>© 2026 NeoPapyrus</div>
-      <a href="mailto:hello@neopapyrus.com">Contact us</a>
-    </div>
-  </footer>
 </body>
 </html>

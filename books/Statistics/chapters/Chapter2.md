@@ -1,141 +1,41 @@
-# Chapter 2 — Models  
-*How do we connect theory to observations?*
+# Chapter 2 — Forward and Inverse Models
 
-In science we rarely observe the universe directly in the form we wish. Instead, we measure signals: light from distant stars, chemical concentrations in the atmosphere, or patterns in a dataset. From these signals we attempt to infer the underlying system that produced them.
+## 2.1 Predict what the instrument would record
 
-To make this connection between **observations** and **underlying reality**, scientists use **models**.
+A **forward model** starts with a proposed physical system and predicts the observations. For an exoplanet transit, the physical parameters describe the orbit, planet size, and stellar surface brightness. The observing model evaluates that transit at the measured timestamps, averages it over exposures, and includes relevant effects such as light from nearby stars or a changing instrumental baseline. A fit should compare observations with predictions in the same units and at the same cadence. [Mandel & Agol (2002)](https://doi.org/10.1086/345520) · [Numerical Methods: Exposure Integration](#NumericalMethods/Chapter2)
 
-A model is a mathematical or computational representation of how a system behaves. Models allow us to ask questions such as:
+An **inverse problem** starts from the measurements and asks which physical parameters could have produced them. The answer is usually a range, because noise and systematic effects leave several plausible parameter combinations. Write the data as $y_i=m_i(\boldsymbol\theta)+\epsilon_i$. The model prediction $m_i$ depends on parameters $\boldsymbol\theta$. The term $\epsilon_i$ represents deviations such as detector noise or unmodeled variability. The structure of those deviations determines how much the measurements can tell you. [Statistics: Likelihood and Uncertainty](#Chapter3)
 
-- If the atmosphere contained methane and oxygen, what would the spectrum look like?
-- If a star had large starspots, how would its brightness change?
-- If a planet existed around a star, how would its transit appear in the light curve?
+## 2.2 Worked example: two models with the same transit depth
 
-In this chapter we introduce three key ideas:
+Imagine a uniform-brightness star and a planet that fully crosses its disk. Let $k=R_p/R_\star$ be the radius ratio. If the target supplies a fraction $D$ of the total aperture flux and nearby light supplies the rest, the observed depth is approximately
 
-- **Forward Modeling**
-- **Inverse Modeling**
-- **Degeneracy**
+$$
+\delta_{\rm obs}=Dk^2.
+$$
 
-These concepts form the foundation of how modern data-driven science works.
+A measured depth of 8,000 ppm can arise from an undiluted transit with $k=\sqrt{0.008}\approx0.0894$. It can also arise from a larger planet with $k=0.10$ when the target contributes 80% of the recorded light. In both cases the forward model gives the same depth. Measuring that depth more precisely still leaves the two explanations tied in this simplified model. A separate measurement of nearby light can constrain $D$. The detailed light-curve shape can also provide information if the geometry and stellar brightness profile are modeled. [Transits and Occultations](#Exoplanets/Chapter3) · [Morton & Johnson (2011)](https://doi.org/10.1088/0004-637X/738/2/170)
 
----
+This is an example of **non-identifiability**. The data constrain the combination $Dk^2$ while leaving $D$ and $k$ individually unresolved. Plotting their joint uncertainty would show a ridge of solutions. An independent observation that constrains one parameter can narrow the range of the other. If the independent observation is itself uncertain, include it as a measurement or an informed prior rather than fixing the parameter at its nominal value.
 
-# 2.1 Forward Modeling
+## 2.3 Change the model when the scientific question changes
 
-Forward modeling starts with **assumptions about a system** and predicts what we should observe.
+| Dataset | Physical parameters of interest | Effects to include or test |
+| --- | --- | --- |
+| Transit light curve | Period, radius ratio, impact parameter | Stellar limb darkening, dilution, exposure averaging, baseline drift |
+| Radial velocities | Semi-amplitude, period, eccentricity | Instrument offsets, stellar activity, uneven sampling |
+| Transmission spectrum | Atmospheric temperature, composition, clouds | Stellar contamination, wavelength binning, reference pressure, opacity |
 
-In other words:
+These effects often depend on **nuisance parameters**. An instrument zero point is not the planet mass, but it still matters for the mass estimate. Fit and propagate uncertainties in nuisance parameters when they can affect the scientific inference. Transit and radial-velocity data constrain different aspects of the same orbit. A joint fit can share relevant orbital parameters while retaining a separate observing model for each dataset. [Espinoza, Kossakowski & Brahm (2019), juliet](https://doi.org/10.1093/mnras/stz2688)
 
-> **Given a model of the world, what signal should it produce?**
+<div data-level="201">
 
-For example:
+### From two measured bins to a scientific claim
 
-Suppose we assume a planet’s atmosphere contains:
+Published JWST measurements of WASP-39 b give a transit depth of about $22{,}705\pm119$ ppm at $4.326\,\mu\mathrm{m}$ and $20{,}965\pm101$ ppm at $3.891\,\mu\mathrm{m}$. The difference is about **1,740 ppm**. If the quoted errors were independent, its standard deviation would be about **156 ppm**. Shared calibration or modeling can correlate the errors, so use the covariance when available. These two points illustrate the measured contrast. Identifying CO₂ uses the shape and wavelength of the band across multiple bins and compares alternative opacities. Inferring an absolute abundance requires additional atmospheric assumptions. [Espinoza et al. (2024)](https://doi.org/10.1038/s41586-024-07768-4) · [Published data table](https://github.com/nespinoza/wasp39-terminators/blob/57587796023fee9051121ea17d435f0ad6852589/figure2/catwoman_tspec_res100_priorlds.txt) · [Transmission Spectroscopy](#Exoplanets/Chapter4)
 
-- Water vapor  
-- Carbon dioxide  
-- Methane  
+</div>
 
-A **forward model** uses physics and chemistry to compute the expected spectrum that such an atmosphere would produce.
+## 2.4 Test the predictions the model leaves behind
 
-The process looks like this:
-Model parameters → Physical model → Predicted observation
-
-
-Example parameters might include:
-
-- Temperature
-- Chemical composition
-- Cloud properties
-- Surface pressure
-
-From these inputs the model generates an observable signal such as:
-
-- a spectrum  
-- a light curve  
-- an image  
-
-Forward models are powerful because they encode **our understanding of physical laws**.
-
-However, forward modeling alone does not solve the central scientific problem: we still need to determine which model best explains the data.
-
----
-
-# 2.2 Inverse Modeling
-
-Inverse modeling attempts to solve the opposite problem:
-
-> **Given an observation, what model produced it?**
-
-Instead of predicting the signal from a model, we try to **infer the model from the signal**.
-
-The process looks like this:
-Observation → Model inference → Estimated parameters
-
-
-For example:
-
-From a measured transmission spectrum of an exoplanet, we might try to infer:
-
-- Atmospheric composition
-- Temperature structure
-- Cloud coverage
-
-This process is called **retrieval** in many fields.
-
-Inverse modeling is fundamentally more difficult than forward modeling because the relationship between parameters and observations is often complex and nonlinear.
-
-Many different models may produce very similar observations.
-
----
-
-# 2.3 The Problem of Degeneracy
-
-One of the central challenges in inverse modeling is **degeneracy**.
-
-Degeneracy occurs when **multiple different models produce nearly identical observations**.
-
-For example:
-
-- A spectrum with muted absorption features might indicate **clouds** in the atmosphere.
-- But it might also indicate **lower molecular abundance**.
-- Or it might result from **stellar contamination**.
-
-All three models could reproduce the same observed spectrum.
-
-This means the data alone may not uniquely determine the correct explanation.
-
-Degeneracy is common in many areas of science:
-
-- Climate modeling
-- Cosmology
-- Medical imaging
-- Exoplanet atmospheric retrievals
-
-When degeneracy occurs, scientists must rely on additional information:
-
-- independent observations  
-- physical constraints  
-- prior knowledge  
-- new measurement techniques  
-
-Breaking degeneracies is one of the main motivations behind designing better instruments and collecting more precise data.
-
----
-
-# 2.4 Why Models Matter
-
-Models allow us to translate observations into understanding.
-
-Without models, data remain just numbers. With models, they become interpretations of the physical world.
-
-But models also introduce challenges:
-
-- Forward models depend on assumptions.
-- Inverse modeling may not produce unique answers.
-- Degeneracy can hide the true explanation behind many plausible alternatives.
-
-Learning how to build, test, and interpret models is therefore one of the most important skills in modern science.
-
-In the next chapters, we will explore how models interact with data, and how scientists use statistical tools to decide which explanations are most plausible.
+Compare the model and data in time or wavelength order. Residuals that grow during ingress could point to cadence or limb darkening. Residuals that repeat with stellar rotation could point to activity. A model may fit the data and still assign the wrong explanation if it omits a plausible alternative. Test it on simulated data with known parameters and, when possible, a different observing epoch. A useful model says both what it explains and what evidence could change the result. [Blunt et al. (2023)](https://doi.org/10.3847/1538-3881/acde78)

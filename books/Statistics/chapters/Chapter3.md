@@ -1,164 +1,70 @@
-# Chapter 3 — Likelihood Function  
-*How do we quantify belief from data?*
+# Chapter 3 — Likelihood and Uncertainty
 
-In the previous chapter, we saw that models allow us to connect physical systems to observations. But when multiple models can explain the same data, we need a systematic way to decide:
+## 3.1 Which proposed signal explains the measurements?
 
-> **Which model is more plausible given the data?**
+Suppose two transit visits give different estimates of the same transit depth. One visit has lower noise. If both instruments share a reliable calibration and the depth is stable, the more precise visit should carry more weight. A **likelihood** is the probability density or probability mass of the observed data under a proposed model, viewed as a function of the model parameters. It ranks how well different parameter values predict the measurements under a stated noise model.
 
-This is where probability enters.
+For independent Gaussian measurements $y_i$ with standard deviations $\sigma_i$ and model predictions $m_i(\boldsymbol\theta)$,
 
-Rather than asking *“Which model is correct?”*, we instead ask:
+$$
+\ln \mathcal L(\boldsymbol\theta)
+=-\frac12\sum_i
+\left[
+\frac{[y_i-m_i(\boldsymbol\theta)]^2}{\sigma_i^2}
++\ln(2\pi\sigma_i^2)
+\right].
+$$
 
-> **“How likely is this model, given what we observed?”**
+When the uncertainties are fixed, maximizing this likelihood is equivalent to minimizing the weighted sum of squared residuals. If the noise parameters are fitted too, keep the logarithmic normalization. Otherwise increasing the assumed noise would always reduce the weighted residual term. [Numerical Methods: Least Squares](#NumericalMethods/Chapter3)
 
-This shift in thinking forms the foundation of **statistical inference**.
+## 3.2 Worked likelihood: combine two visits
 
-In this chapter, we introduce two essential ideas:
+Take two synthetic measurements of the same depth: $400\pm100$ ppm and $600\pm200$ ppm. Under the independent Gaussian model, the maximum-likelihood depth is the inverse-variance weighted mean:
 
-- **Prior**
-- **Likelihood**
+$$
+\widehat{\delta}
+=\frac{\sum_i y_i/\sigma_i^2}{\sum_i 1/\sigma_i^2},
+\qquad
+\sigma_{\widehat{\delta}}
+=\left(\sum_i 1/\sigma_i^2\right)^{-1/2}.
+$$
 
-Together, these form the building blocks of modern inference frameworks used across science, including exoplanet atmospheric retrievals, where you often combine **physical models (forward models)** with **data (spectra, light curves)**.
+The first visit has four times the weight of the second. The result is **440 ± 89 ppm**, compared with the unweighted mean of 500 ppm. This calculation assumes both visits measure the same depth and all relevant noise is captured by the quoted uncertainties. A shared stellar or calibration error does not average away like independent noise.
 
----
+**Check your reasoning.** If both visits also share a 60 ppm Gaussian zero-point uncertainty, independent of the individual errors, add that common variance after taking the weighted mean. The central estimate remains 440 ppm and the uncertainty becomes $\sqrt{89.4^2+60^2}\approx108$ ppm. Collecting more visits with the same offset cannot shrink that contribution.
 
-# 3.1 The Prior  
-*What do we believe before seeing the data?*
+## 3.3 Add a prior to obtain a posterior
 
-A **prior** represents our knowledge (or assumptions) about a system **before** we look at the data.
+A **prior** describes which parameter values are plausible before including these particular data. A **posterior** combines it with the likelihood:
 
-It answers the question:
+$$
+p(\boldsymbol\theta\mid y)
+=\frac{p(y\mid\boldsymbol\theta)\,p(\boldsymbol\theta)}{p(y)}.
+$$
 
-> **What do we think is possible, or likely, before observing anything?**
+For instance, a transit ephemeris measured from an independent photometric dataset can inform the period and phase of an RV fit. For a low-amplitude candidate, the eccentricity prior can substantially change the mass uncertainty. Uniformity is parameterization-dependent: a prior that is uniform in period gives different weight across orbits than a prior that is uniform in log period. Specify the parameter and range. If the data used to construct the prior are also part of the fit, include those observations only once.
 
-Priors can come from:
+A **credible interval** summarizes posterior probability within a stated range for the parameter, conditional on the data and model assumptions. A wide or asymmetric posterior is often more informative than a symmetric error bar around one maximum. For a weak signal, provide an upper limit or describe the full uncertainty rather than retaining only apparently precise estimates. Cuts on mass significance can bias population analyses. [Fulton et al. (2018)](https://doi.org/10.1088/1538-3873/aaaaa8) · [Burt et al. (2018)](https://doi.org/10.3847/1538-3881/aae697)
 
-- Previous studies  
-- Physical constraints  
-- Theoretical expectations  
-- Population-level trends  
+<div data-level="301">
 
-### Examples
+### When the measurements have correlated noise
 
-- The radius of a planet must be **positive** → a basic physical prior  
-- Spot temperatures on K dwarfs are typically within a certain range → an empirical prior  
-- Metallicity distributions of stars follow observed Galactic trends → a population prior  
+Let $\mathbf r$ be the residual vector and $C$ the covariance matrix. The log likelihood is
 
-In your own work (e.g., Roman or HST stellar contamination studies), priors might include:
+$$
+\ln\mathcal L=-\frac12
+\left[\mathbf r^\mathsf{T}C^{-1}\mathbf r+\ln\det C+N\ln(2\pi)\right],
+$$
 
-- Expected spot temperature contrasts  
-- Reasonable filling factor ranges  
-- Constraints from photometric variability  
+where $N$ is the number of measurements. An off-diagonal term represents two residuals that tend to move together. Stellar activity can correlate RVs taken near each other in time, and shared instrumental calibration can correlate spectral bins. Evaluate the quadratic form and determinant using a matrix factorization rather than explicitly forming the inverse. Test plausible covariance models and compare how inference changes. Gaussian processes encode possible covariance structures, but an overly flexible activity model can absorb a real planet signal. Withheld observations and injected-signal tests help diagnose that failure. [Rajpaul et al. (2015)](https://doi.org/10.1093/mnras/stv1428) · [Blunt et al. (2023)](https://doi.org/10.3847/1538-3881/acde78) · [Radial Velocity: Stellar Activity](#Exoplanets/Chapter5)
 
-Priors are not arbitrary—they encode **existing knowledge**.
+</div>
 
----
+## 3.4 Compare explanations and check predictions
 
-# 3.2 The Likelihood  
-*How well does the model explain the data?*
+Finding the best fit within a planet model answers a different question from deciding whether the data favor a planet over stellar activity. Compare credible alternatives using the same measurements and units. In a Bayesian comparison, **evidence** is the likelihood integrated over the parameter prior. Its value therefore depends on the prior range as well as the quality of the fit. A **posterior predictive check** simulates data from plausible fitted parameters at the observed cadence and asks whether those simulations resemble the measured residual structure, scatter, or transit shape. Observations held out of the fit offer a separate test of predictive performance. [Espinoza, Kossakowski & Brahm (2019)](https://doi.org/10.1093/mnras/stz2688) · [Blunt et al. (2023)](https://doi.org/10.3847/1538-3881/acde78)
 
-The **likelihood** measures how well a given model reproduces the observed data.
+When reporting a result, state which observations set the constraint, which assumptions control the uncertainty, and which plausible alternatives remain. This is especially important when evidence for a molecule in a spectrum is used to make a stronger claim about its source. [Exoplanets: Biosignatures](#Exoplanets/Chapter6)
 
-It answers the question:
-
-> **If this model were true, how probable is the data we observed?**
-
-Mathematically, we write:
-
-\[
-\mathcal{L}(\theta) = P(\text{data} \mid \theta)
-\]
-
-where:
-
-- \( \theta \) represents model parameters  
-- \( \mathcal{L} \) is the likelihood  
-
-### Intuition
-
-- A model that closely matches the data → **high likelihood**  
-- A model that poorly matches the data → **low likelihood**
-
-### Example (Exoplanet Context)
-
-Suppose we model a transmission spectrum.
-
-- If the model spectrum matches observed features (e.g., water absorption) → high likelihood  
-- If the model fails to reproduce key features → low likelihood  
-
-In practice, likelihoods often depend on assumptions about noise, such as Gaussian uncertainties.
-
----
-
-# 3.3 Prior vs Likelihood
-
-These two components play very different roles:
-
-| Concept | Role |
-|---|---|
-| **Prior** | Encodes what we believed before seeing the data |
-| **Likelihood** | Measures how well the model explains the data |
-
-A useful way to think about it:
-
-- The **prior** shapes *where we are willing to look*  
-- The **likelihood** tells us *what the data prefer*  
-
----
-
-# 3.4 Why This Matters
-
-In many real problems, especially in astrophysics, data alone are not enough to uniquely determine the answer.
-
-Recall from Chapter 2:
-
-> **Degeneracy means multiple models can explain the same data.**
-
-This is where priors become essential.
-
-For example:
-
-- A cloudy atmosphere and a low-abundance atmosphere may produce similar spectra  
-- But prior knowledge about cloud physics or chemistry may favor one interpretation  
-
-Similarly, likelihood ensures we remain grounded in the data:
-
-- Even a physically plausible model must still **fit the observations**
-
----
-
-# 3.5 Toward a Unified Framework
-
-Priors and likelihoods come together in a powerful framework (which we will explore in the next chapter):
-
-> **Bayesian inference**
-
-In that framework, we combine:
-
-- What we believed (**prior**)  
-- What the data say (**likelihood**)  
-
-to obtain:
-
-- What we should believe now (**posterior**)  
-
-This approach underlies modern retrieval techniques used in:
-
-- Exoplanet atmospheres  
-- Cosmology  
-- Machine learning  
-- Medical diagnostics  
-
----
-
-# 3.6 A Final Perspective
-
-At its core, statistical inference is about updating belief.
-
-- We start with assumptions (priors)  
-- We confront them with reality (data)  
-- We evaluate how well they explain observations (likelihood)  
-
-And from this process, we move closer to understanding the true nature of the system.
-
-In the next chapter, we will bring these ideas together formally and see how they lead to one of the most powerful tools in modern science.
+Continue with [Gaussian Processes](#Chapter4) to model correlated residuals, then see [Time Series and Aliases](#Chapter5), [Posterior Sampling and Model Checks](#Chapter6), and [Hierarchical Models and Planet Occurrence](#Chapter7).

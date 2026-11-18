@@ -1,368 +1,72 @@
-# Chapter 3 — Models of Learning: From Lines to Neural Networks
+# Chapter 3 — Least Squares and Radial-Velocity Fitting
 
----
+## 3.1 One orbit, two instruments
 
-## 3.1 What is a Model, Really?
+Two spectrographs observe a star whose transiting planet has a known period. Each instrument has a different velocity zero point, and their measurements have different uncertainties. For a circular orbit of known period $P$, a useful model is
 
-<div data-level="101">
+$$
+v(t_i)=A\sin(2\pi t_i/P)+B\cos(2\pi t_i/P)+\gamma_{j(i)}.
+$$
 
-In the previous chapter, we learned that machines learn by adjusting models.
+The index $j(i)$ identifies the instrument for observation $i$. The sine and cosine allow an arbitrary phase. The velocity semi-amplitude is $K=\sqrt{A^2+B^2}$. Fixing the period makes the prediction linear in $A$, $B$, and the offsets, even though the velocity changes nonlinearly in time. See [The Radial Velocity Method](#Exoplanets/Chapter5) for the eccentric-orbit model.
 
-But what *kind* of models can we use?
+## 3.2 Build the design matrix
 
-Some are simple — like straight lines.  
-Others are complex — like deep neural networks.
+Build one row of a **design matrix** $X$ per observation. List the sine, cosine, and one indicator per instrument in that row. A row for instrument A ends in $(1,0)$, and a row for B ends in $(0,1)$. The model predictions are $X\boldsymbol\beta$, where $\boldsymbol\beta$ holds the coefficients.
 
-Each model is like a different lens on reality.  
-Some capture simple patterns. Others reveal hidden structure.
+With independent Gaussian measurement errors of standard deviation $\sigma_i$, estimate the coefficients by minimizing
 
-Choosing a model is like choosing a telescope:
+$$
+\chi^2=\sum_i\left[\frac{v_i-(X\boldsymbol\beta)_i}{\sigma_i}\right]^2.
+$$
 
-- A small one shows bright stars  
-- A powerful one reveals distant galaxies  
+Divide both the observed velocity and its whole matrix row by $\sigma_i$ before solving. A point with half the uncertainty gets four times the weight. An additional constant column would equal the sum of the two instrument columns, so its coefficient could not be determined independently.
 
-</div>
+## 3.3 Worked fit: recover a five-metre-per-second signal
 
----
-
-<div data-level="201">
-
-A model defines a functional form:
-
-\[
-f_\theta(x)
-\]
-
-Different models correspond to different assumptions about the data.
-
-Examples:
-
-- Linear models → assume straight-line relationships  
-- Polynomial models → allow curvature  
-- Neural networks → highly flexible, nonlinear mappings  
-
-The choice of model determines:
-
-- What patterns can be learned  
-- How well the model generalizes  
-- How interpretable the results are  
-
-</div>
-
----
-
-<div data-level="301">
-
-Model selection can be viewed as choosing a hypothesis space:
-
-\[
-\mathcal{H} = \{ f_\theta \}
-\]
-
-The complexity of this space determines:
-
-- Expressivity (ability to fit complex data)  
-- Risk of overfitting  
-
-In astrophysics, this is analogous to choosing:
-
-- A 1-component stellar model vs multi-component model  
-- A simple transit model vs full dynamical model  
-
-Machine learning generalizes this idea to flexible function approximators.
-
-</div>
-
----
-
-## 3.2 Linear Models: The Simplest Learners
-
-<div data-level="101">
-
-The simplest model is a straight line:
-
-\[
-y = mx + b
-\]
-
-It tries to explain data using a simple relationship.
-
-Even though it is simple, it can be surprisingly powerful.
-
-</div>
-
----
+The synthetic eight-day orbit below has injected coefficients $A=4$ and $B=3$ m/s, so $K=5$ m/s. The instrument offsets are 2 and −3 m/s. Instrument B has twice the stated uncertainty of A. This exercise assumes a quiet star and a known period.
 
 <div data-level="201">
 
-In higher dimensions, linear models take the form:
+### Programming exercise: fit and inspect the residuals
 
-\[
-f(x) = w^T x + b
-\]
+Run with Python 3 and NumPy. The noise values are explicit so every run uses the same dataset.
 
-where:
+~~~python
+import numpy as np
 
-- \(x\) = input vector  
-- \(w\) = weights  
-- \(b\) = bias  
+time = np.array([0, 2, 4, 6, 1, 3, 5, 7], dtype=float)
+instrument_b = np.array([False] * 4 + [True] * 4)
+sigma = np.where(instrument_b, 2.0, 1.0)
+angle = 2 * np.pi * time / 8
+X = np.column_stack([
+    np.sin(angle), np.cos(angle), ~instrument_b, instrument_b,
+])
+injected = np.array([4.0, 3.0, 2.0, -3.0])
+noise = np.array([0.2, -0.4, 0.3, 0.1, -0.5, 0.6, -0.2, 0.3])
+velocity = X @ injected + noise
 
-These models are fast, interpretable, and often serve as baselines.
+fit, _, rank, singular_values = np.linalg.lstsq(
+    X / sigma[:, None], velocity / sigma, rcond=None
+)
+assert rank == X.shape[1]
+residual = velocity - X @ fit
+print(f"K = {np.hypot(fit[0], fit[1]):.2f} m/s")
+print(f"Offsets = {fit[2]:.2f}, {fit[3]:.2f} m/s")
+print(f"Chi-squared = {np.sum((residual / sigma)**2):.2f}")
+~~~
 
-</div>
-
----
-
-<div data-level="301">
-
-Linear models assume that the data lies in a linear subspace.
-
-Extensions include:
-
-- Ridge regression (L2 regularization)  
-- Lasso regression (L1 regularization)  
-- Logistic regression (classification)
-
-Despite their simplicity, linear models are often effective in:
-
-- High signal-to-noise regimes  
-- Low-complexity systems  
-
-In exoplanet science, linear models appear in:
-
-- Trend removal in light curves  
-- Linear basis models for systematics correction  
+The fitted amplitude is close to 5 m/s. Set the noise to zero and verify that the fit recovers the injected coefficients. Next, set the times to just one repeated phase per instrument. The matrix loses rank because the observations cannot distinguish the orbital signal from the instrument offsets. Additional visits at the same phase do not resolve that degeneracy.
 
 </div>
 
----
+<figure class="orbit-figure">
+  <img src="/books/Exoplanets/chapters/figures/radial-velocity-fit.svg" alt="Synthetic velocities from two instruments in time, then folded by phase after offset correction, followed by residuals after subtracting the model.">
+  <figcaption>A separate synthetic example with irregular observing times. The top panel shows the velocity zero points. The middle panel shows the shared orbit after offset correction. The bottom panel shows the residuals. From <a href="/book.html?book=Exoplanets#Chapter5">Exoplanets, Chapter 5</a>.</figcaption>
+</figure>
 
-## 3.3 Beyond Lines: Nonlinear Models
+## 3.4 What the optimizer cannot fix
 
-<div data-level="101">
+Use a QR- or singular-value-based least-squares solver rather than explicitly inverting the normal equations. Forming $X^\mathsf{T}X$ squares the condition number, making poorly separated coefficients harder to recover numerically. Inspect the rank and singular values of the weighted matrix. An observing program with gaps in orbital phase can constrain some combinations of parameters well and leave others essentially free.
 
-Not all patterns are straight.
-
-Planets orbit in curves.  
-Light curves have dips and shapes.  
-Spectra have complex features.
-
-To capture this, we need **nonlinear models**.
-
-</div>
-
----
-
-<div data-level="201">
-
-Examples include:
-
-- Polynomial regression  
-- Decision trees  
-- Kernel methods  
-
-These allow the model to bend and adapt to the data.
-
-</div>
-
----
-
-<div data-level="301">
-
-Nonlinear models expand the hypothesis space:
-
-\[
-f(x) = \sum_i \alpha_i K(x, x_i)
-\]
-
-in kernel methods, where \(K\) defines similarity.
-
-Decision trees partition feature space into regions, enabling:
-
-- Nonlinear decision boundaries  
-- Interaction between variables  
-
-These models are useful when:
-
-- Relationships are complex  
-- Interpretability is still desired  
-
-</div>
-
----
-
-## 3.4 Neural Networks: Learning Complex Representations
-
-<div data-level="101">
-
-Neural networks are inspired by the brain.
-
-They take inputs, pass them through layers, and produce outputs.
-
-Each layer transforms the data slightly — until patterns emerge.
-
-</div>
-
----
-
-<div data-level="201">
-
-A neural network consists of layers:
-
-\[
-h = \sigma(Wx + b)
-\]
-
-where:
-
-- \(W\) = weights  
-- \(b\) = bias  
-- \(\sigma\) = activation function  
-
-Stacking layers creates deep models:
-
-\[
-f(x) = f_L(f_{L-1}(...f_1(x)))
-\]
-
-</div>
-
----
-
-<div data-level="301">
-
-Neural networks are **universal function approximators**.
-
-They can model highly complex, nonlinear relationships.
-
-Key concepts:
-
-- Depth → number of layers  
-- Width → number of neurons  
-- Activation functions → introduce nonlinearity  
-
-In astrophysics, neural networks are used for:
-
-- Transit detection  
-- Spectral retrieval emulation  
-- Stellar variability modeling  
-
-However, they require:
-
-- Large datasets  
-- Careful regularization  
-- Computational resources  
-
-</div>
-
----
-
-## 3.5 Choosing the Right Model
-
-<div data-level="101">
-
-There is no single best model.
-
-The right model depends on the problem.
-
-</div>
-
----
-
-<div data-level="201">
-
-Tradeoffs include:
-
-- Simplicity vs flexibility  
-- Interpretability vs performance  
-- Speed vs accuracy  
-
-A good approach:
-
-1. Start simple  
-2. Increase complexity if needed  
-3. Validate on new data  
-
-</div>
-
----
-
-<div data-level="301">
-
-Model selection can be formalized using:
-
-- Cross-validation  
-- Information criteria (AIC, BIC)  
-- Bayesian model comparison  
-
-In scientific contexts, interpretability is often critical.
-
-For example:
-
-- A simple model may reveal physical insight  
-- A complex model may provide better predictions but less understanding  
-
-Balancing these is a central challenge in machine learning for science.
-
-</div>
-
----
-
-## 3.6 A Physical Analogy
-
-<div data-level="101">
-
-A model is like a map.
-
-Some maps show only roads.  
-Others show terrain, weather, and depth.
-
-</div>
-
----
-
-<div data-level="201">
-
-Simple models are like sketches.  
-Complex models are like detailed simulations.
-
-</div>
-
----
-
-<div data-level="301">
-
-Ultimately, all models are approximations.
-
-The goal is not to perfectly represent reality,  
-but to capture the aspects that matter for the problem at hand.
-
-In exoplanet science, this means:
-
-- Capturing transit signals  
-- Modeling stellar contamination  
-- Interpreting atmospheric spectra  
-
-Machine learning provides a flexible framework to do all three.
-
-</div>
-
----
-
-## Summary
-
-- Models define how machines represent patterns  
-- Linear models are simple and interpretable  
-- Nonlinear models capture complex relationships  
-- Neural networks enable highly flexible learning  
-- Choosing the right model is a balance of tradeoffs  
-
----
-
-## Looking Ahead
-
-In the next chapter, we will explore:
-
-> **How data shapes learning — features, representations, and preprocessing**
-
-— the bridge between raw observations and meaningful patterns.
+When period or eccentricity is unknown, search over those parameters and solve for the linear coefficients at each trial where the model permits it. Daily and seasonal observing patterns can create aliases, so compare the best periods at the actual observing times. If stellar variability correlates measurement errors, the simple diagonal weights need to be replaced by a covariance model. Look at the time series, the phase-folded curve, and the residuals before treating the fitted semi-amplitude as a planet mass. [Dawson & Fabrycky (2010)](https://doi.org/10.1088/0004-637x/722/1/937) · [Fulton et al. (2018), RadVel](https://doi.org/10.1088/1538-3873/aaaaa8) · [Statistics: Likelihood and Uncertainty](#Statistics/Chapter3)

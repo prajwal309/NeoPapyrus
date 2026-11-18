@@ -18,21 +18,9 @@
   </header>
 
   <main class="page">
-    <section class="featured-book" aria-labelledby="featured-title">
-      <div class="featured-copy">
-        <p class="featured-kicker">Featured book</p>
-        <h1 id="featured-title">Exoplanets</h1>
-        <p class="featured-description">Explore how astronomers find worlds beyond our Sun, measure their atmospheres, and weigh the evidence for life.</p>
-        <div class="featured-actions">
-          <a class="pill pill-primary" href="/book.html?book=Exoplanets">Read Exoplanets <span aria-hidden="true">→</span></a>
-          <a class="pill" href="#library">Browse the library</a>
-        </div>
-      </div>
-    </section>
-
     <section class="library" id="library" aria-labelledby="library-title">
       <div class="library-heading">
-        <h2 id="library-title">Explore the library</h2>
+        <h1 id="library-title">Explore the library</h1>
       </div>
       <div class="library-controls" id="libraryControls" hidden>
         <div class="library-search" role="search" aria-label="Library">
@@ -48,9 +36,9 @@
 
       <div id="libraryTree">
         <div class="legend" aria-label="Tree categories">
-          <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Foundations</span>
-          <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Frontiers</span>
-          <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Tools &amp; Methods</span>
+          <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Math &amp; Physics</span>
+          <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Astronomy &amp; Space</span>
+          <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Computing &amp; AI</span>
         </div>
 
         <div class="tree-wrap">
@@ -88,6 +76,17 @@
         <p><a href="/aboutUs.html#prajwal">About Prajwal and NeoPapyrus →</a></p>
         <p class="credits">© 2026 NeoPapyrus</p>
       </aside>
+    </section>
+
+    <section class="featured-book" aria-labelledby="featured-title">
+      <div class="featured-copy">
+        <h2 id="featured-title">Exoplanets</h2>
+        <p class="featured-description">Explore how astronomers find worlds beyond our Sun, measure their atmospheres, and weigh the evidence for life.</p>
+        <div class="featured-actions">
+          <a class="pill pill-primary" href="/book.html?book=Exoplanets">Read Exoplanets <span aria-hidden="true">→</span></a>
+          <a class="pill" href="#library">Browse the library</a>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -345,10 +344,12 @@
     };
 
     const groups = [
-      ["Featured", "featured", [{ title: "Exoplanets", slug: "Exoplanets", subtitle: "Planet discovery, orbits, atmospheres, and biosignatures", keywords: "astronomy transits radial velocity spectroscopy" }]],
-      ["Foundations", "gold", books.filter(book => book.cluster === "gold")],
-      ["Frontiers", "red", books.filter(book => book.cluster === "red")],
-      ["Tools & Methods", "blue", books.filter(book => book.cluster === "blue")],
+      ["Math & Physics", "gold", books.filter(book => book.cluster === "gold")],
+      ["Astronomy & Space", "red", [
+        { title: "Exoplanets", slug: "Exoplanets", subtitle: "Planet discovery, orbits, atmospheres, and biosignatures", keywords: "transits radial velocity spectroscopy" },
+        ...books.filter(book => book.cluster === "red"),
+      ]],
+      ["Computing & AI", "blue", books.filter(book => book.cluster === "blue")],
     ];
     const normalizeSearch = value => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     const searchableGroups = groups.map(([title, cluster, group]) => {

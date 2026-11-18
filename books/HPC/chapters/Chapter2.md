@@ -1,283 +1,54 @@
-# Chapter 2 — Stars: Cosmic Fire
-
----
-
-# 🟢 Introductory Level
-
-## What Is a Star?
-
-A star is a gigantic sphere of hot gas held together by gravity.
-
-The closest star to Earth is the Sun.
-
-Every other star you see in the sky is another Sun — some larger, some smaller, some brighter, some dimmer.
-
-They look small because they are unimaginably far away.
-
----
-
-## Why Do Stars Shine?
-
-Stars shine because of nuclear fusion.
-
-Deep inside a star’s core, gravity squeezes gas so tightly that hydrogen atoms combine to form helium.
-
-In that process, a small amount of mass turns into energy.
-
-That energy travels outward and escapes as light.
-
-Some of that light crosses space and reaches Earth.
-
----
-
-## A Balance of Forces
-
-Stars exist because of a balance:
-
-Gravity pulls inward.  
-Hot gas pressure pushes outward.
-
-As long as these two forces balance, the star shines steadily.
-
----
-
-## Color and Temperature
-
-Stars glow in different colors:
-
-- Red stars are cooler.
-- Yellow stars (like the Sun) are hotter.
-- Blue stars are the hottest.
-
-Color tells us temperature.
-
----
-
-## The Life of a Star
-
-Stars are born in clouds of gas.
-
-They shine for millions to billions of years.
-
-Eventually they run out of fuel.
-
-Small stars become white dwarfs.  
-Massive stars explode as supernovae.
-
-The elements in your body were forged inside ancient stars.
-
-You are made of stardust.
-
----
-
-# 🟡 Intermediate Level
-
-## Mass–Energy Conversion
-
-Fusion works because of Einstein’s equation:
-
-$$
-E = mc^2
-$$
-
-A small amount of mass is converted into energy.
-
-In the Sun, about 600 million tons of hydrogen fuse every second.
-
-About 4 million tons of that mass becomes pure energy.
-
----
-
-## Hydrostatic Equilibrium
-
-Stars maintain balance through hydrostatic equilibrium:
-
-$$
-\frac{dP}{dr} = -\frac{G M(r)\rho(r)}{r^2}
-$$
-
-- \(P\) is pressure  
-- \(M(r)\) is mass enclosed within radius \(r\)  
-- \(\rho\) is density  
-
-Gravity pulls inward.  
-Pressure gradient pushes outward.
-
----
-
-## Energy Transport
-
-Energy moves outward by:
-
-- **Radiation** (photon diffusion)
-- **Convection** (bulk motion of hot gas)
-
-The luminosity equation describes energy flow:
-
-$$
-\frac{dL}{dr} = 4\pi r^2 \rho \epsilon
-$$
-
-where \( \epsilon \) is the energy generation rate per unit mass.
-
----
-
-## Stellar Temperature and Blackbody Radiation
-
-Stars approximately behave like blackbodies.
-
-Their luminosity follows:
-
-$$
-L = 4\pi R^2 \sigma T^4
-$$
-
-- \(R\) = radius  
-- \(T\) = surface temperature  
-- \(\sigma\) = Stefan–Boltzmann constant  
-
-Hotter stars radiate dramatically more energy.
-
----
-
-## Stellar Lifetimes
-
-The lifetime of a star depends strongly on its mass:
-
-$$
-\tau \propto \frac{M}{L}
-$$
-
-Since luminosity scales roughly as:
-
-$$
-L \propto M^{3-4}
-$$
-
-Massive stars burn fuel extremely fast.
-
-That is why big stars live short lives.
-
----
-
-# 🔴 Advanced Level
-
-## Full Stellar Structure Equations
-
-A star in equilibrium is governed by four coupled differential equations:
-
-### 1. Mass Conservation
-
-$$
-\frac{dM}{dr} = 4\pi r^2 \rho
-$$
-
-### 2. Hydrostatic Equilibrium
-
-$$
-\frac{dP}{dr} = -\frac{G M(r)\rho}{r^2}
-$$
-
-### 3. Energy Generation
-
-$$
-\frac{dL}{dr} = 4\pi r^2 \rho \epsilon
-$$
-
-### 4. Energy Transport (Radiative Case)
-
-$$
-\frac{dT}{dr} = -\frac{3 \kappa \rho L}{16\pi a c T^3 r^2}
-$$
-
-where:
-
-- \( \kappa \) = opacity  
-- \( a \) = radiation constant  
-- \( c \) = speed of light  
-
-These equations determine the internal structure of stars.
-
----
-
-## Virial Theorem
-
-The stability of stars follows from the virial theorem:
-
-$$
-2K + U = 0
-$$
-
-For gravitational systems:
-
-$$
-K = -\frac{1}{2} U
-$$
-
-This implies:
-
-- Stars heat up when they contract.
-- Gravitational collapse raises core temperature.
-- Fusion ignites naturally once threshold temperatures are reached.
-
----
-
-## Degeneracy Pressure
-
-In compact stars (white dwarfs, neutron stars), pressure does not arise from temperature.
-
-It arises from quantum mechanics.
-
-Electron degeneracy pressure scales as:
-
-$$
-P \propto \rho^{5/3}
-$$
-
-For relativistic degeneracy:
-
-$$
-P \propto \rho^{4/3}
-$$
-
-This leads to the Chandrasekhar mass limit:
-
-$$
-M_{\text{Ch}} \approx 1.4 M_\odot
-$$
-
-Beyond this mass, white dwarfs cannot remain stable.
-
----
-
-## Nuclear Reaction Rates
-
-Energy production depends strongly on temperature.
-
-For the proton–proton chain:
-
-$$
-\epsilon \propto T^4
-$$
-
-For the CNO cycle:
-
-$$
-\epsilon \propto T^{16-20}
-$$
-
-Small temperature changes cause enormous changes in luminosity.
-
----
-
-# Final Reflection
-
-Stars are not simple balls of gas.
-
-They are self-regulating thermonuclear reactors governed by gravity, thermodynamics, radiation transport, and quantum mechanics.
-
-They shape galaxies.  
-They create elements.  
-They determine the habitability of planets.
-
-They are cosmic fire — sustained by physics.
+# Chapter 2 — Slurm Batch Jobs and Troubleshooting
+
+## 2.1 Submit a small job
+
+Save this as `hello.sh` in the `hpc-lab` directory. Slurm reads the `#SBATCH` directives before executing the shell commands. The example requests one task on one node, with one CPU per task and a five-minute elapsed-time limit.
+
+~~~bash
+#!/bin/bash
+#SBATCH --job-name=hpc-hello
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --time=00:05:00
+#SBATCH --output=logs/%x-%j.out
+
+set -e
+printf 'Job %s on %s\n' "$SLURM_JOB_ID" "$(hostname)"
+printf 'Working directory: %s\n' "$PWD"
+head targets.csv
+~~~
+
+~~~bash
+cd "$HOME/hpc-lab"
+mkdir -p logs
+sbatch hello.sh
+squeue -u "$USER"
+~~~
+
+Create `logs/` before submission because Slurm opens the log before running the script. By default the script starts in the directory from which you submitted it. `sbatch` returns a numeric job ID. In the output filename, `%x` becomes the job name and `%j` becomes the job ID. Open that file once the job starts. Expect the job ID, compute node, and two lines from `targets.csv`. [MIT SuperCloud — Submitting Jobs](https://mit-supercloud.github.io/supercloud-docs/submitting-jobs/) · [Slurm — sbatch](https://slurm.schedmd.com/sbatch.html)
+
+## 2.2 Monitor and diagnose the job
+
+Use `LLstat` or `squeue -u "$USER"` for active jobs. Replace `12345` with the ID printed by `sbatch` when inspecting a particular job. `srun` launches work as a Slurm job step, typically inside an allocation in the examples in this book. `scancel` stops the job and releases its resources. [MIT SuperCloud — Monitoring System and Job Status](https://mit-supercloud.github.io/supercloud-docs/monitoring-system-and-jobs/) · [Slurm — srun](https://slurm.schedmd.com/srun.html)
+
+~~~bash
+scontrol show job 12345
+# If Slurm accounting is available for your job
+sacct -j 12345 --format=JobID,State,ExitCode,Elapsed,AllocCPUS,MaxRSS
+# Only if you intend to cancel this job
+scancel 12345
+~~~
+
+| Symptom | What to inspect |
+| --- | --- |
+| Pending | Look at the scheduler reason. Priority and unavailable resources call for different responses than an invalid resource request. |
+| Failed immediately | Read the log and check the working directory, input paths, environment modules, and exit status. |
+| Reached the time limit | Profile a representative case and reduce the work per job or request time within the site limit. |
+| Ran out of memory | Review peak memory where reported, then reduce memory use or adjust the CPU-slot request under SuperCloud’s memory policy. |
+
+`MaxRSS` can appear on a job-step row when accounting records it. MIT SuperCloud documents memory as a share of node RAM per allocated CPU slot. Use the site’s current hardware and limits pages when sizing jobs. [MIT SuperCloud — Resource Limits](https://mit-supercloud.github.io/supercloud-docs/resource-limit-enforcement-and-increases/) · [Slurm — sacct](https://slurm.schedmd.com/sacct.html)
+
+## 2.3 Choose between sbatch and LLsub
+
+`sbatch` is Slurm’s submission command. SuperCloud provides `LLsub` for site-specific workflows, including interactive jobs and [Triples mode](#Chapter4). With `LLsub`, a script that contains `#SBATCH` directives uses those options and ignores extra `LLsub` submission arguments. Use the native `sbatch` examples in this chapter as written. [MIT SuperCloud — Submitting Jobs](https://mit-supercloud.github.io/supercloud-docs/submitting-jobs/)

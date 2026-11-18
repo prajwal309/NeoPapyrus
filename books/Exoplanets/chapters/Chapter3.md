@@ -45,6 +45,27 @@ From this single number, we obtain the planet’s radius relative to its star.
 
 But the light curve contains much more information than just its depth.
 
+<div data-level="301">
+
+### Deriving the transit probability for an eccentric orbit
+
+Let \(e\) be eccentricity, \(f\) true anomaly, \(\omega\) the planet’s argument of periapsis, and \(i=90^\circ\) an edge-on orbit. For a nearly edge-on orbit, inferior conjunction occurs near \(f+\omega=\pi/2\). Substituting into the orbital separation and projecting onto the sky gives the impact parameter in units of the stellar radius,
+
+\[
+r_{\rm tr} \simeq \frac{a(1-e^2)}{1+e\sin\omega},
+\qquad b_{\rm tr}\simeq\frac{r_{\rm tr}}{R_\star}|\cos i|.
+\]
+
+With \(k=R_p/R_\star\), the disks overlap when \(b_{\rm tr}<1+k\). For isotropic orientations, \(|\cos i|\) is uniform from zero to one, so the probability is the length of the allowed interval. For a detached orbit this gives
+
+\[
+P_{\rm tr}\simeq \frac{R_\star+R_p}{a}\frac{1+e\sin\omega}{1-e^2}.
+\]
+
+A full transit requires \(b_{\rm tr}<1-k\) for \(k<1\). At fixed \(a\) and \(e\), a conjunction near periapsis makes a transit visible over a wider range of viewing angles. Setting \(e=0\) recovers the circular result. [Winn (2010), §2, Eqs. 6–10](https://arxiv.org/pdf/1001.2010#page=3)
+
+</div>
+
 ---
 
 ## 3.3 Anatomy of a Transit Light Curve
@@ -62,7 +83,50 @@ The duration of the transit depends on the orbital speed and geometry. The shape
 - The scaled semi-major axis \( a/R_\star \)
 - The impact parameter \( b \)
 
-Remarkably, from the transit duration and orbital period alone, one can derive the stellar density. This fact has made transits a powerful tool not only for studying planets but also for characterizing stars.
+The transit shape can constrain the star’s mean density. The depth and the lengths of ingress, full transit, and egress help determine how far the planet travels across the disk. With the orbital period and an orbital model, that geometry gives the stellar density.
+
+<div data-level="301">
+
+### From contact times to stellar density
+
+For a circular orbit set \(A=a/R_\star\), \(b=A\cos i\), and \(\phi=2\pi(t-t_c)/P\), where \(t_c\) is mid-transit. The two sky-plane coordinates in stellar radii are \(A\sin\phi\) and \(b\cos\phi\). Squaring and adding gives the projected separation \(z\),
+
+\[
+z^2=b^2+(A^2-b^2)\sin^2\phi.
+\]
+
+At first and fourth contact the disks are externally tangent, so \(z=1+k\). At second and third contact they are internally tangent, so \(z=1-k\). The contacts occur symmetrically around \(t_c\), giving
+
+\[
+T_{14,23}=\frac{P}{\pi}\arcsin\sqrt{\frac{(1\pm k)^2-b^2}{A^2-b^2}}.
+\]
+
+Use the plus sign for total duration \(T_{14}\) and the minus sign for full duration \(T_{23}\). A grazing transit has no second or third contact. For a well-resolved full transit, define \(S_{14}=\sin^2(\pi T_{14}/P)\) and \(S_{23}=\sin^2(\pi T_{23}/P)\). Subtracting the two contact equations eliminates \(b^2\) from their numerators,
+
+\[
+A^2-b^2=\frac{4k}{S_{14}-S_{23}},
+\qquad b^2=(1+k)^2-S_{14}(A^2-b^2).
+\]
+
+Kepler’s third law, \(4\pi^2a^3/(GP^2)=M_\star+M_p\), then yields the mean stellar density for \(M_p\ll M_\star\),
+
+\[
+\rho_\star\simeq\frac{3\pi}{GP^2}A^3.
+\]
+
+In a real fit, limb darkening and finite exposure times affect how accurately \(k\) and the contact times can be inferred. [Winn (2010), Eqs. 14–15 and 30](https://arxiv.org/abs/1001.2010)
+
+### How eccentricity biases a circular density estimate
+
+For a short transit near edge-on conjunction, the orbital velocity in the sky plane along the chord is approximately the tangential speed \(h/r_{\rm tr}\). The specific angular momentum is \(h=(2\pi/P)a^2\sqrt{1-e^2}\). Dividing \(h/r_{\rm tr}\) by the circular speed \(2\pi a/P\) gives
+
+\[
+g=\frac{1+e\sin\omega}{\sqrt{1-e^2}}.
+\]
+
+For a fixed transit chord the duration scales as \(1/(gA)\). In the short-transit limit a circular fit can absorb that speed change into \(A_{\rm circ}\simeq gA\), and the inferred density therefore scales as \(\rho_{\rm circ}\simeq g^3\rho_\star\). For example, \(e=0.2\) and \(\omega=90^\circ\) give \(g\simeq1.225\), so a circular fit overestimates the stellar density by about 84%. An independent stellar density can constrain \(g\), which combines \(e\) and \(\omega\). [Winn (2010), Eqs. 16 and 30](https://arxiv.org/abs/1001.2010)
+
+</div>
 
 ---
 
@@ -81,7 +145,24 @@ Accurate modeling of limb darkening is essential for precise transit parameter e
 
 
 <div data-level="301">
-The modern measurement of limb darkening comes from the stellar models themselves.
+
+### Deriving the depth correction for limb darkening
+
+Let \(\mu\) be the cosine of the angle between the local stellar surface normal and the line of sight. For the quadratic law \(I(\mu)/I(1)=1-u_1(1-\mu)-u_2(1-\mu)^2\), the projected annuli weight the disk average by \(2\mu\,d\mu\). The linear and quadratic terms integrate to \(1/3\) and \(1/6\), respectively, giving
+
+\[
+\frac{\langle I\rangle}{I(1)}
+=2\int_0^1\frac{I(\mu)}{I(1)}\mu\,d\mu
+=1-\frac{u_1}{3}-\frac{u_2}{6}.
+\]
+
+A small planet fully inside the disk blocks approximately its projected area times the local intensity. Divide by the stellar disk area times its average intensity to obtain the mid-transit depth,
+
+\[
+\delta_{\rm mid}\simeq k^2\,\frac{I(\sqrt{1-b^2})}{\langle I\rangle}.
+\]
+
+The same radius ratio can therefore produce a deeper transit across the bright center than along a chord close to the limb. Near ingress or egress, or for a large planet, integrate the intensity over the actual overlap area. [Winn (2010), §2.5](https://arxiv.org/pdf/1001.2010#page=5)
 
 </div>
 
@@ -102,6 +183,27 @@ The depth of the occultation tells us:
 By measuring occultations at multiple wavelengths, we can estimate atmospheric composition and energy redistribution efficiency between the day and night sides.
 
 Occultations transformed hot Jupiters from abstract masses into physical worlds with temperatures, winds, and chemistry.
+
+<div data-level="301">
+
+### Deriving eccentricity constraints from occultation timing and duration
+
+For a nearly edge-on orbit the planet moves from true anomaly \(f_{\rm tr}\simeq\pi/2-\omega\) at transit to \(f_{\rm occ}\simeq f_{\rm tr}+\pi\) at the following occultation. Kepler’s second law gives \(dt/df=r^2/h\). Inserting the Keplerian separation and expanding for small \(e\) yields \(dt/df\simeq(P/2\pi)(1-2e\cos f)\). Since the integral of \(\cos f\) between those conjunctions is \(-2\sin f_{\rm tr}=-2\cos\omega\), the timing offset is
+
+\[
+\frac{t_{\rm occ}-t_{\rm tr}}{P}-\frac12
+\simeq \frac{2}{\pi}e\cos\omega.
+\]
+
+Correct the observed timing for light travel across the system before using this relation. If the two eclipses are short and cross nearly equal chords, their duration ratio is the inverse speed ratio. At occultation \(f+\omega\simeq3\pi/2\) reverses the sign of the eccentric speed term, giving
+
+\[
+\frac{T_{\rm occ}}{T_{\rm tr}}\simeq\frac{1+e\sin\omega}{1-e\sin\omega}.
+\]
+
+Together the timing and duration probe complementary components of the eccentricity. For substantially different impact parameters, include both chord lengths in the fit. [Winn (2010), §3.2, Eqs. 33–34](https://arxiv.org/pdf/1001.2010#page=7)
+
+</div>
 
 ---
 
@@ -169,11 +271,18 @@ Together, they provide complementary slices of atmospheric physics.
 
 ## 3.9 Transit Timing Variations
 
-Not all transits occur exactly on schedule.
+If a planet transited at a constant period, its mid-transit times would follow $t_n=t_0+nP$, where $t_0$ is a reference transit, $P$ is the period, and $n$ counts the orbits. The observed time minus this prediction is the **transit timing variation (TTV)**. A positive offset means the transit arrived late. Gravitational interactions can produce a pattern of early and late arrivals, sometimes revealing a companion that does not transit.
 
-Gravitational interactions between planets can cause deviations from strict periodicity. These **transit timing variations (TTVs)** allow the detection of additional planets—even those that do not transit.
+<figure class="orbit-figure">
+  <img src="/books/Exoplanets/chapters/figures/kepler36-river-plot.png" width="1440" height="1026"
+    alt="River plot of observed flux for Kepler-36 b on the left and Kepler-36 c on the right. Dark transit bands drift to earlier and later times. Orange markers indicate predicted transit centers from the discovery paper’s dynamical fit."
+    loading="lazy" />
+  <figcaption><strong>The Kepler-36 river plot, drawn from observed Kepler photometry.</strong> Read each panel from bottom to top. Each row is a transit window centered on a constant-period prediction. Darker colors show lower measured flux, gray cells lack usable data, and orange crosses mark the discovery paper’s model mid-transit times. Each panel has its own flux scale. Photometry comes from Kepler long-cadence PDCSAP flux for KIC 11401755, quarters 0–11. <a href="https://archive.stsci.edu/missions-and-data/kepler">NASA Kepler mission data at MAST</a> · <a href="https://arxiv.org/html/1206.4718v1#S0.F2">Carter et al. (2012), original Figure 2</a></figcaption>
+</figure>
 
-TTVs provide planetary masses independent of radial velocity measurements and have revealed dynamically interacting multi-planet systems.
+Kepler-36 b and c orbit in roughly 14 and 16 days, close enough that their mutual gravity repeatedly shifts their transit times. Planet c blocks more light, so its band is easier to follow. Carter and colleagues fitted both planets’ light curves with a model that integrates their interacting orbits, using the timing shifts to constrain the masses without relying on radial velocities. See [Orbital Dynamics](#Chapter2) for how the spacing of the orbits affects the timing pattern. [Carter et al. (2012), *Kepler-36: A Pair of Planets with Neighboring Orbits and Dissimilar Densities*](https://doi.org/10.1126/science.1223269) · [NASA Exoplanet Archive: Kepler-36](https://exoplanetarchive.ipac.caltech.edu/overview/Kepler-36)
+
+To make the plot, we excluded flagged cadences and windows around each companion’s fitted transits, normalized the remaining flux to a local out-of-transit baseline, and averaged it into 30-minute bins. The orange markers use the model times from Tables S4 and S5 of the discovery paper. A straight-line fit to those times sets the reference schedule for each panel.
 
 ---
 
@@ -361,6 +470,7 @@ It represents one of the best opportunities to study Earth-sized exoplanets in d
 
 ## References
 
+- Winn, J. N. (2010). [Transits and Occultations](https://arxiv.org/abs/1001.2010). In S. Seager (ed.), *Exoplanets*, University of Arizona Press.
 - Gillon et al. (2017), *Nature*  
 - Grimm et al. (2018), *A&A*  
 - Luger et al. (2017), *Nature Astronomy*  

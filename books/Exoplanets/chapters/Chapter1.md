@@ -336,31 +336,12 @@ Through these statistical approaches, exoplanet science is evolving toward a uni
 
 ## 1.8 Looking Ahead
 
-The study of exoplanets is still in its infancy. Yet even in the few decades since the first discoveries, our understanding of planetary systems has expanded dramatically. What was once speculation has become a rapidly advancing field of observational astronomy.
+Planets are common. What remains harder to pin down is how common particular kinds of planets are, and what made them that way. Our catalog reflects what our instruments can find. A large planet on a short orbit is easier to catch in transit than a small one with a year-long orbit. To compare the planets we find with the populations that theories predict, we have to estimate how many each survey would have missed.
 
-In the coming decades, new instruments and observatories will allow us to characterize distant worlds with unprecedented precision. Improved measurements of planetary masses and radii will refine our understanding of planetary compositions and internal structures. High-resolution atmospheric spectroscopy will reveal the chemical makeup of alien atmospheres, allowing us to detect molecules such as water vapor, carbon dioxide, and methane.
+**What are planets made of, and how did they get there?** A transit measures a planet’s size relative to its star. The star’s radial-velocity wobble can help establish the planet’s mass. Together, mass and radius give a bulk density, but several mixtures of rock, water, and gas can yield similar densities. Comparing populations across sizes and orbits helps reveal where rocky planets give way to worlds with substantial envelopes. Orbital patterns offer a separate clue. When two planets repeatedly pass each other at similar points in their orbits, their gravitational interactions can shift the times of their transits, giving us a way to test models of the system’s architecture. [Rogers (2015)](https://doi.org/10.1088/0004-637X/801/1/41) · [Carter et al. (2012), Kepler-36](https://doi.org/10.1126/science.1223269)
 
-At the same time, advances in direct imaging will enable astronomers to isolate the faint light of planets from the overwhelming glare of their host stars. This technique may allow us to observe Earth-sized planets orbiting nearby stars and study them as individual worlds.
+**Whose spectrum are we measuring?** During a transit, a planet’s atmosphere can absorb some of the starlight passing through it. Cool starspots can also change the measured spectrum. In their analysis of GJ 486 b, Moran and colleagues found that a water-rich atmosphere and water absorption in cool starspots could both explain their JWST transit spectrum. The example shows why a follow-up observation may need to distinguish two explanations rather than simply measure the same feature more precisely. Direct imaging offers another route by suppressing the star’s glare and separating its light from the planet’s. NASA’s proposed Habitable Worlds Observatory aims to use that approach to study potentially habitable planets around nearby stars. [Moran et al. (2023)](https://doi.org/10.3847/2041-8213/accb9c) · [NASA Habitable Worlds Observatory](https://science.nasa.gov/astrophysics/programs/habitable-worlds-observatory/)
 
-Perhaps most profound is the possibility of searching for **biosignatures**—chemical or spectral indicators that may suggest the presence of life. Detecting such signals would represent one of the most significant scientific discoveries in human history.
+**What would count as evidence for life?** Finding oxygen would raise a question about how it accumulated. On some planets, ultraviolet light can split water molecules. If hydrogen escapes to space, oxygen can build up without biology. Interpreting a possible biosignature therefore takes more than identifying a molecule. We need to know what the star does to the atmosphere and what other measurements could distinguish the pathways that produce it. [Luger & Barnes (2015)](https://doi.org/10.1089/ast.2014.1231)
 
-Not long ago, the question that motivated this field was a simple and philosophical one:
-
-*Are there other worlds?*
-
-Today we know that the answer is yes. Planets are common throughout the galaxy.
-
-The questions we now ask are deeper:
-
-*What are these worlds like?*  
-*How do planetary systems form and evolve?*  
-*Under what conditions can life arise?*
-
-This book explores these questions by examining how planets are discovered, how their properties are measured, and how their atmospheres and environments are studied.
-
-The universe, once imagined as largely empty between the stars, is now understood to be rich with planetary systems.
-
-The night sky is not only a field of stars.
-
-It is filled with planets.
-
+We begin with [orbital dynamics](#Chapter2), which explains where planets are and how their orbits change. From there, [transits](#Chapter3) and [radial velocities](#Chapter5) show how we measure their properties. [Transmission spectroscopy](#Chapter4), [biosignatures](#Chapter6), and [stellar physics](#Chapter7) then ask how much of a distant world we can reconstruct from its light, and what we would need to measure next.

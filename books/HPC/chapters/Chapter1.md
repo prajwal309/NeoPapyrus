@@ -1,90 +1,36 @@
-# Chapter 1 — Chapter Name
+# Chapter 1 — Getting Started with MIT SuperCloud
 
-Here will be the paragragh....
+## 1.1 What runs where?
 
----
+High-performance computing (HPC) helps when a calculation exceeds one machine’s capacity or when many independent calculations would take too long in sequence. MIT SuperCloud’s TX-E1 system is a cluster. You connect to a **login node** to edit scripts, prepare small inputs, inspect results, and launch jobs. Slurm schedules the computation on **compute nodes**. An allocation grants a job CPUs, memory, and, if requested, GPUs. The shared filesystem lets the login and compute nodes see the same project files. [MIT SuperCloud — Getting Started](https://mit-supercloud.github.io/supercloud-docs/getting-started/)
 
-## The First Question
-Use the above for titles
+## 1.2 Set up access and connect
 
-Use the following for the list:
-- Tiny points of light scattered across the sky  
-- Some brighter than others  
-- Some forming familiar patterns  
-- A Moon that changes shape  
-- And sometimes, a “star” that slowly moves
+Request an account through MIT SuperCloud. Once approved, follow the getting-started guide to create an SSH key and register the **public** key through the TX-E1 portal’s **sshkeys** page. Keep the private key on your machine. Use your assigned SuperCloud username in place of USERNAME. [Requesting an Account](https://mit-supercloud.github.io/supercloud-docs/requesting-account/) · [Account Setup and Login](https://mit-supercloud.github.io/supercloud-docs/getting-started/)
 
-Why?
-Astronomy begins with noticing.
+~~~bash
+# On your laptop
+ssh USERNAME@txe1-login.mit.edu
 
----
+# On the login node
+hostname
+pwd
+mkdir -p "$HOME/hpc-lab/logs"
+exit
+~~~
 
-## Why Does the Sky Move?
+## 1.3 Copy a file and verify it
 
-If you watch the sky for a few hours, everything drifts westward.
+From your laptop, create a small file and upload it. The remote project directory must already exist.
 
-It looks like the sky is rotating around us.
+~~~bash
+printf 'target,period_days\nDemo-1,3.2\n' > targets.csv
+scp targets.csv USERNAME@txe1-login.mit.edu:hpc-lab/
+ssh USERNAME@txe1-login.mit.edu
+cd "$HOME/hpc-lab"
+head targets.csv
+~~~
 
-But it is not the sky that moves — it is Earth.
+Use the login shell for quick inspection and submission. For hands-on debugging of a calculation, run `LLsub -i` and wait for the compute allocation. Check `hostname` after it starts and use `exit` to release it. A batch job runs independently of your SSH connection. [MIT SuperCloud — Transferring Files](https://mit-supercloud.github.io/supercloud-docs/transferring-files/) · [MIT SuperCloud — Submitting Jobs](https://mit-supercloud.github.io/supercloud-docs/submitting-jobs/)
 
-Earth spins once every 24 hours.
-
-That spin makes:
-- The Sun rise and set
-- The stars appear to travel across the sky
-- Constellations shift through the night
-
-We live on a moving world.
-
----
-
-## The Changing Moon
-
-The Moon does not shine by itself.  
-It reflects sunlight.
-
-As it orbits Earth, we see different portions of its sunlit side:
-
-- New Moon  
-- Crescent  
-- Quarter Moon  
-- Full Moon  
-
-The changing shape of the Moon is not magic.  
-It is geometry.
-
-Even without mathematics, we can understand this with shadows and light.
-
-To bold something use *asterisks*
----
-
-## The Wandering Stars
-
-Most stars stay fixed relative to each other.
-
-But a few wander slowly over weeks.
-
-Ancient astronomers called them *planetes* — wanderers.
-
-These are planets.
-
-They move because they orbit the Sun, just like Earth does.
-
-You are standing on one of those wanderers.
-
----
-
-
----
-
-## Before Moving On
-
-Tonight, if you can, step outside.
-
-Find one bright star.
-
-Remember:
-
-The light entering your eyes began its journey long before you were born.
-
-And you are part of the same universe that produced it.
+Next, submit your first [Slurm batch job](#Chapter2).

@@ -1,352 +1,81 @@
-# Chapter 1 — Learning from Data: The Birth of Machine Learning
+# Chapter 1 — Root Finding and Kepler’s Equation
 
----
+## 1.1 Predict an orbit at an observing time
 
-## 1.1 What Does It Mean to Learn?
+A proposed orbit must predict where the planet and star were when each spectrum was taken. On a circular orbit the angle advances uniformly. On an eccentric orbit the planet moves faster near periastron, as the [equal-area animation](#Exoplanets/Chapter2) shows. For an elliptic two-body orbit, the **mean anomaly** $M=2\pi(t-t_{\rm peri})/P$ advances uniformly in time. The period is $P$ and the time of periastron is $t_{\rm peri}$. The **eccentric anomaly** $E$ locates the planet on the ellipse via
 
-<div data-level="101">
+$$
+E-e\sin E=M.
+$$
 
-When astronomers first looked at the night sky, they did not begin with equations.  
-They began with **patterns**.
+Given $M$ and eccentricity $0\le e<1$, solve for the zero of $f(E)=E-e\sin E-M$. In the circular limit, $E=M$. In an eccentric orbit, this solve is part of each model evaluation at the actual observation times. [Fulton et al. (2018), RadVel](https://doi.org/10.1088/1538-3873/aaaaa8) · [RadVel Keplerian implementation](https://github.com/California-Planet-Search/radvel/blob/master/radvel/kepler.py)
 
-The periodic motion of planets.  
-The dimming of stars during transits.  
-The subtle variations in stellar brightness.
+## 1.2 Bracket the answer before accelerating
 
-Machine learning begins in the same way.
+The derivative $f'(E)=1-e\cos E$ is positive for $e<1$. The root lies between $M-e$ and $M+e$ because $E-M=e\sin E$. In **bisection**, test the midpoint and keep the half containing the sign change. Each step halves the bracket, providing a direct bound on angular error. Bisection is dependable but can require many steps at tight tolerances.
 
-It is the art of teaching a system to **recognize patterns in data** — without explicitly programming the rules.
+Newton’s method uses the tangent line to propose
 
-Instead of saying:
+$$
+E_{\rm new}=E-\frac{E-e\sin E-M}{1-e\cos E}.
+$$
 
-> “If the brightness drops by X, then it is a planet,”  
+Near a well-behaved root, Newton’s method converges rapidly. Near periastron for a highly eccentric orbit, its denominator can be small. A poor initial guess can produce a large step. A safeguarded solver combines the two methods: keep the bracket, try Newton, and bisect if the proposal fails to make sufficient progress.
 
-we allow the system to **discover this relationship from data itself**.
+**Worked example.** For a 20-day orbit at two days past periastron and $e=0.6$, $M=0.6283$ radians. The bracket is about $[0.0283,1.2283]$. The first Newton step from $M$ lands at about $1.314$ radians, outside the bracket. A safeguarded solve gives $E\approx1.184$ radians. Convert that auxiliary angle to the **true anomaly** $\nu$, the angle measured from periastron:
 
-In this sense, machine learning is not about writing instructions.  
-It is about **learning the hidden structure of nature**.
+$$
+\nu=2\operatorname{atan2}\left(\sqrt{1+e}\sin(E/2),\sqrt{1-e}\cos(E/2)\right).
+$$
 
-</div>
-
----
-
-<div data-level="201">
-
-Formally, machine learning seeks to learn a function
-
-\[
-f: X \rightarrow Y
-\]
-
-that maps inputs \(X\) (data) to outputs \(Y\) (predictions or labels).
-
-The crucial idea is that this function is **not explicitly defined**, but **inferred from examples**.
-
-In exoplanet science, this mapping appears naturally:
-
-- Light curves → Transit detection  
-- Spectra → Atmospheric composition  
-- Stellar variability → Spot properties  
-
-Rather than constructing fully analytic models, we allow the data to guide the relationship.
-
-</div>
-
----
-
-<div data-level="301">
-
-At a deeper level, machine learning is a problem of **statistical inference in high-dimensional spaces**.
-
-Given a dataset  
-\[
-\mathcal{D} = \{(x_i, y_i)\}_{i=1}^{N},
-\]
-
-we seek a function \(f_\theta\) parameterized by \(\theta\) that minimizes a loss function:
-
-\[
-\mathcal{L}(\theta) = \sum_{i=1}^{N} \ell\left(y_i, f_\theta(x_i)\right).
-\]
-
-This formulation connects directly to maximum likelihood estimation and Bayesian inference:
-
-\[
-p(\theta | \mathcal{D}) \propto p(\mathcal{D} | \theta)\, p(\theta).
-\]
-
-Machine learning models can therefore be interpreted as **approximate inference engines**, capable of modeling complex, nonlinear relationships that are analytically intractable.
-
-</div>
-
----
-
-## 1.2 A Motivating Example: Finding Planets in Light Curves
-
-<div data-level="101">
-
-Imagine observing a star over time.
-
-Most of the time, its brightness stays constant.  
-But occasionally, it dips — just slightly.
-
-That dip could mean a planet is passing in front of the star.
-
-Now imagine thousands of stars, each with years of data.
-
-How do we find all the planets?
-
-We could look at each light curve manually — but that would take lifetimes.
-
-Instead, we teach a machine:
-
-> “Here are examples of stars with planets.  
-> Here are examples without.  
-> Learn the difference.”
-
-This is machine learning in action.
-
-</div>
-
----
+The planet is already about $107^\circ$ from periastron after just 10% of the orbital period. This distinction matters for [radial-velocity predictions](#Exoplanets/Chapter5).
 
 <div data-level="201">
 
-This problem is an example of **supervised learning**.
+### Programming exercise: solve the eccentric orbit
 
-We are given:
+Run with Python 3. The tolerance is a bracket width in radians.
 
-- Inputs: Light curves \(x_i(t)\)  
-- Labels: Planet present (1) or not (0)
+~~~python
+from math import atan2, cos, degrees, pi, sin, sqrt
 
-The goal is to learn a classifier:
+def solve_kepler(mean_anomaly, eccentricity, tolerance=1e-12):
+    if not 0 <= eccentricity < 1:
+        raise ValueError("Expected an elliptic orbit.")
+    if tolerance < 1e-14:
+        raise ValueError("Tolerance is too small for this exercise.")
+    mean_anomaly = (mean_anomaly + pi) % (2 * pi) - pi
+    lower = mean_anomaly - eccentricity
+    upper = mean_anomaly + eccentricity
+    estimate = mean_anomaly
+    while upper - lower > tolerance:
+        residual = estimate - eccentricity * sin(estimate) - mean_anomaly
+        if residual == 0:
+            return estimate
+        if residual > 0:
+            upper = estimate
+        else:
+            lower = estimate
+        width = upper - lower
+        candidate = estimate - residual / (1 - eccentricity * cos(estimate))
+        if lower + 0.1 * width < candidate < upper - 0.1 * width:
+            estimate = candidate
+        else:
+            estimate = (lower + upper) / 2
+    return (lower + upper) / 2
 
-\[
-f(x) = \hat{y}
-\]
+M, e = 2 * pi * 2 / 20, 0.6
+E = solve_kepler(M, e)
+nu = 2 * atan2(sqrt(1 + e) * sin(E / 2), sqrt(1 - e) * cos(E / 2))
+assert abs(E - e * sin(E) - M) < 1e-12
+assert abs(solve_kepler(M, 0) - M) < 1e-12
+print(f"E = {E:.3f} rad; true anomaly = {degrees(nu):.1f} deg")
+~~~
 
-that predicts whether a transit signal exists.
-
-In practice, this involves extracting features such as:
-
-- Transit depth  
-- Duration  
-- Periodicity  
-
-or allowing models (e.g., neural networks) to learn features automatically.
-
-</div>
-
----
-
-<div data-level="301">
-
-From a statistical perspective, this becomes a problem of learning the conditional distribution:
-
-\[
-p(y \mid x).
-\]
-
-The optimal classifier (in the Bayesian sense) is:
-
-\[
-\hat{y} = \arg\max_y p(y \mid x).
-\]
-
-In exoplanet detection pipelines (e.g., Kepler, TESS), machine learning models are often used alongside traditional methods (e.g., Box Least Squares) to improve detection efficiency and reduce false positives.
-
-The challenge lies in:
-
-- Noise (stellar variability, instrumental systematics)  
-- Class imbalance (few planets, many non-planets)  
-- Domain shifts (different instruments, cadences)
-
-These challenges motivate robust, probabilistic, and interpretable learning methods.
+The solver wraps $M$ to a single revolution. Equivalent angles give the same orbital position. Track completed revolutions separately if you need an unwrapped phase. Try $e=0.99$ with $M=0.001$. When $f'$ is small, an apparently tiny residual may still correspond to an angular error. The bracket supplies an independent check.
 
 </div>
 
----
+## 1.3 Choose a tolerance for the observable
 
-## 1.3 Types of Machine Learning
-
-<div data-level="101">
-
-There are three main ways a machine can learn:
-
-1. **Supervised Learning** — learning from labeled examples  
-2. **Unsupervised Learning** — finding patterns without labels  
-3. **Reinforcement Learning** — learning by trial and error  
-
-Each corresponds to a different way of interacting with data.
-
-</div>
-
----
-
-<div data-level="201">
-
-### Supervised Learning
-Learn a mapping from inputs to outputs.
-
-Examples:
-- Classifying light curves (planet vs no planet)  
-- Predicting stellar temperature  
-
----
-
-### Unsupervised Learning
-Discover structure in data without labels.
-
-Examples:
-- Clustering stars by variability behavior  
-- Dimensionality reduction of spectra  
-
----
-
-### Reinforcement Learning
-Learn actions through rewards.
-
-Examples (emerging in astrophysics):
-- Optimizing observation strategies  
-- Adaptive survey planning  
-
-</div>
-
----
-
-<div data-level="301">
-
-These paradigms correspond to different probabilistic objectives:
-
-- **Supervised:** Learn \(p(y \mid x)\)  
-- **Unsupervised:** Learn \(p(x)\) or latent structure  
-- **Reinforcement:** Maximize expected reward  
-  \[
-  \mathbb{E}\left[\sum_t R_t\right]
-  \]
-
-In practice, modern approaches often combine these frameworks:
-
-- Semi-supervised learning  
-- Self-supervised learning  
-- Bayesian reinforcement learning  
-
-</div>
-
----
-
-## 1.4 Why Machine Learning Matters in Exoplanet Science
-
-<div data-level="101">
-
-The universe is vast.
-
-There are too many stars, too much data, and too many signals for humans to analyze alone.
-
-Machine learning allows us to:
-
-- Search faster  
-- Detect subtle signals  
-- Understand complex systems  
-
-It is like building a telescope — but for patterns.
-
-</div>
-
----
-
-<div data-level="201">
-
-Modern missions such as:
-
-- **Kepler**  
-- **TESS**  
-- **JWST**  
-
-produce enormous datasets.
-
-Machine learning enables:
-
-- Automated transit detection  
-- Stellar variability modeling  
-- Atmospheric retrieval acceleration  
-
-</div>
-
----
-
-<div data-level="301">
-
-Machine learning is not just a tool — it is becoming a **core methodology**.
-
-In many cases, the forward models are:
-
-- Computationally expensive  
-- Degenerate (e.g., stellar contamination vs atmosphere)  
-- High-dimensional  
-
-Machine learning provides:
-
-- Surrogate models  
-- Fast emulators  
-- Data-driven priors  
-
-This is especially critical in problems like:
-
-- Transmission spectroscopy under stellar heterogeneity  
-- Population-level inference of stellar properties  
-- Time-domain variability analysis  
-
-</div>
-
----
-
-## 1.5 The Philosophy of Learning
-
-<div data-level="101">
-
-To learn is to **see patterns where none are obvious**.
-
-</div>
-
----
-
-<div data-level="201">
-
-Machine learning teaches us that:
-
-> Data contains structure — but only if we learn how to look.
-
-</div>
-
----
-
-<div data-level="301">
-
-At its deepest level, machine learning is about building models that approximate reality.
-
-But every model is incomplete.
-
-The goal is not perfection —  
-but **useful understanding**.
-
-</div>
-
----
-
-## Summary
-
-- Machine learning is the process of learning patterns from data  
-- It replaces explicit rules with learned relationships  
-- It plays a central role in modern exoplanet science  
-- It connects deeply with statistical inference and physics  
-
----
-
-## Looking Ahead
-
-In the next chapter, we will explore:
-
-> **How machines actually learn — optimization, loss functions, and models**
-
-— the mathematical engine behind learning itself.
+Tighten the stopping tolerance and compare predicted positions or velocities. The numerical change should be small relative to the precision you need in that observable. The solver does not reduce uncertainty in the fitted orbit. It ensures the proposed orbit has been evaluated accurately. The [next chapter](#Chapter2) asks how to average a model prediction over an exposure.

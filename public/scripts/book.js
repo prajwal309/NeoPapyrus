@@ -15,6 +15,18 @@ const nextChapter = document.getElementById("nextChapter");
 const settingsBtn   = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
 
+const readerbar = document.querySelector(".readerbar");
+const chapterSelect = document.getElementById("chapterSelect");
+const toolbarPrevious = document.getElementById("toolbarPrevious");
+const toolbarNext = document.getElementById("toolbarNext");
+const readingProgress = document.getElementById("readingProgress");
+const findBtn = document.getElementById("findBtn");
+const findPanel = document.getElementById("findPanel");
+const chapterFind = document.getElementById("chapterFind");
+const findStatus = document.getElementById("findStatus");
+const findResults = document.getElementById("findResults");
+let focusedPassage;
+
 const params = new URLSearchParams(location.search);
 const BOOK = params.get("book");
 
@@ -39,7 +51,9 @@ if (!BOOK) {
 
 async function init() {
   await fetchChapters();
-  setupSettingsPanel();
+  setupHeaderPanel(settingsBtn, settingsPanel);
+  setupHeaderPanel(findBtn, findPanel, chapterFind);
+  setupReaderToolbar();
   setupEquationToggle();
   setupReadingLevels();
   openChapterFromHashOrFirst();
@@ -58,29 +72,127 @@ async function init() {
    SETTINGS PANEL
 ===================================================== */
 
-function setupSettingsPanel() {
-  if (!settingsBtn || !settingsPanel) return;
+function setupHeaderPanel(button, panel, initialFocus) {
 
   function setOpen(open) {
-    settingsPanel.hidden = !open;
-    settingsBtn.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
+    button.setAttribute("aria-expanded", String(open));
   }
 
-  settingsBtn.addEventListener("click", () => {
-    setOpen(settingsPanel.hidden);
+  button.addEventListener("click", () => {
+    setOpen(panel.hidden);
+    if (!panel.hidden) initialFocus?.focus();
   });
 
   document.addEventListener("click", (e) => {
-    if (settingsPanel.contains(e.target) || settingsBtn.contains(e.target)) return;
+    if (panel.contains(e.target) || button.contains(e.target)) return;
     setOpen(false);
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !settingsPanel.hidden) {
+    if (e.key === "Escape" && !panel.hidden) {
       setOpen(false);
-      settingsBtn.focus();
+      button.focus();
     }
   });
+}
+
+function setupReaderToolbar() {
+  chapterSelect.replaceChildren(...ALL_CHAPTERS.map(chapter => new Option(chapter.title, chapter.id)));
+  document.getElementById("readerChapters").hidden = !ALL_CHAPTERS.length;
+  chapterSelect.addEventListener("change", () => {
+    location.hash = encodeURIComponent(chapterSelect.value);
+  });
+  toolbarPrevious.addEventListener("click", () => previousChapter.click());
+  toolbarNext.addEventListener("click", () => nextChapter.click());
+
+  const textSize = document.getElementById("textSize");
+  const savedSize = localStorage.getItem("bookTextSize");
+  if (Array.from(textSize.options).some(option => option.value === savedSize)) {
+    textSize.value = savedSize;
+  }
+  const applyTextSize = () => {
+    contentEl.dataset.textSize = textSize.value;
+  };
+  applyTextSize();
+  textSize.addEventListener("change", () => {
+    localStorage.setItem("bookTextSize", textSize.value);
+    applyTextSize();
+  });
+
+  chapterFind.addEventListener("input", updateFindResults);
+  window.addEventListener("scroll", updateReadingProgress, { passive: true });
+  const observer = new ResizeObserver(() => {
+    document.documentElement.style.setProperty("--reader-offset", readerbar.offsetHeight + "px");
+    updateReadingProgress();
+  });
+  observer.observe(readerbar);
+  observer.observe(contentEl);
+}
+
+function updateReadingProgress() {
+  if (readingProgress.hidden) return;
+
+  const chapter = contentEl.getBoundingClientRect();
+  const visibleTop = readerbar.getBoundingClientRect().bottom;
+  const viewportHeight = window.innerHeight;
+  if (chapter.bottom <= viewportHeight) {
+    readingProgress.value = 100;
+    return;
+  }
+  const scrollableHeight = chapter.height - (viewportHeight - visibleTop);
+  readingProgress.value = scrollableHeight > 0
+    ? 100 * (visibleTop - chapter.top) / scrollableHeight
+    : 0;
+}
+
+function clearFocusedPassage() {
+  focusedPassage?.classList.remove("find-passage");
+  focusedPassage = undefined;
+}
+
+function updateFindResults() {
+  clearFocusedPassage();
+  findResults.replaceChildren();
+  findStatus.textContent = "";
+  const query = chapterFind.value.trim().toLowerCase();
+  if (!query || findBtn.disabled) return;
+
+  const passages = contentEl.querySelectorAll("h1, h2, h3, h4, p, li, td, th, pre, figcaption");
+  let count = 0;
+  for (const passage of passages) {
+    if (!passage.getClientRects().length || passage.closest("[aria-hidden=true]")) continue;
+
+    const text = passage.innerText.replace(/\s+/g, " ").trim();
+    const offset = text.toLowerCase().indexOf(query);
+    if (offset < 0) continue;
+
+    const start = Math.max(0, offset - 36);
+    const end = Math.min(text.length, offset + query.length + 72);
+    const item = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    const mark = document.createElement("mark");
+    mark.textContent = text.slice(offset, offset + query.length);
+    button.append(
+      (start ? "…" : "") + text.slice(start, offset),
+      mark,
+      text.slice(offset + query.length, end) + (end < text.length ? "…" : "")
+    );
+    button.addEventListener("click", () => {
+      findPanel.hidden = true;
+      findBtn.setAttribute("aria-expanded", "false");
+      clearFocusedPassage();
+      focusedPassage = passage;
+      passage.classList.add("find-passage");
+      findBtn.focus({ preventScroll: true });
+      passage.scrollIntoView({ block: "center" });
+    });
+    item.append(button);
+    findResults.append(item);
+    count++;
+  }
+  findStatus.textContent = count ? count + (count === 1 ? " matching passage" : " matching passages") : "No matching passages.";
 }
 
 /* =====================================================
@@ -136,6 +248,7 @@ function renderChapterList(filter = "") {
 
 function setActive(chapterId) {
   activeChapterId = chapterId;
+  if (chapterId) chapterSelect.value = chapterId;
   document.querySelectorAll(".chapter-btn").forEach(b => {
     const current = b.dataset.id === chapterId;
     b.classList.toggle("active", current);
@@ -160,6 +273,8 @@ function updateChapterNavigation(chapterId) {
     }
   }
   chapterPagination.hidden = previousChapter.hidden && nextChapter.hidden;
+  toolbarPrevious.disabled = previousChapter.hidden;
+  toolbarNext.disabled = nextChapter.hidden;
 }
 
 /* =====================================================
@@ -171,6 +286,14 @@ async function loadChapter(chapterId) {
   chapterRequest = request;
   breadcrumbEl.hidden = true;
   chapterPagination.hidden = true;
+  toolbarPrevious.disabled = true;
+  toolbarNext.disabled = true;
+  findPanel.hidden = true;
+  findBtn.setAttribute("aria-expanded", "false");
+  findBtn.disabled = true;
+  chapterFind.value = "";
+  updateFindResults();
+  readingProgress.hidden = true;
 
   try {
     const url = `/api/books/${encodeURIComponent(BOOK)}/chapters/${encodeURIComponent(chapterId)}`;
@@ -267,6 +390,9 @@ async function loadChapter(chapterId) {
     applyReadingLevel();
     applyEquationVisibility();
     window.scrollTo({ top: 0 });
+    findBtn.disabled = false;
+    readingProgress.hidden = false;
+    updateReadingProgress();
 
   } catch (err) {
     if (request.signal.aborted) return;
@@ -327,6 +453,7 @@ function setupEquationToggle() {
   eqToggle.addEventListener("change", () => {
     localStorage.setItem("showEquations", eqToggle.checked);
     applyEquationVisibility();
+    updateFindResults();
   });
 
   applyEquationVisibility();
@@ -359,6 +486,7 @@ function setupReadingLevels() {
       btn.classList.add("active");
 
       applyReadingLevel();
+      updateFindResults();
     });
   });
 
