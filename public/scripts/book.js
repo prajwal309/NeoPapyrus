@@ -5,9 +5,12 @@
 const chaptersEl   = document.getElementById("chapters");
 const contentEl    = document.getElementById("content");
 const bookTitleEl  = document.getElementById("bookTitle");
-const bookSubEl    = document.getElementById("bookSub");
 const searchEl     = document.getElementById("search");
 const breadcrumbEl = document.getElementById("breadcrumb");
+const contentsToggle = document.getElementById("contentsToggle");
+const chapterPagination = document.getElementById("chapterPagination");
+const previousChapter = document.getElementById("previousChapter");
+const nextChapter = document.getElementById("nextChapter");
 
 const settingsBtn   = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
@@ -16,6 +19,8 @@ const params = new URLSearchParams(location.search);
 const BOOK = params.get("book");
 
 let ALL_CHAPTERS = [];
+let activeChapterId;
+let chapterRequest;
 
 /* =====================================================
    INIT
@@ -25,8 +30,11 @@ if (!BOOK) {
   contentEl.textContent = "No book selected. Go back to the library.";
 } else {
   bookTitleEl.textContent = BOOK;
-  bookSubEl.textContent = "Chapters";
-  init();
+  document.title = `${BOOK} | NeoPapyrus`;
+  init().catch(err => {
+    console.error("Error loading chapter list:", err);
+    contentEl.textContent = "Could not load the chapter list.";
+  });
 }
 
 async function init() {
@@ -35,6 +43,11 @@ async function init() {
   setupEquationToggle();
   setupReadingLevels();
   openChapterFromHashOrFirst();
+
+  contentsToggle.addEventListener("click", () => {
+    const isOpen = contentsToggle.getAttribute("aria-expanded") === "true";
+    contentsToggle.setAttribute("aria-expanded", String(!isOpen));
+  });
 
   searchEl?.addEventListener("input", () =>
     renderChapterList(searchEl.value)
@@ -48,18 +61,26 @@ async function init() {
 function setupSettingsPanel() {
   if (!settingsBtn || !settingsPanel) return;
 
-  settingsBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    settingsPanel.classList.toggle("open");
+  function setOpen(open) {
+    settingsPanel.hidden = !open;
+    settingsBtn.setAttribute("aria-expanded", String(open));
+  }
+
+  settingsBtn.addEventListener("click", () => {
+    setOpen(settingsPanel.hidden);
   });
 
   document.addEventListener("click", (e) => {
-    if (!settingsPanel.classList.contains("open")) return;
     if (settingsPanel.contains(e.target) || settingsBtn.contains(e.target)) return;
-    settingsPanel.classList.remove("open");
+    setOpen(false);
   });
 
-  settingsPanel.addEventListener("click", (e) => e.stopPropagation());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !settingsPanel.hidden) {
+      setOpen(false);
+      settingsBtn.focus();
+    }
+  });
 }
 
 /* =====================================================
@@ -86,39 +107,80 @@ function renderChapterList(filter = "") {
   );
 
   chaptersEl.innerHTML = "";
+  if (q && !items.length) {
+    const message = document.createElement("p");
+    message.className = "chapter-empty";
+    message.textContent = "No matching chapters.";
+    chaptersEl.appendChild(message);
+  }
 
   items.forEach(c => {
     const btn = document.createElement("button");
+    btn.type = "button";
     btn.className = "chapter-btn";
     btn.dataset.id = c.id;
     btn.textContent = c.title;
 
     btn.onclick = () => {
+      if (contentsToggle.getAttribute("aria-expanded") === "true") {
+        contentsToggle.setAttribute("aria-expanded", "false");
+        contentsToggle.focus();
+      }
       location.hash = `#${encodeURIComponent(c.id)}`;
     };
 
     chaptersEl.appendChild(btn);
   });
+  setActive(activeChapterId);
 }
 
 function setActive(chapterId) {
+  activeChapterId = chapterId;
   document.querySelectorAll(".chapter-btn").forEach(b => {
-    b.classList.toggle("active", b.dataset.id === chapterId);
+    const current = b.dataset.id === chapterId;
+    b.classList.toggle("active", current);
+    if (current) b.setAttribute("aria-current", "page");
+    else b.removeAttribute("aria-current");
   });
+}
+
+function updateChapterNavigation(chapterId) {
+  const index = ALL_CHAPTERS.findIndex(chapter => chapter.id === chapterId);
+  breadcrumbEl.textContent = `${index + 1} of ${ALL_CHAPTERS.length} chapters`;
+  breadcrumbEl.hidden = false;
+
+  for (const [link, chapter] of [
+    [previousChapter, ALL_CHAPTERS[index - 1]],
+    [nextChapter, ALL_CHAPTERS[index + 1]],
+  ]) {
+    link.hidden = !chapter;
+    if (chapter) {
+      link.href = `#${encodeURIComponent(chapter.id)}`;
+      link.querySelector("strong").textContent = chapter.title;
+    }
+  }
+  chapterPagination.hidden = previousChapter.hidden && nextChapter.hidden;
 }
 
 /* =====================================================
    LOAD CHAPTER
 ===================================================== */
 async function loadChapter(chapterId) {
+  chapterRequest?.abort();
+  const request = new AbortController();
+  chapterRequest = request;
+  breadcrumbEl.hidden = true;
+  chapterPagination.hidden = true;
+
   try {
     const url = `/api/books/${encodeURIComponent(BOOK)}/chapters/${encodeURIComponent(chapterId)}`;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: request.signal });
     if (!res.ok) {
       contentEl.textContent = "Failed to load chapter.";
       return;
     }
     const md = await res.text();
+    if (request.signal.aborted) return;
 
     // --- STEP 1: Extract math blocks before marked touches them ---
     const mathStore = [];
@@ -201,20 +263,13 @@ async function loadChapter(chapterId) {
 
     });
 
-    // Update breadcrumb
-    const chapterMeta = ALL_CHAPTERS.find(c => c.id === chapterId);
-    if (breadcrumbEl && chapterMeta) {
-      breadcrumbEl.textContent = chapterMeta.title;
-    }
-
-    // No need for renderMathInElement anymore — KaTeX already rendered above
-    // but keep it as a fallback if you have math elsewhere in the page
-    
+    updateChapterNavigation(chapterId);
     applyReadingLevel();
     applyEquationVisibility();
-    document.querySelector(".content")?.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0 });
 
   } catch (err) {
+    if (request.signal.aborted) return;
     console.error("Error loading chapter:", err);
     contentEl.textContent = "Error loading chapter.";
   }
@@ -241,7 +296,7 @@ function openChapterFromHashOrFirst() {
   }
 
   if (!location.hash) {
-    location.hash = `#${encodeURIComponent(initial)}`;
+    history.replaceState(null, "", `#${encodeURIComponent(initial)}`);
   }
 
   setActive(initial);

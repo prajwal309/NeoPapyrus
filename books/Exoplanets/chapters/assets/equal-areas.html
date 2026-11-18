@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kepler’s equal-area law</title>
+  <style>
+    :root { color-scheme: dark; font: 16px system-ui, sans-serif; background: #101a2b; color: #e7eefc; }
+    body { max-width: 640px; margin: auto; padding: 12px 16px; }
+    h1 { margin: 0; font-size: 1rem; }
+    svg { display: block; width: 100%; height: auto; max-height: 280px; margin: 4px auto; }
+    .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: 0.85rem; }
+    .legend span::before { content: "■"; margin-right: 0.35em; color: var(--swatch); }
+    .controls { display: flex; gap: 0.65rem; align-items: center; margin-top: 0.65rem; }
+    button { font: inherit; color: #e7eefc; border: 1px solid #7992ba; border-radius: 6px; background: #20314c; padding: 0.35rem 0.65rem; min-width: 4.8rem; }
+    button:hover { background: #2a4160; }
+    input { min-width: 0; flex: 1; accent-color: #75e3d3; }
+    output { min-width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
+    :focus-visible { outline: 2px solid #75e3d3; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Equal areas in equal times</h1>
+  <svg viewBox="0 0 540 340" role="img" aria-label="Elliptical orbit with the star at the right focus. The teal sector spans a long arc near periapsis. The violet sector spans a short arc near apoapsis. Both have equal area.">
+    <ellipse cx="270" cy="170" rx="185" ry="148" fill="#0b1424" stroke="#7689a5" stroke-width="2" />
+    <path id="nearArea" fill="#75e3d3" fill-opacity=".25" stroke="#75e3d3" stroke-width="1.5" />
+    <path id="farArea" fill="#c1afff" fill-opacity=".25" stroke="#c1afff" stroke-width="1.5" />
+    <line id="radiusLine" x1="381" y1="170" stroke="#edf3ff" stroke-width="1.5" stroke-dasharray="5 5" />
+    <circle cx="381" cy="170" r="9" fill="#ffd481" />
+    <text x="381" y="195" text-anchor="middle" fill="#ffd481" font-size="19">Star</text>
+    <circle id="planet" r="7" fill="#ffffff" stroke="#101a2b" stroke-width="2" />
+  </svg>
+  <div class="legend">
+    <span style="--swatch:#75e3d3">Periapsis · 1/12 orbit</span>
+    <span style="--swatch:#c1afff">Apoapsis · 1/12 orbit</span>
+  </div>
+  <div class="controls">
+    <button type="button" id="play">Play</button>
+    <input id="phase" type="range" min="0" max="1000" value="0" aria-label="Elapsed orbital period">
+    <output id="elapsed" for="phase">0%</output>
+  </div>
+
+  <script>
+    const eccentricity = 0.6;
+    const fullTurn = 2 * Math.PI;
+    const center = { x: 270, y: 170 };
+    const semiMajor = 185;
+    const semiMinor = semiMajor * Math.sqrt(1 - eccentricity ** 2);
+    const focus = { x: center.x + eccentricity * semiMajor, y: center.y };
+
+    function position(meanAnomaly) {
+      // Mean anomaly advances uniformly in time. Solve Kepler's equation for E.
+      let eccentricAnomaly = meanAnomaly;
+      for (let iteration = 0; iteration < 8; iteration++) {
+        eccentricAnomaly -= (
+          eccentricAnomaly - eccentricity * Math.sin(eccentricAnomaly) - meanAnomaly
+        ) / (1 - eccentricity * Math.cos(eccentricAnomaly));
+      }
+      return {
+        x: center.x + semiMajor * Math.cos(eccentricAnomaly),
+        y: center.y - semiMinor * Math.sin(eccentricAnomaly),
+      };
+    }
+
+    function drawSector(id, midpoint) {
+      const halfInterval = fullTurn / 24;
+      const start = position(midpoint - halfInterval);
+      const end = position(midpoint + halfInterval);
+      document.getElementById(id).setAttribute('d', [
+        'M', focus.x, focus.y,
+        'L', start.x, start.y,
+        'A', semiMajor, semiMinor, 0, 0, 0, end.x, end.y,
+        'Z',
+      ].join(' '));
+    }
+
+    const play = document.getElementById('play');
+    const slider = document.getElementById('phase');
+    const elapsed = document.getElementById('elapsed');
+    const planet = document.getElementById('planet');
+    const radiusLine = document.getElementById('radiusLine');
+    let phase = 0;
+    let frame;
+    let previousTime;
+
+    function render() {
+      const point = position(phase * fullTurn);
+      planet.setAttribute('cx', point.x);
+      planet.setAttribute('cy', point.y);
+      radiusLine.setAttribute('x2', point.x);
+      radiusLine.setAttribute('y2', point.y);
+      slider.value = Math.round(phase * 1000);
+      elapsed.value = `${Math.round(phase * 100)}%`;
+      slider.setAttribute('aria-valuetext', `${elapsed.value} of the orbital period`);
+    }
+
+    function tick(time) {
+      if (previousTime !== undefined) {
+        phase = (phase + Math.min(time - previousTime, 100) / 12000) % 1;
+        render();
+      }
+      previousTime = time;
+      frame = requestAnimationFrame(tick);
+    }
+
+    play.addEventListener('click', () => {
+      if (frame !== undefined) {
+        cancelAnimationFrame(frame);
+        frame = undefined;
+        previousTime = undefined;
+        play.textContent = 'Play';
+      } else {
+        frame = requestAnimationFrame(tick);
+        play.textContent = 'Pause';
+      }
+    });
+
+    slider.addEventListener('input', () => {
+      phase = slider.valueAsNumber / 1000;
+      render();
+    });
+
+    drawSector('nearArea', 0);
+    drawSector('farArea', Math.PI);
+    render();
+  </script>
+</body>
+</html>

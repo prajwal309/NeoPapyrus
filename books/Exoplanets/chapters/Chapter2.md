@@ -23,13 +23,11 @@ Unlike perfect circles, ellipses introduce **distance variation**, which directl
 
 A planet sweeps out **equal areas in equal intervals of time**.
 
-<figure style="float: right; width: 35%; margin: 0 0 1rem 1.5rem;">
-  <img src="/books/Exoplanets/chapters/figures/EllipticalOrbit.gif"
-     alt="Directly Imaged Planets Around HR 8799"
-     style="width: 100%; border-radius: 6px;" />
-  <figcaption style="font-size: 0.85rem; color: #555; margin-top: 0.4rem;">
-    A planet orbiting its host star sweeps out equal areas in equal intervals of time. As a result, the planet moves faster when it is near periapsis (closest to the star) and slower near apoapsis (farthest from the star), reflecting the conservation of angular momentum in orbital motion.
-  </figcaption>
+<figure class="orbit-figure">
+  <iframe src="/books/Exoplanets/chapters/assets/equal-areas.html"
+    title="Interactive orbit demonstrating Kepler’s second law"
+    width="100%" height="405" loading="lazy"></iframe>
+  <figcaption>Each shaded sector takes one-twelfth of the orbital period to sweep out. Near periapsis, the planet travels farther along its orbit in that time because it moves faster. Near apoapsis, it travels a shorter arc, but the line from the star to the planet is longer. The two sectors have the same area. Press Play or scrub the slider to follow the planet around the orbit.</figcaption>
 </figure>
 
 This law encodes a profound truth:

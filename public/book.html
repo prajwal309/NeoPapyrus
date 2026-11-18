@@ -14,26 +14,28 @@
 
 
 <header class="readerbar">
-  <a class="back" href="/">← Library</a>
+  <a class="back" href="/">
+    <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7M5 12h14" /></svg>
+    <span>Library</span>
+  </a>
 
   <div class="readerhead">
     <h1 id="bookTitle" class="brand">Book</h1>
-    <div class="sub" id="bookSub"></div>
   </div>
 
   <div class="reader-actions">
-    <button id="audioBtn">🔊</button>
-    <button id="themeBtn">🌙</button>
-    <button id="fontBtn">A</button>
-    <button id="focusBtn">🧘</button>
-    <button id="bookmarkBtn">🔖</button>
-    <button id="pdfBtn">📄</button>
-    <button class="settings-btn" id="settingsBtn">⚙</button>
+    <button type="button" id="pdfBtn" aria-label="Print" title="Print">
+      <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 17H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6zm12-2h1" /></svg>
+      <span>Print</span>
+    </button>
+    <button type="button" id="settingsBtn" aria-label="Reading settings" title="Reading settings" aria-controls="settingsPanel" aria-expanded="false">
+      <svg class="toolbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h5m4 0h7M4 12h10m4 0h2M4 18h2m4 0h10" /><circle cx="11" cy="6" r="2" /><circle cx="16" cy="12" r="2" /><circle cx="8" cy="18" r="2" /></svg>
+      <span>Reading settings</span>
+    </button>
   </div>
-</header>
 
-<div class="settings-panel" id="settingsPanel">
-  <h4>Reading Mode</h4>
+<div class="settings-panel" id="settingsPanel" hidden>
+  <h2>Reading level</h2>
 
   <div class="segmented">
     <button data-level="101" class="active">Introductory</button>
@@ -46,23 +48,34 @@
     <label for="eqToggle">Show Equations</label>
   </div>
 </div>
+</header>
 
 <main class="reader">
-  <aside class="sidebar">
-    <input id="search" class="search" placeholder="Search chapters..." />
-    <div id="chapters" class="chapters"></div>
-  </aside>
+  <nav class="sidebar" aria-label="Chapters">
+    <h2 class="sidebar-title">Contents</h2>
+    <button type="button" id="contentsToggle" aria-expanded="false" aria-controls="chapterNavigation">Contents</button>
+    <div id="chapterNavigation">
+      <input id="search" class="search" type="search" aria-label="Search chapters" placeholder="Search chapters…" />
+      <div id="chapters" class="chapters"></div>
+    </div>
+  </nav>
 
   <section class="content">
-    <div id="breadcrumb" class="meta">Chapter</div>
-    <div id="content" class="prose">Select a chapter.</div>
+    <div class="reading-page">
+      <p id="breadcrumb" class="chapter-position" hidden></p>
+      <article id="content" class="prose">Select a chapter.</article>
+      <nav id="chapterPagination" class="chapter-pagination" aria-label="Continue reading" hidden>
+        <a id="previousChapter" rel="prev" hidden><span>← Previous chapter</span><strong></strong></a>
+        <a id="nextChapter" rel="next" hidden><span>Next chapter →</span><strong></strong></a>
+      </nav>
+    </div>
   </section>
 </main>
 
 
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script src="/scripts/book.js"></script>
+<script defer src="/scripts/book.js"></script>
 
 </body>
 </html>

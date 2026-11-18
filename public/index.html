@@ -16,7 +16,7 @@
 
       <nav class="header-actions">
         <a class="pill" href="/aboutUs.html">About Us</a>
-        <a class="pill" href="/book.html?book=Exoplanets">Open Featured Book</a>
+        <a class="pill" href="/book.html?book=Exoplanets">Read Exoplanets</a>
       </nav>
     </div>
   </header>
@@ -26,7 +26,7 @@
       <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Foundations</span>
       <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Frontiers</span>
       <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Tools & Methods</span>
-      <span><i class="dot" style="background:#ff9b52; color:#ff9b52;"></i> Recommended</span>
+      <span><i class="dot" style="background:#ff9b52; color:#ff9b52;"></i> Featured book</span>
     </div>
 
     <section class="tree-wrap">
@@ -34,14 +34,11 @@
       <div class="cluster-title red"  style="left:45%; top:8%;">Frontiers</div>
       <div class="cluster-title blue" style="left:79%; top:73%;">Tools</div>
 
-      <div class="root-core" aria-hidden="true">
-        <div class="root-mark">
-          NeoPapyrus
-          <span>Knowledge Core</span>
-        </div>
-      </div>
+      <a class="root-core" href="/book.html?book=Exoplanets">
+        <span class="root-mark">Exoplanets <span>Read book</span></span>
+      </a>
 
-      <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
         <g id="branches"></g>
       </svg>
 
@@ -88,7 +85,7 @@
         cluster: "gold",
         x: 310,
         y: 600,
-        parent: "root",
+        parent: "exoplanets",
         background: "/books/Physics/coverPage/frontpage.png"
       },
       {
@@ -110,22 +107,8 @@
         cluster: "gold",
         x: 95,
         y: 450,
-        parent: "root",
+        parent: "exoplanets",
         background: "/books/Statistics/coverPage/frontpage.png"
-      },
-    
-
-      {
-        id: "exoplanets",
-        title: "Exoplanets",
-        subtitle: "Worlds beyond our star",
-        slug: "Exoplanets",
-        cluster: "red",
-        x: 600,
-        y: 125,
-        parent: "root",
-        background: "/books/Exoplanets/coverPage/frontpage.png",
-        recommended: true
       },
       
       {
@@ -161,7 +144,7 @@
         cluster: "blue",
         x: 788,
         y: 610,
-        parent: "root",
+        parent: "exoplanets",
         background: "/books/MachineLearning/coverPage/frontpage.png"
       },
         {
@@ -191,7 +174,7 @@
     const nodeMap = Object.fromEntries(books.map(book => [book.id, book]));
 
     function getPoint(id) {
-      if (id === "root") return ROOT;
+      if (id === "exoplanets") return ROOT;
       return nodeMap[id];
     }
 

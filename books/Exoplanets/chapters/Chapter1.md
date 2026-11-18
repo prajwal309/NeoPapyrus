@@ -37,21 +37,49 @@ This is, at its core, a statistical problem.
 
 That changed in the 1990s.
 
-With advances in precision spectroscopy and photometry, astronomers finally detected the first planets orbiting other stars. The discovery was not subtle. The first confirmed detections revealed worlds unlike anything in our Solar System: giant planets orbiting scorchingly close to their stars. Hot Jupiters were not predicted by classical Solar System theory — yet there they were.
+Precision pulsar timing and spectroscopy revealed the first confirmed exoplanets. The earliest detections included planets orbiting a stellar remnant and a giant planet orbiting scorchingly close to a Sun-like star. Giant planets on such tight orbits became known as hot Jupiters.
 
 These planets challenged long-standing assumptions about planet formation and orbital architecture. Instead of distant, cold gas giants like Jupiter, astronomers found massive worlds completing orbits in just a few days, bathed in intense stellar radiation.
 
-Writing
-
-SIDEBAR — How and Who Discovered It
-
-The first confirmed exoplanets were discovered in 1992 by Aleksander Wolszczan and Dale Frail, orbiting a pulsar (PSR B1257+12). These were exotic, dead-star systems — fascinating, but far from Sun-like.
-
-The breakthrough for “normal” stars came in 1995, when Michel Mayor and Didier Queloz discovered 51 Pegasi b, the first hot Jupiter orbiting a Sun-like star.
-
-They used the radial velocity method, detecting tiny Doppler shifts in the star’s spectrum caused by the gravitational pull of the planet.
-
-This discovery was so transformative that Mayor and Queloz were awarded the 2019 Nobel Prize in Physics.
+<aside class="discovery-sidebar" aria-labelledby="discovery-heading">
+  <h2 id="discovery-heading">How and Who Discovered It</h2>
+  <div class="discovery-grid">
+    <section class="discovery-card">
+      <h3><time datetime="1992">1992</time> PSR B1257+12</h3>
+      <p class="discovery-credit">Aleksander Wolszczan and Dale Frail</p>
+      <figure class="discovery-signal">
+        <svg viewBox="0 0 320 132" role="img" aria-label="Schematic of pulses arriving alternately late and early relative to their predicted arrival times.">
+          <path class="signal-zero" d="M68 60H307" />
+          <path class="signal-curve" d="M68 60 C88 60 88 29 108 29 S128 60 148 60 S168 91 188 91 S208 60 228 60 S248 29 268 29 S288 60 307 60" />
+          <text x="14" y="33">Late</text>
+          <text x="14" y="64">On time</text>
+          <text x="14" y="95">Early</text>
+          <text x="300" y="119" text-anchor="end">Time →</text>
+        </svg>
+        <figcaption>Pulse arrival times · schematic</figcaption>
+      </figure>
+      <p><strong>Pulsar timing.</strong> The planets’ gravity moved the pulsar closer to and farther from Earth. Its radio pulses traveled slightly different distances and arrived early or late in a repeating pattern.</p>
+      <p>The signal revealed the first confirmed exoplanets. <a href="https://doi.org/10.1038/355145a0">Discovery paper</a></p>
+    </section>
+    <section class="discovery-card discovery-card--velocity">
+      <h3><time datetime="1995">1995</time> 51 Pegasi b</h3>
+      <p class="discovery-credit">Michel Mayor and Didier Queloz</p>
+      <figure class="discovery-signal">
+        <svg viewBox="0 0 320 132" role="img" aria-label="Schematic of the same spectral absorption line shifting toward shorter wavelengths as the star approaches and longer wavelengths as it recedes.">
+          <path class="signal-zero" d="M182 13V104" />
+          <path class="signal-curve signal-blue" d="M72 29H123Q129 29 131 43Q133 54 137 43Q139 29 145 29H306" />
+          <path class="signal-curve signal-red" d="M72 73H219Q225 73 227 87Q229 98 233 87Q235 73 241 73H306" />
+          <text x="14" y="33">Toward</text>
+          <text x="14" y="77">Away</text>
+          <text x="300" y="119" text-anchor="end">Wavelength →</text>
+        </svg>
+        <figcaption>Doppler shifts in starlight · schematic</figcaption>
+      </figure>
+      <p><strong>Radial velocity.</strong> The planet’s gravity made the star wobble. Its spectral lines shifted toward shorter wavelengths as it moved toward Earth and longer wavelengths as it moved away.</p>
+      <p>This was the first confirmed exoplanet around a Sun-like star. The discovery earned Mayor and Queloz a share of the 2019 Nobel Prize in Physics. <a href="https://doi.org/10.1038/378355a0">Discovery paper</a></p>
+    </section>
+  </div>
+</aside>
 
 ✦ Seeing the Unseen
 

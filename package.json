@@ -1,0 +1,27 @@
+{
+  "name": "neopapyrus",
+  "version": "1.0.0",
+  "description": "NeoPapyrus is an interactive publishing platform designed to rethink how scientific and technical books are created, shared, and read. Instead of static PDFs, NeoPapyrus delivers **dynamic, customizable books** that adapt to the reader’s knowledge level and learning style.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "node scripts/build.js",
+    "dev": "vercel dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prajwal309/NeoPapyrus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prajwal309/NeoPapyrus/issues"
+  },
+  "homepage": "https://github.com/prajwal309/NeoPapyrus#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "private": true
+}

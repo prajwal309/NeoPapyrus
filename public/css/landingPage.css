@@ -197,17 +197,18 @@ header {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 168px;
-    height: 168px;
+    width: clamp(126px, 20vw, 168px);
+    aspect-ratio: 1;
     transform: translate(-50%, -50%);
     z-index: 5;
     border-radius: 999px;
     display: grid;
     place-items: center;
     background:
-    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.16), transparent 34%),
-    radial-gradient(circle at 50% 50%, rgba(115,168,225,0.18), rgba(8,14,21,0.92));
-    border: 1px solid rgba(255,255,255,0.13);
+    linear-gradient(180deg, rgba(8,14,21,0.34), rgba(8,14,21,0.95)),
+    url("/books/Exoplanets/coverPage/frontPage.png") center / cover,
+    #101b29;
+    border: 1px solid #f0ae7b;
     box-shadow:
     0 0 0 16px rgba(145,184,221,0.05),
     0 0 80px rgba(130, 178, 228, 0.16),
@@ -222,6 +223,12 @@ header {
     border-radius: 999px;
     border: 1px solid rgba(255,255,255,0.06);
 }
+
+.root-core::before,
+.root-core::after { pointer-events: none; }
+
+.root-core:hover { box-shadow: 0 0 42px rgba(255,155,82,0.44); }
+.root-core:focus-visible { outline: 3px solid #ffd0a4; outline-offset: 5px; }
 
 .root-core::after {
     inset: -48px;
@@ -241,7 +248,7 @@ header {
     display: block;
     font-size: 0.74rem;
     letter-spacing: 0.24em;
-    color: rgba(168,191,208,0.8);
+    color: #ffd0a4;
     margin-top: 8px;
 }
 

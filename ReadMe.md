@@ -171,6 +171,18 @@ Possible areas of contribution:
 
 If you are interested in contributing, feel free to open an issue or submit a pull request.
 
+To stage all repository changes, create a commit, and push the current branch to
+[prajwal309/NeoPapyrus](https://github.com/prajwal309/NeoPapyrus), run this from the repository root:
+
+```bash
+./commit2Github.sh "Describe your changes"
+```
+
+Run `git status --short` first to review the changes that will be staged. The script
+checks that `origin` has a single push URL for the GitHub repository above.
+If the push fails after the commit succeeds, resolve the error and retry with
+`git push --set-upstream origin HEAD`.
+
 ---
 
 ## Roadmap
