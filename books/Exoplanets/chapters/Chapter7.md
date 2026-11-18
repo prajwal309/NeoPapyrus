@@ -10,7 +10,7 @@ However, stars are not perfectly uniform. Their surfaces often contain **starspo
 
 If the planet transits a region of the star that is different from the average stellar surface, the measured transit depth can be biased. This effect is known as **stellar contamination**.
 
-Add transit light source effect here...
+Section 7.3 explains how this mismatch can imprint a stellar signal on a planet's transmission spectrum.
 
 </div>
 
@@ -67,18 +67,36 @@ A star cluster's **main-sequence turnoff point** — the luminosity at which sta
 
 > **Connection to stellar contamination.** Stars at different points on the HR diagram have radically different surface structures. Hot O/B stars have few starspots but strong magnetic fields and rapid rotation. Sun-like G stars show well-defined spot cycles. Cool M dwarfs are heavily spotted and magnetically active. Understanding *where* a host star sits on the HR diagram — its temperature, luminosity, and spectral class — is therefore the first step in modeling the **transit light source effect** discussed in §7.3.
 
-### The Transit Light Source Effect
-
-
 ---
 
-### Why It Matters for Exoplanet Atmospheres
+## 7.3 The Transit Light Source Effect
+
+A transit spectrum compares the light lost during transit with the light from the whole visible stellar disk. The planet and its atmosphere sample a much smaller region, the **transit chord**. If the spectrum of that region differs from the disk average, the measured transit depth changes with wavelength for reasons that originate on the star. Benjamin Rackham, Dániel Apai, and Mark Giampapa named this mismatch the **transit light source effect**. [Rackham, Apai &amp; Giampapa (2018), *The Astrophysical Journal* 853, 122](https://doi.org/10.3847/1538-4357/aaa08c)
+
+<figure class="orbit-figure">
+  <img src="https://brackham.github.io/images/transit_light_source_effect.png"
+    alt="Rackham and colleagues compare the spectrum of the whole stellar disk with the spectrum of the chord crossed by a planet. Starspots and faculae contribute differently to the two spectra, distorting the observed planetary transmission spectrum."
+    loading="lazy" />
+  <figcaption><strong>The transit chord samples only part of the stellar disk.</strong> Rackham et al. (2018), Figure 1, as hosted by Benjamin V. Rackham. <a href="https://brackham.github.io/#research">Author’s figure and explanation</a> · <a href="https://arxiv.org/pdf/1711.05691v3#page=3">Figure 1 in the paper</a></figcaption>
+</figure>
+
+Suppose a planet crosses a quiet strip while cool spots lie elsewhere on the star. The spots dim the out-of-transit baseline. The planet still blocks the same bright strip, so the fraction of light lost appears larger. Because the contrast between the spots and the quiet surface changes with wavelength, the bias can appear as a slope or a molecular band. Unocculted bright faculae can have the opposite effect when they increase the baseline. A spot crossed by the planet may leave a bump in the light curve. Spots outside the path can bias the spectrum even when the light curve shows no such bump. [Rackham et al. (2018)](https://doi.org/10.3847/1538-4357/aaa08c)
 
 <div data-level="301">
 
-Stellar contamination can produce spectral signatures that resemble atmospheric features such as water vapor absorption or Rayleigh scattering slopes. As a result, interpreting transmission spectra without accounting for stellar heterogeneity can lead to incorrect conclusions about planetary atmospheres.
+### From stellar contrast to a contaminated transit depth
 
-A notable example is the warm super-Earth **GJ 486b**, where JWST observations could be interpreted either as evidence for a water-rich atmosphere or as contamination from unocculted starspots \citep{moran2023}. This degeneracy highlights the importance of independently constraining stellar surface properties.
+Suppose the planet crosses a quiet chord, and a fraction $f$ of the projected stellar disk is covered by unocculted spots. In a simplified model that sets limb darkening aside, let $I_{\rm spot}(\lambda)$ and $I_{\rm quiet}(\lambda)$ be the spot and quiet photosphere intensities. The observed transit depth is
+
+$$
+\delta_{\rm obs}(\lambda)=
+\frac{\delta_{\rm quiet}(\lambda)}
+{1-f\left[1-I_{\rm spot}(\lambda)/I_{\rm quiet}(\lambda)\right]}.
+$$
+
+Here $\delta_{\rm quiet}$ is the depth the same planet would produce on an entirely quiet star. For example, if spots cover 5% of the disk and are half as bright as the quiet surface in one wavelength bin, a 1,000 ppm quiet-star transit appears about 1,026 ppm deep. At a wavelength where the spots and quiet surface have the same intensity, the bias vanishes in this model. [Rackham et al. (2018), stellar-contamination model](https://doi.org/10.3847/1538-4357/aaa08c)
+
+An observational example comes from **GJ 486 b**. Moran and colleagues showed that their JWST transmission spectrum could be fit either by a water-rich planetary atmosphere or by a stellar model with cool unocculted spots. The two fits illustrate why identifying water opacity in a transit spectrum leaves open where that water is located. [Moran et al. (2023)](https://doi.org/10.3847/2041-8213/accb9c)
 
 Several strategies are used to mitigate stellar contamination:
 
@@ -87,6 +105,6 @@ Several strategies are used to mitigate stellar contamination:
 - Forward modeling of heterogeneous stellar photospheres  
 - Simultaneous stellar and planetary retrieval frameworks
 
-Future observatories such as the **Nancy Grace Roman Space Telescope** will provide high-precision multi-band photometry that can empirically constrain spot temperature contrasts and filling factors across large stellar populations. These measurements will significantly improve our ability to disentangle stellar effects from planetary atmospheric signals.
+Rotational monitoring helps track changes in surface brightness. A nearly steady light curve can still come from a star with substantial, roughly symmetric spot coverage. Combining monitoring with stellar spectra and repeated transits gives the stellar and planetary models more independent constraints. [Rackham et al. (2018)](https://doi.org/10.3847/1538-4357/aaa08c) · [Chapter 4: Transmission Spectroscopy](#Chapter4)
 
 </div>

@@ -4,6 +4,12 @@
 
 A planet can cast a slightly larger shadow in one color than in another. During a transit, its opaque disk blocks part of the stellar surface. Above that disk, starlight passes through a thin ring of atmosphere around the planet's edge, or **terminator**. At a wavelength where the atmosphere is more opaque, the shadow extends to a higher altitude.
 
+<figure class="orbit-figure">
+  <img src="/books/Exoplanets/chapters/figures/transmission-geometry.png"
+    alt="Two rays of starlight skim the atmosphere at the same altitude. More light passes through at one wavelength than at the absorption-band wavelength. A third ray is blocked by the opaque disk." />
+  <figcaption><strong>How an atmosphere leaves a fingerprint on a transit.</strong> The teal and violet rays skim the atmosphere at the same altitude. More light is absorbed at the violet wavelength, so the planet casts a larger effective shadow in that band. The geometry is schematic and the atmosphere is enlarged for clarity.</figcaption>
+</figure>
+
 An observer begins with a time series of stellar spectra. In each wavelength bin, they fit a [transit light curve](#Chapter3), accounting for the star's limb darkening and changes in the instrument baseline. The result is a series of transit depths with uncertainties. In the simple limit of uniform stellar illumination, the depth $\delta$ and the effective transit radius $R_{\rm tr}$ are related by
 
 $$
@@ -117,12 +123,6 @@ Kevin Heng and Daniel Kitzmann asked a different question: even if the scale hei
 
 Consider a simplified spectrum in which one well-mixed gas dominates all the observed extinction. At fixed $R_0$, gravity, and scale height, let its contribution to the opacity be proportional to its mixing ratio $X$. The optical depth then scales with $P_0 X$. Raising the reference pressure tenfold and lowering the gas mixing ratio tenfold gives the same optical depth at every wavelength in this idealization. The spectrum can still show the gas's distinctive shape, while leaving its absolute abundance ambiguous. Allowing the reference radius to vary introduces another way to change the spectrum's baseline. Heng and Kitzmann demonstrated this normalization problem in the context of interpreting narrow-band Hubble spectra. [Heng & Kitzmann (2017)](https://doi.org/10.1093/mnras/stx1453)
 
-<figure class="orbit-figure">
-  <img src="/books/Exoplanets/chapters/figures/transmission-normalization.svg"
-    alt="Two model spectra coincide when only one absorber sets the opacity. With an independently fixed continuum, the higher-pressure model has a higher baseline and weaker band contrast." />
-  <figcaption>Synthetic example using the isothermal, deep-reference approximation. Model B uses ten times the reference pressure and one-tenth the absorbing gas fraction of Model A. The curves coincide when only that gas contributes opacity. Adding the same fixed continuum opacity per unit gas mass to both models changes the contrast and can help distinguish them. The bands are schematic and represent no specific molecule. Original figure based on Heng &amp; Kitzmann (2017).</figcaption>
-</figure>
-
 <div data-level="301">
 
 ### Recovering a pressure anchor
@@ -156,6 +156,35 @@ Bin the model in the same wavelength channels as the observations. Inspect the r
 
 ## 4.8 An observed example: carbon dioxide on WASP-39 b
 
+<figure class="orbit-figure">
+  <img src="/books/Exoplanets/chapters/figures/wasp39b-nirspec-prism.png"
+    alt="JWST measurements of WASP-39 b from 0.53 to 5.25 micrometres. Transit depth varies across the spectrum and peaks near 4.3 micrometres at the carbon dioxide absorption band. Each point has a vertical uncertainty bar." />
+  <figcaption><strong>The observed transmission spectrum of WASP-39 b.</strong> Points show published whole-planet transit depths from JWST/NIRSpec PRISM. Vertical bars show one-standard-deviation uncertainties. The shaded interval marks the carbon dioxide band around 4.3 µm. Original plot from the measurements released with Espinoza et al. (2024), who reanalyzed the Early Release Science transit. <a href="https://github.com/nespinoza/wasp39-terminators/blob/57587796023fee9051121ea17d435f0ad6852589/figure2/catwoman_tspec_res100_priorlds.txt">GitHub source table</a> · <a href="https://doi.org/10.1038/s41586-024-07768-4">Paper</a></figcaption>
+</figure>
+
 JWST transit time series of the gas giant WASP-39 b yielded a prominent absorption band near **4.3 micrometres**. Its wavelength and shape matched carbon dioxide opacity in atmospheric models. The study compared independent reductions and model calculations, linking the feature to a recognizable molecule. Turning the detection into a mixing ratio or a constraint on bulk metallicity adds assumptions about other absorbers, temperature, clouds, and the pressure scale. A subsequent analysis of JWST spectra used the richer opacity information to examine how well those model parameters can be disentangled. [JWST Transiting Exoplanet Community Early Release Science Team (2023)](https://pmc.ncbi.nlm.nih.gov/articles/PMC9946830/) · [Information content of JWST spectra of WASP-39b (2024)](https://doi.org/10.1051/0004-6361/202348802)
 
 When reading a new transmission-spectrum paper, ask three questions. What feature is directly measured? Which inference follows from the shape of that feature? Which inference depends on a model choice or an independent measurement? The same questions apply to much subtler claims about [biosignatures](#Chapter6).
+
+<div data-level="301">
+
+## 4.9 Advanced: When one atmosphere model fits two different limbs
+
+The morning terminator is the planet's sunrise boundary, and the evening terminator is its sunset boundary. The two limbs can have different temperature profiles, chemistry, and clouds. A conventional one-dimensional retrieval assigns the same atmospheric column to the entire ring.
+
+The observed shadow combines **blocked areas**. In a simplified geometry with uniform illumination and equal semicircles, let $R_{\rm m}(\lambda)$ and $R_{\rm e}(\lambda)$ be the effective radii the morning and evening columns would produce if each covered the full ring. The combined depth is approximately
+
+$$
+\delta(\lambda)\simeq
+\frac{R_{\rm m}^2(\lambda)+R_{\rm e}^2(\lambda)}{2R_\star^2}.
+$$
+
+Each radius already depends nonlinearly on the atmospheric state through the chord transmission $e^{-\tau_\lambda}$. Averaging the temperatures and mixing ratios before calculating the spectrum generally produces a different result from combining the two shadows.
+
+Ryan MacDonald, Jayesh Goyal, and Nikole Lewis generated spectra with different chemistry on the two limbs, then retrieved them with a single atmospheric column. In their simulations, the one-column model could fit the spectrum while returning temperatures hundreds of kelvins below the input profiles and, in some cases, a water abundance wrong by more than a factor of ten. A retrieval can use a smaller scale height and altered abundances to approximate the combined band contrasts. These biases depend on the particular atmosphere and observations. A tight posterior from a one-column model measures uncertainty within that model family. [MacDonald, Goyal & Lewis (2020)](https://doi.org/10.3847/2041-8213/ab8238)
+
+WASP-39 b illustrates how time-resolved data can test the assumption of identical limbs. Espinoza, MacDonald, and collaborators fit the full transit light curves with separate radii for the leading and trailing semicircles. Ingress and egress help distinguish them because the two limbs cover different parts of the star at different times. Under their adopted orbital geometry, the study found evening depths averaging $405\pm88$ ppm greater than morning depths in the analyzed near-infrared range. The inferred temperature contrast comes from atmospheric modeling of those spectra. The whole-planet spectrum above combines the two contributions. [Espinoza et al. (2024)](https://doi.org/10.1038/s41586-024-07768-4) · [Figure data and code](https://github.com/nespinoza/wasp39-terminators/tree/57587796023fee9051121ea17d435f0ad6852589/figure2)
+
+**Retrieval check.** Generate a synthetic transit from two limbs and pass it through the same one-column analysis used on the observations. Compare the retrieved values with the known inputs. When the time-series precision supports it, test a two-limb light-curve fit and propagate uncertainties in transit timing, orbital geometry, and stellar limb darkening.
+
+</div>

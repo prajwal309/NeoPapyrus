@@ -464,220 +464,73 @@
 <body>
   <header>
     <div class="container nav">
-      <a href="#top" class="brand" aria-label="NeoPapyrus home">
+      <a href="/" class="brand" aria-label="NeoPapyrus library">
         <div class="brand-mark">N</div>
         <div class="brand-name">NeoPapyrus</div>
       </a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#mission">Mission</a>
-        <a href="#story">Story</a>
-        <a href="#values">Values</a>
-        <a href="#future">Future</a>
+        <a href="/">Library</a>
+        <a href="#prajwal">Prajwal Niraula</a>
+        <a href="#nepal">Education in Nepal</a>
       </nav>
     </div>
   </header>
 
-  <main id="top">
+  <main>
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="eyebrow">About NeoPapyrus</span>
-          <h1>Books that think with the reader.</h1>
+          <h1>About NeoPapyrus</h1>
           <p class="lead">
-            NeoPapyrus is an interactive publishing platform built for a new kind of learning: layered,
-            visual, elegant, and alive. We create books that do more than display information — they help
-            readers move between intuition, story, mathematics, and depth at their own pace.
+            NeoPapyrus is a library of interactive science and mathematics books.
+            Start with the main explanation, then use the reading settings to
+            reveal more detail or hide equations as you read.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#mission">Explore our mission</a>
-            <a class="btn btn-secondary" href="#future">See what we are building</a>
+            <a class="btn btn-primary" href="/book.html?book=Exoplanets">Read Exoplanets</a>
+            <a class="btn btn-secondary" href="/">Browse the library</a>
           </div>
         </div>
 
-        <aside class="hero-card" aria-label="Featured NeoPapyrus themes">
-          <h2 style="font-size:1.4rem; margin-bottom: 6px;">A living bookshelf</h2>
-          <p style="color: var(--muted); margin-top: 0;">
-            Science, mathematics, astronomy, and ideas presented with narrative clarity and interactive depth.
+        <aside class="hero-card">
+          <h2>Pause a planet mid-orbit</h2>
+          <p>
+            A small perk of doing astronomy in a browser. In <em>Exoplanets</em>,
+            you can scrub through an orbit to see why a planet speeds up near its star.
           </p>
-          <div class="book-shelf">
-            <div class="book">
-              <small>Exploration</small>
-              <strong>Exoplanets</strong>
-            </div>
-            <div class="book">
-              <small>Foundations</small>
-              <strong>Statistics</strong>
-            </div>
-            <div class="book">
-              <small>Methods</small>
-              <strong>Numerical Thinking</strong>
-            </div>
-          </div>
+          <a href="/book.html?book=Exoplanets#Chapter2">Try the orbit demo →</a>
         </aside>
       </div>
     </section>
 
-    <section id="mission">
+    <section>
       <div class="container grid-2">
+        <article class="card" id="prajwal">
+          <div class="section-title"><h2>Prajwal Niraula</h2></div>
+          <p>
+            Prajwal started NeoPapyrus to make technical subjects easier to explore.
+            He earned his PhD in Earth, Atmospheric, and Planetary Sciences at MIT
+            and studies what starlight can tell us about the atmospheres of exoplanets.
+            <a href="https://dspace.mit.edu/entities/publication/2c5e36dd-967e-4dfa-8691-cc530b313b66">Read his research</a>.
+          </p>
+        </article>
 
-        
-        <div class="card">
-          <div class="section-title"><h2>Our mission</h2></div>
+        <article class="card" id="nepal">
+          <div class="section-title"><h2>Education in Nepal</h2></div>
           <p>
-            NeoPapyrus exists to reimagine the book for the digital age without losing the beauty,
-            seriousness, and intimacy of reading. We believe deep learning should feel inviting rather than
-            intimidating, and that rigorous subjects can be made accessible without making them shallow.
+            Prajwal wants to devote more time to science education in Nepal.
+            He is interested in building resources that students can explore
+            at their own pace and teachers can use alongside their lessons.
           </p>
-          <div class="mission-points">
-            <div class="point">
-              <div class="point-icon">1</div>
-              <div>
-                <strong>Layered understanding</strong><br />
-                Readers should be able to begin with intuition and move naturally toward technical depth.
-              </div>
-            </div>
-            <div class="point">
-              <div class="point-icon">2</div>
-              <div>
-                <strong>Elegant presentation</strong><br />
-                Design is not decoration. It shapes attention, memory, and intellectual pleasure.
-              </div>
-            </div>
-            <div class="point">
-              <div class="point-icon">3</div>
-              <div>
-                <strong>Interactive scholarship</strong><br />
-                Books can include equations, figures, visual layers, and pathways tailored to different readers.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-title"><h2>What makes us different</h2></div>
-          <p>
-            Traditional textbooks often force every reader through the same path. NeoPapyrus is built around
-            flexibility. A curious beginner, a student, and an expert should all be able to inhabit the same
-            book in different ways.
-          </p>
-          <p>
-            Instead of static pages alone, we imagine a reading environment where readers can reveal advanced
-            layers, hide equations, compare perspectives, and move fluidly across a subject. The result is a
-            platform designed not just for publishing, but for understanding.
-          </p>
-          <div class="stats">
-            <div class="stat">
-              <strong>3</strong>
-              <span>reading levels</span>
-            </div>
-            <div class="stat">
-              <strong>1</strong>
-              <span>shared narrative</span>
-            </div>
-            <div class="stat">
-              <strong>∞</strong>
-              <span>paths to insight</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="story">
-      <div class="container grid-2">
-        <div class="card story">
-          <div class="section-title"><h2>Our story</h2></div>
-          <p>
-            NeoPapyrus began with a simple frustration: many of the most important ideas in science are hard
-            not because they are beyond people, but because they are poorly introduced. Too often, beauty is
-            stripped away from technical knowledge, and readers are left with information without invitation.
-          </p>
-          <p>
-            We wanted to build something different — a platform where a book could feel as expansive as a
-            conversation, as structured as a textbook, and as visually compelling as a carefully curated
-            exhibition. The goal is not merely to digitize books, but to reinvent how serious ideas are read,
-            taught, and remembered.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="section-title"><h2>How we think</h2></div>
-          <blockquote class="quote">
-            “A great book should not only contain knowledge. It should create a way of seeing.”
-          </blockquote>
-          <div class="timeline" aria-label="NeoPapyrus approach">
-            <div class="step">
-              <strong>Start with wonder</strong>
-              <div>Invite the reader in through story, imagery, and intuition.</div>
-            </div>
-            <div class="step">
-              <strong>Build structure</strong>
-              <div>Organize ideas so complexity unfolds naturally rather than abruptly.</div>
-            </div>
-            <div class="step">
-              <strong>Reveal depth</strong>
-              <div>Make advanced content available without overwhelming the first encounter.</div>
-            </div>
-            <div class="step">
-              <strong>Encourage return</strong>
-              <div>Create books worth revisiting, not just finishing once.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="values">
-      <div class="container">
-        <div class="section-title"><h2>Our values</h2></div>
-        <div class="values">
-          <div class="value">
-            <h3>Clarity</h3>
-            <p>Complexity deserves precision, but precision does not require obscurity.</p>
-          </div>
-          <div class="value">
-            <h3>Beauty</h3>
-            <p>Design can deepen understanding by making ideas feel legible and memorable.</p>
-          </div>
-          <div class="value">
-            <h3>Depth</h3>
-            <p>We take serious subjects seriously and build for readers who want to keep going.</p>
-          </div>
-          <div class="value">
-            <h3>Access</h3>
-            <p>Knowledge should open outward, welcoming readers from different backgrounds and stages.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="future">
-      <div class="container">
-        <div class="cta">
-          <div class="section-title" style="margin-bottom: 12px;">
-            <h2 style="margin: 0;">What we are building next</h2>
-          </div>
-          <p>
-            NeoPapyrus is growing into a home for interactive books across science, mathematics, astronomy,
-            and beyond. We are designing a reading experience where books can adapt to the reader while
-            preserving the coherence, dignity, and authorial voice that make books powerful in the first place.
-          </p>
-          <p>
-            Our long-term vision is to build a new kind of library: one where each book is not just read, but
-            explored.
-          </p>
-          <div class="hero-actions" style="margin-top: 24px;">
-            <a class="btn btn-secondary" href="mailto:hello@neopapyrus.com" style="background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.22); color: white;">Contact us</a>
-          </div>
-        </div>
+        </article>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="container footer-row">
-      <div>© 2026 NeoPapyrus. Built for readers who want depth.</div>
-      <div>About · Mission · Interactive Books</div>
+      <div>© 2026 NeoPapyrus</div>
+      <a href="mailto:hello@neopapyrus.com">Contact us</a>
     </div>
   </footer>
 </body>

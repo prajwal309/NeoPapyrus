@@ -3,71 +3,89 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NeoPapyrus Knowledge Tree</title>
+  <title>NeoPapyrus Library</title>
   <link rel="stylesheet" href="/css/landingPage.css"/>
 </head>
 <body>
   <header>
     <div class="header-inner">
-      <div class="header-copy">
-        <h1>NeoPapyrus</h1>
-        <p class="subtitle">A living codex of ideas — explore the library as a ceremonial skill tree</p>
-      </div>
-
-      <nav class="header-actions">
-        <a class="pill" href="/aboutUs.html">About Us</a>
-        <a class="pill" href="/book.html?book=Exoplanets">Read Exoplanets</a>
+      <a class="wordmark" href="/" aria-current="page">NeoPapyrus</a>
+      <nav class="header-actions" aria-label="Main navigation">
+        <a href="#library">Library</a>
+        <a href="/aboutUs.html">About Us</a>
       </nav>
     </div>
   </header>
 
   <main class="page">
-    <div class="legend">
-      <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Foundations</span>
-      <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Frontiers</span>
-      <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Tools & Methods</span>
-      <span><i class="dot" style="background:#ff9b52; color:#ff9b52;"></i> Featured book</span>
-    </div>
+    <section class="featured-book" aria-labelledby="featured-title">
+      <div class="featured-copy">
+        <p class="featured-kicker">Featured book</p>
+        <h1 id="featured-title">Exoplanets</h1>
+        <p class="featured-description">Explore how astronomers find worlds beyond our Sun, measure their atmospheres, and weigh the evidence for life.</p>
+        <div class="featured-actions">
+          <a class="pill pill-primary" href="/book.html?book=Exoplanets">Read Exoplanets <span aria-hidden="true">→</span></a>
+          <a class="pill" href="#library">Browse the library</a>
+        </div>
+      </div>
+    </section>
 
-    <section class="tree-wrap">
-      <div class="cluster-title gold" style="left:8%; top:73%;">Foundations</div>
-      <div class="cluster-title red"  style="left:45%; top:8%;">Frontiers</div>
-      <div class="cluster-title blue" style="left:79%; top:73%;">Tools</div>
+    <section class="library" id="library" aria-labelledby="library-title">
+      <div class="library-heading">
+        <h2 id="library-title">Explore the library</h2>
+      </div>
+      <div class="library-controls" id="libraryControls" hidden>
+        <div class="library-search" role="search" aria-label="Library">
+          <label for="librarySearch">Find a book</label>
+          <input type="search" id="librarySearch" placeholder="Search by title or topic" aria-controls="libraryList" />
+          <button type="button" id="clearSearch" hidden>Clear</button>
+        </div>
+        <div class="view-switch" role="group" aria-label="Library view">
+          <button type="button" id="showTree" aria-controls="libraryTree" aria-pressed="true">Topic map</button>
+          <button type="button" id="showList" aria-controls="libraryList" aria-pressed="false">Book list</button>
+        </div>
+      </div>
 
-      <a class="root-core" href="/book.html?book=Exoplanets">
-        <span class="root-mark">Exoplanets <span>Read book</span></span>
-      </a>
+      <div id="libraryTree">
+        <div class="legend" aria-label="Tree categories">
+          <span><i class="dot" style="background:var(--gold); color:var(--gold);"></i> Foundations</span>
+          <span><i class="dot" style="background:var(--red); color:var(--red);"></i> Frontiers</span>
+          <span><i class="dot" style="background:var(--blue); color:var(--blue);"></i> Tools &amp; Methods</span>
+        </div>
 
-      <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-        <g id="branches"></g>
-      </svg>
+        <div class="tree-wrap">
+          <a class="root-core" href="/book.html?book=Exoplanets">
+            <span class="root-mark">Exoplanets <span>Read book</span></span>
+          </a>
 
-      <div class="nodes" id="bookNodes"></div>
+          <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+            <defs id="branchGradients"></defs>
+            <g id="branches"></g>
+          </svg>
+
+          <div class="nodes" id="bookNodes"></div>
+        </div>
+      </div>
+      <p class="search-status" id="searchStatus" role="status"></p>
+      <div class="library-list" id="libraryList" hidden></div>
     </section>
 
     <section class="about">
       <article class="panel">
-        <p style="font-style:italic; color:#b8d3e3; margin-top:0;">
-          Prajwal Niraula is a postdoctoral researcher and holds a PhD from the Department of Earth, Atmospheric, and Planetary Sciences at the Massachusetts Institute of Technology.
-        </p>
-
         <h2>About NeoPapyrus</h2>
         <p>
-          This design moves away from rectangular cards and toward a more iconic visual language: circular medallions, luminous paths, and a central knowledge core. Each book uses its own cover art as the node background, so the tree feels less like a sitemap and more like a world map of disciplines.
-        </p>
-        <p>
-          The result is closer to an Assassin’s Creed skill tree: ritual, symmetric, atmospheric, and unlock-like. The structure still comes from your book graph, but the experience feels more legendary and less utilitarian.
+          Explore science and mathematics at your own pace. The books pair
+          explanations with interactive figures and optional mathematical detail.
         </p>
       </article>
 
       <aside class="panel">
-        <h3>Design Notes</h3>
+        <h3>Prajwal Niraula</h3>
         <p>
-          Each node can have a cover image, subtitle, and recommendation badge. You can later add states like <code>locked</code>, <code>completed</code>, <code>featured</code>, or <code>new</code>.
+          Prajwal started NeoPapyrus and wants to devote more time to science
+          education in Nepal.
         </p>
-        <p>
-          For the best effect, make all cover images similar in aspect ratio and store them consistently as <code>/books/BookSlug/coverPage/frontpage.png</code>.
-        </p>
+        <p><a href="/aboutUs.html#prajwal">About Prajwal and NeoPapyrus →</a></p>
         <p class="credits">© 2026 NeoPapyrus</p>
       </aside>
     </section>
@@ -80,41 +98,41 @@
       {
         id: "physics",
         title: "Classical Physics",
-        subtitle: "Motion, force, and the fabric of mechanics",
+        subtitle: "Motion, forces, and energy",
         slug: "Physics",
         cluster: "gold",
         x: 310,
         y: 600,
         parent: "exoplanets",
-        background: "/books/Physics/coverPage/frontpage.png"
+        background: "/books/Physics/coverPage/frontPage.png"
       },
       {
         id: "calculus",
         title: "Calculus",
-        subtitle: "Change written precisely",
+        subtitle: "Derivatives, integrals, and rates of change",
         slug: "Calculus",
         cluster: "gold",
         x: 300,
-        y: 890,
+        y: 835,
         parent: "physics",
         background: "/books/Calculus/coverPage/frontpage.png"
       },
       {
         id: "statistics",
         title: "Statistics",
-        subtitle: "Inference under uncertainty",
+        subtitle: "Probability, data, and inference",
         slug: "Statistics",
         cluster: "gold",
-        x: 95,
+        x: 125,
         y: 450,
         parent: "exoplanets",
-        background: "/books/Statistics/coverPage/frontpage.png"
+        background: "/books/Statistics/coverPage/frontPage.png"
       },
       
       {
         id: "astronomy",
         title: "Astronomy",
-        subtitle: "The broad sky of understanding",
+        subtitle: "Stars, galaxies, and the observable universe",
         slug: "Astronomy",
         cluster: "red",
         x: 392,
@@ -126,7 +144,7 @@
       {
         id: "stars",
         title: "Stellar Physics",
-        subtitle: "The engine behind every system",
+        subtitle: "How stars form, shine, and evolve",
         slug: "StellarPhysics",
         cluster: "red",
         x: 830,
@@ -139,7 +157,7 @@
       {
         id: "ml",
         title: "Machine Learning",
-        subtitle: "Learning patterns from data",
+        subtitle: "Models that learn patterns from data",
         slug: "MachineLearning",
         cluster: "blue",
         x: 788,
@@ -150,32 +168,48 @@
         {
         id: "numerical",
         title: "Numerical Methods",
-        subtitle: "Computation as approximation",
+        subtitle: "Approximation, simulation, and numerical algorithms",
         slug: "NumericalMethods",
         cluster: "blue",
         x: 650,
-        y: 900,
+        y: 835,
         parent: "ml",
-        background: "/books/NumericalMethods/coverPage/frontpage.png"
+        background: "/books/NumericalMethods/coverPage/frontPage.png"
       },
       {
         id: "hpc",
         title: "High-Performance Computing",
-        subtitle: "Scaling thought through machines",
+        subtitle: "Parallel computing and scientific workloads",
         slug: "HPC",
         cluster: "blue",
-        x: 904,
-        y: 860,
+        x: 875,
+        y: 825,
         parent: "ml",
         background: "/books/HPC/coverPage/frontpage.png"
       }
     ];
 
     const nodeMap = Object.fromEntries(books.map(book => [book.id, book]));
+    const narrowTree = matchMedia("(max-width: 760px)");
+    const mobilePoints = {
+      astronomy: { x: 245, y: 110 },
+      stars: { x: 755, y: 110 },
+      statistics: { x: 245, y: 325 },
+      physics: { x: 245, y: 675 },
+      ml: { x: 755, y: 590 },
+      calculus: { x: 245, y: 895 },
+      numerical: { x: 470, y: 795 },
+      hpc: { x: 755, y: 885 },
+    };
+    const branchColors = {
+      gold: ["#b96e61", "#ffe4a4", "#b78645"],
+      red: ["#c07ba8", "#ffd2ab", "#d76d78"],
+      blue: ["#8581cf", "#c5f3fa", "#5ca5c8"],
+    };
 
     function getPoint(id) {
       if (id === "exoplanets") return ROOT;
-      return nodeMap[id];
+      return narrowTree.matches ? mobilePoints[id] : nodeMap[id];
     }
 
     function createCurvedPath(from, to) {
@@ -193,24 +227,53 @@
       return `M ${from.x} ${from.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${to.x} ${to.y}`;
     }
 
-    function renderBranches() {
+    function svgElement(tag, attributes) {
+      const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      for (const [name, value] of Object.entries(attributes)) {
+        element.setAttribute(name, value);
+      }
+      return element;
+    }
+
+    function renderBranches(width, height) {
       const svgGroup = document.getElementById("branches");
+      const gradients = document.getElementById("branchGradients");
+      svgGroup.replaceChildren();
+      gradients.replaceChildren();
+      svgGroup.ownerSVGElement.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+      const toPixels = ({ x, y }) => ({ x: x * width / 1000, y: y * height / 1000 });
 
       books.forEach(book => {
-        const from = getPoint(book.parent);
-        const to = { x: book.x, y: book.y };
+        const from = toPixels(getPoint(book.parent));
+        const to = toPixels(getPoint(book.id));
+        const d = createCurvedPath(from, to);
+        const id = `branch-${book.id}`;
+        const [start, highlight, end] = branchColors[book.cluster];
+        const gradient = svgElement("linearGradient", {
+          id, gradientUnits: "userSpaceOnUse",
+          x1: from.x, y1: from.y, x2: to.x, y2: to.y,
+        });
+        for (const [offset, color] of [["0%", start], ["52%", highlight], ["100%", end]]) {
+          gradient.appendChild(svgElement("stop", { offset, "stop-color": color }));
+        }
+        gradients.appendChild(gradient);
 
-        const glowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        glowPath.setAttribute("class", `branch ${book.cluster}`);
-        glowPath.setAttribute("d", createCurvedPath(from, to));
-        glowPath.setAttribute("stroke-width", "5.5");
-        glowPath.setAttribute("opacity", "0.13");
-        svgGroup.appendChild(glowPath);
+        const stroke = `url(#${id})`;
+        const line = svgElement("path", { class: "branch branch-line", d, stroke });
+        svgGroup.append(
+          svgElement("path", { class: "branch branch-glow", d, stroke }),
+          line,
+          svgElement("path", { class: "branch branch-beads", d, stroke }),
+        );
 
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("class", `branch ${book.cluster}`);
-        path.setAttribute("d", createCurvedPath(from, to));
-        svgGroup.appendChild(path);
+        const length = line.getTotalLength();
+        const waypoint = line.getPointAtLength(length * 0.52);
+        svgGroup.appendChild(svgElement("rect", {
+          class: "branch-junction", x: -3, y: -3, width: 6, height: 6,
+          transform: `translate(${waypoint.x} ${waypoint.y}) rotate(45)`,
+          fill: highlight, stroke: end,
+        }));
       });
     }
 
@@ -221,8 +284,7 @@
         const a = document.createElement("a");
         a.className = "book-node";
         a.href = `/book.html?book=${encodeURIComponent(book.slug)}`;
-        a.style.left = `${book.x / 10}%`;
-        a.style.top = `${book.y / 10}%`;
+        a.dataset.bookId = book.id;
         a.setAttribute("aria-label", book.title);
 
         const ring = document.createElement("div");
@@ -238,13 +300,6 @@
             linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.22)),
             url('${book.background}')
           `;
-        }
-
-        if (book.recommended) {
-          const badge = document.createElement("div");
-          badge.className = "fire-badge";
-          badge.innerHTML = `<span>🔥</span><span>Featured</span>`;
-          ring.appendChild(badge);
         }
 
         ring.appendChild(glyph);
@@ -270,8 +325,101 @@
       });
     }
 
-    renderBranches();
     renderBooks();
+    const treePanel = document.getElementById("libraryTree");
+    const listPanel = document.getElementById("libraryList");
+    const showTree = document.getElementById("showTree");
+    const showList = document.getElementById("showList");
+    const searchInput = document.getElementById("librarySearch");
+    const clearSearch = document.getElementById("clearSearch");
+    const searchStatus = document.getElementById("searchStatus");
+    const tree = document.querySelector(".tree-wrap");
+    const refreshTree = () => {
+      if (treePanel.hidden) return;
+      for (const node of document.querySelectorAll(".book-node")) {
+        const { x, y } = getPoint(node.dataset.bookId);
+        node.style.left = `${x / 10}%`;
+        node.style.top = `${y / 10}%`;
+      }
+      renderBranches(tree.clientWidth, tree.clientHeight);
+    };
+
+    const groups = [
+      ["Featured", "featured", [{ title: "Exoplanets", slug: "Exoplanets", subtitle: "Planet discovery, orbits, atmospheres, and biosignatures", keywords: "astronomy transits radial velocity spectroscopy" }]],
+      ["Foundations", "gold", books.filter(book => book.cluster === "gold")],
+      ["Frontiers", "red", books.filter(book => book.cluster === "red")],
+      ["Tools & Methods", "blue", books.filter(book => book.cluster === "blue")],
+    ];
+    const normalizeSearch = value => value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    const searchableGroups = groups.map(([title, cluster, group]) => {
+      const section = document.createElement("section");
+      section.className = `list-group ${cluster}`;
+      const heading = document.createElement("h3");
+      heading.textContent = title;
+      const list = document.createElement("ul");
+      const entries = group.map(book => {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `/book.html?book=${encodeURIComponent(book.slug)}`;
+        const name = document.createElement("strong");
+        name.textContent = book.title;
+        const description = document.createElement("span");
+        description.textContent = book.subtitle;
+        link.append(name, description);
+        item.appendChild(link);
+        list.appendChild(item);
+        return { item, text: normalizeSearch(`${book.title} ${book.subtitle} ${title} ${book.slug} ${book.keywords ?? ""}`) };
+      });
+      section.append(heading, list);
+      listPanel.appendChild(section);
+      return { section, entries };
+    });
+
+    function setLibraryView(useTree) {
+      treePanel.hidden = !useTree;
+      listPanel.hidden = useTree;
+      showTree.setAttribute("aria-pressed", String(useTree));
+      showList.setAttribute("aria-pressed", String(!useTree));
+      refreshTree();
+    }
+
+    function updateSearch() {
+      const query = searchInput.value.trim();
+      const words = normalizeSearch(query).split(/\s+/).filter(Boolean);
+      let matches = 0;
+      for (const { section, entries } of searchableGroups) {
+        let groupMatches = 0;
+        for (const { item, text } of entries) {
+          item.hidden = !words.every(word => text.includes(word));
+          if (!item.hidden) groupMatches++;
+        }
+        section.hidden = groupMatches === 0;
+        matches += groupMatches;
+      }
+      clearSearch.hidden = !searchInput.value;
+      searchStatus.textContent = !query ? "" : matches
+        ? `${matches} ${matches === 1 ? "book" : "books"} found.`
+        : "No books match. Try a broader topic or clear the search.";
+    }
+
+    searchInput.addEventListener("input", () => {
+      if (listPanel.hidden && searchInput.value.trim()) setLibraryView(false);
+      updateSearch();
+    });
+    clearSearch.addEventListener("click", () => {
+      searchInput.value = "";
+      updateSearch();
+      searchInput.focus();
+    });
+    showTree.addEventListener("click", () => {
+      searchInput.value = "";
+      updateSearch();
+      setLibraryView(true);
+    });
+    showList.addEventListener("click", () => setLibraryView(false));
+    document.getElementById("libraryControls").hidden = false;
+    setLibraryView(!narrowTree.matches);
+    new ResizeObserver(refreshTree).observe(tree);
   </script>
 </body>
 </html>

@@ -45,7 +45,7 @@ phase_grid = np.linspace(0, 1, 200)
 
 plt.rcParams.update({
     "font.size": 11,
-    "svg.fonttype": "none",
+    "svg.fonttype": "path",
     "svg.hashsalt": "neopapyrus-radial-velocity",
     "text.color": "#172b38",
     "axes.labelcolor": "#172b38",
@@ -94,3 +94,5 @@ output = (
     / "books/Exoplanets/chapters/figures/radial-velocity-fit.svg"
 )
 figure.savefig(output, metadata={"Date": None})
+svg_lines = output.read_text(encoding="utf-8").splitlines()
+output.write_text("\n".join(line.rstrip() for line in svg_lines) + "\n", encoding="utf-8")
