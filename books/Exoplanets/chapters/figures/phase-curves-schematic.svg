@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img" aria-labelledby="title description">
+  <title id="title">Synthetic optical and infrared phase curves</title>
+  <desc id="description">Two schematic light curves are plotted from transit to secondary eclipse and back. Reflected optical light peaks near full phase; infrared thermal emission peaks before eclipse to illustrate an offset hot region.</desc>
+  <rect width="1000" height="500" rx="8" fill="#fffefa"/>
+  <text x="50" y="44" fill="#23343a" font-family="Georgia,serif" font-size="25" font-weight="bold">One orbit, two wavelength regimes</text>
+  <text x="50" y="72" fill="#526267" font-family="Arial,sans-serif" font-size="15">Synthetic examples: normalized planetary flux versus orbital phase</text>
+  <text x="72" y="120" fill="#176a60" font-family="Arial,sans-serif" font-size="17" font-weight="bold">Optical: reflected light</text>
+  <text x="535" y="120" fill="#bd633f" font-family="Arial,sans-serif" font-size="17" font-weight="bold">Infrared: thermal emission</text>
+  <g stroke="#d7dfda" stroke-width="1">
+    <line x1="80" y1="175" x2="465" y2="175"/><line x1="80" y1="235" x2="465" y2="235"/><line x1="80" y1="295" x2="465" y2="295"/>
+    <line x1="545" y1="175" x2="930" y2="175"/><line x1="545" y1="235" x2="930" y2="235"/><line x1="545" y1="295" x2="930" y2="295"/>
+  </g>
+  <g stroke="#84928e" stroke-width="1.5">
+    <line x1="80" y1="160" x2="80" y2="310"/><line x1="80" y1="310" x2="465" y2="310"/>
+    <line x1="545" y1="160" x2="545" y2="310"/><line x1="545" y1="310" x2="930" y2="310"/>
+  </g>
+  <path d="M80 270 C135 268 185 247 230 215 C278 180 323 166 368 186 C412 205 445 243 465 270" fill="none" stroke="#176a60" stroke-width="4" stroke-linecap="round"/>
+  <path d="M545 260 C590 248 630 217 670 184 C710 151 750 151 786 179 C825 209 865 252 930 272" fill="none" stroke="#bd633f" stroke-width="4" stroke-linecap="round"/>
+  <g stroke="#9aa8a3" stroke-width="1.5" stroke-dasharray="5 5">
+    <line x1="80" y1="156" x2="80" y2="314"/><line x1="272.5" y1="156" x2="272.5" y2="314"/><line x1="465" y1="156" x2="465" y2="314"/>
+    <line x1="545" y1="156" x2="545" y2="314"/><line x1="737.5" y1="156" x2="737.5" y2="314"/><line x1="930" y1="156" x2="930" y2="314"/>
+  </g>
+  <g fill="#526267" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">
+    <text x="80" y="334">0</text><text x="272.5" y="334">0.5</text><text x="465" y="334">1</text>
+    <text x="545" y="334">0</text><text x="737.5" y="334">0.5</text><text x="930" y="334">1</text>
+  </g>
+  <g fill="#526267" font-family="Arial,sans-serif" font-size="12">
+    <text x="60" y="164" text-anchor="end">high</text><text x="60" y="306" text-anchor="end">low</text>
+    <text x="525" y="164" text-anchor="end">high</text><text x="525" y="306" text-anchor="end">low</text>
+  </g>
+  <g fill="#23343a" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">
+    <text x="80" y="356">Transit</text><text x="272.5" y="356">Secondary eclipse</text><text x="465" y="356">Transit</text>
+    <text x="545" y="376">Transit</text><text x="737.5" y="376">Secondary eclipse</text><text x="930" y="376">Transit</text>
+  </g>
+  <text x="50" y="425" fill="#176a60" font-family="Arial,sans-serif" font-size="14">Reflected brightness peaks near full phase.</text>
+  <text x="535" y="425" fill="#bd633f" font-family="Arial,sans-serif" font-size="14">A displaced infrared maximum indicates an offset bright region.</text>
+  <text x="50" y="462" fill="#68777a" font-family="Arial,sans-serif" font-size="12">Curves are illustrative, not data. Real phase curves also contain stellar and instrumental signals.</text>
+</svg>

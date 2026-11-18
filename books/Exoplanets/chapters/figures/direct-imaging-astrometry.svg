@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 430" role="img" aria-labelledby="title description">
+  <title id="title">Direct imaging and astrometry provide complementary orbit measurements</title>
+  <desc id="description">The left panel shows a coronagraph suppressing a star so a faint planet can be seen at angular separation. The right panel shows the star's small projected reflex orbit around the system center of mass.</desc>
+  <rect width="1000" height="430" rx="8" fill="#f5f7f3"/>
+  <line x1="500" y1="24" x2="500" y2="406" stroke="#cbd5d0" stroke-width="2"/>
+  <text x="40" y="48" fill="#23343a" font-family="Georgia,serif" font-size="25" font-weight="bold">Direct imaging</text>
+  <text x="40" y="76" fill="#526267" font-family="Arial,sans-serif" font-size="16">Separate planet light from stellar glare</text>
+  <rect x="40" y="100" width="420" height="248" rx="5" fill="#202f37"/>
+  <circle cx="236" cy="223" r="72" fill="#f1c766" opacity="0.13"/>
+  <circle cx="236" cy="223" r="48" fill="#f1c766" opacity="0.1"/>
+  <circle cx="236" cy="223" r="26" fill="#273841" stroke="#d5ded8" stroke-width="2"/>
+  <circle cx="236" cy="223" r="8" fill="#e6edf0"/>
+  <circle cx="356" cy="171" r="10" fill="#8fc8bb" stroke="#e5f4ed" stroke-width="2"/>
+  <path d="M236 132 A106 106 0 0 1 373 186" fill="none" stroke="#809198" stroke-width="1.5" stroke-dasharray="6 7"/>
+  <line x1="250" y1="220" x2="347" y2="178" stroke="#e7ebe3" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="282" y="205" fill="#fffefa" font-family="Arial,sans-serif" font-size="15">angular separation</text>
+  <text x="210" y="270" fill="#e5edf0" font-family="Arial,sans-serif" font-size="14">coronagraph mask</text>
+  <text x="366" y="166" fill="#d5eee3" font-family="Arial,sans-serif" font-size="14">planet</text>
+  <text x="40" y="382" fill="#526267" font-family="Arial,sans-serif" font-size="15">The image measures projected separation and flux contrast.</text>
+  <text x="540" y="48" fill="#23343a" font-family="Georgia,serif" font-size="25" font-weight="bold">Astrometry</text>
+  <text x="540" y="76" fill="#526267" font-family="Arial,sans-serif" font-size="16">Track the star's reflex motion across the sky</text>
+  <rect x="540" y="100" width="420" height="248" rx="5" fill="#fffefa" stroke="#d5ded8"/>
+  <line x1="600" y1="310" x2="916" y2="310" stroke="#7c8b8b" stroke-width="1.5"/>
+  <line x1="758" y1="326" x2="758" y2="125" stroke="#7c8b8b" stroke-width="1.5"/>
+  <text x="866" y="335" fill="#526267" font-family="Arial,sans-serif" font-size="14">east-west</text>
+  <text x="772" y="137" fill="#526267" font-family="Arial,sans-serif" font-size="14">north-south</text>
+  <ellipse cx="760" cy="224" rx="105" ry="49" transform="rotate(-22 760 224)" fill="none" stroke="#176a60" stroke-width="3"/>
+  <circle cx="760" cy="224" r="5" fill="#d76e48"/>
+  <circle cx="665" cy="185" r="12" fill="#f1c766" stroke="#ad7a20" stroke-width="2"/>
+  <line x1="760" y1="224" x2="668" y2="187" stroke="#9aa8a3" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="776" y="218" fill="#a84e36" font-family="Arial,sans-serif" font-size="14">barycenter</text>
+  <text x="610" y="166" fill="#526267" font-family="Arial,sans-serif" font-size="14">star</text>
+  <text x="540" y="382" fill="#526267" font-family="Arial,sans-serif" font-size="15">The orbit's shape and size constrain inclination and mass.</text>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#e7ebe3"/>
+    </marker>
+  </defs>
+</svg>

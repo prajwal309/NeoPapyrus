@@ -5,9 +5,16 @@
 A planet can cast a slightly larger shadow in one color than in another. During a transit, its opaque disk blocks part of the stellar surface. Above that disk, starlight passes through a thin ring of atmosphere around the planet's edge, or **terminator**. At a wavelength where the atmosphere is more opaque, the shadow extends to a higher altitude.
 
 <figure class="orbit-figure">
-  <img src="/books/Exoplanets/chapters/figures/transmission-geometry.png"
-    alt="Two rays of starlight skim the atmosphere at the same altitude. More light passes through at one wavelength than at the absorption-band wavelength. A third ray is blocked by the opaque disk." />
-  <figcaption><strong>How an atmosphere leaves a fingerprint on a transit.</strong> The teal and violet rays skim the atmosphere at the same altitude. More light is absorbed at the violet wavelength, so the planet casts a larger effective shadow in that band. The geometry is schematic and the atmosphere is enlarged for clarity.</figcaption>
+  <img src="/books/Exoplanets/chapters/figures/transmission-spectrum-schematic.png"
+    alt="Illustrative transmission spectrum: synthetic transit-depth points rise above a nearby-wavelength reference in an absorption band, showing the planet's larger effective radius at that wavelength." />
+  <figcaption><strong>How an atmosphere leaves a fingerprint on a transit.</strong> In this illustrative transmission spectrum, an absorption band raises the effective transit depth above the nearby-wavelength reference. The curve and points are synthetic, not observations. The plot is inspired by the transmission-spectroscopy framework of <a href="https://doi.org/10.1126/science.1245450">de Wit &amp; Seager (2013)</a>.</figcaption>
+</figure>
+
+<figure class="orbit-figure">
+  <iframe src="/books/Exoplanets/chapters/assets/transit-star-planet.html"
+    title="Animation of a planet crossing a yellow star with its matching transit-light-curve dip"
+    width="100%" height="470" loading="lazy"></iframe>
+  <figcaption><strong>A transit in motion.</strong> The dark planet crosses the star's disk as the light curve dips. This original schematic illustrates the transit geometry behind transmission spectroscopy; it is not a reproduction of a published figure.</figcaption>
 </figure>
 
 An observer begins with a time series of stellar spectra. In each wavelength bin, they fit a [transit light curve](#Chapter3), accounting for the star's limb darkening and changes in the instrument baseline. The result is a series of transit depths with uncertainties. In the simple limit of uniform stellar illumination, the depth $\delta$ and the effective transit radius $R_{\rm tr}$ are related by
@@ -111,7 +118,38 @@ M_p \simeq \frac{g R_p^2}{G}
        = \frac{k_{\rm B}T R_p^2}{G\bar m H},
 $$
 
-where $G$ is the gravitational constant. For example, if Rayleigh scattering from a known gas dominates the extinction over some wavelength interval, $\kappa_\lambda\propto\lambda^{-4}$ and $dR_{\rm tr}/d\ln\lambda\simeq-4H$. With the scale height in hand, the assumed temperature and mean particle mass determine the inferred gravity. De Wit and Seager applied this reasoning to HD 189733 b and obtained a mass consistent with its [radial-velocity](#Chapter5) measurement. [de Wit & Seager (2013)](https://doi.org/10.1126/science.1245450)
+where $G$ is the gravitational constant. The MassSpec method connects a measured wavelength slope to $H$, then uses the assumed atmospheric temperature and mean particle mass to infer gravity.
+
+<div data-level="301">
+
+### Deriving the MassSpec relation
+
+In the optically thick, thin-atmosphere limit from Section 4.4,
+
+$$
+R_{\rm tr}(\lambda)\simeq R_0+H\left[\gamma+\ln\tau_{0,\lambda}\right].
+$$
+
+If the opacity follows a power law $\kappa_\lambda\propto\lambda^\alpha$, then the tangent optical depth $\tau_{0,\lambda}$ has the same wavelength dependence when the other atmospheric quantities are constant. Differentiating with respect to $\ln\lambda$ therefore gives
+
+$$
+\frac{dR_{\rm tr}}{d\ln\lambda}
+=H\frac{d\ln\kappa_\lambda}{d\ln\lambda}
+=\alpha H.
+$$
+
+For Rayleigh scattering by a known gas, $\alpha=-4$, so the radius slope is $-4H$. A deeper transit at shorter wavelengths corresponds to a negative radius slope under this convention. Since $\delta=(R_{\rm tr}/R_\star)^2$, a thin atmosphere with $H\ll R_{\rm tr}$ also obeys
+
+$$
+\frac{d\delta}{d\ln\lambda}\simeq
+\frac{2R_{\rm tr}}{R_\star^2}\frac{dR_{\rm tr}}{d\ln\lambda}.
+$$
+
+Thus a measured transit-depth slope can be converted to a radius slope and then to $H$. Hydrostatic balance gives $g=k_{\rm B}T/(\bar m H)$; combining this with $g\simeq GM_p/R_p^2$ yields the mass equation above. This inference assumes an isothermal, hydrostatic limb, a known opacity law and mean particle mass, a reliable temperature estimate, and a reference radius from the transit. Clouds, hazes, mixed absorbers, or stellar contamination can change the observed slope and bias the inferred mass. [de Wit & Seager (2013)](https://doi.org/10.1126/science.1245450)
+
+</div>
+
+De Wit and Seager applied this reasoning to HD 189733 b and obtained a mass consistent with its [radial-velocity](#Chapter5) measurement. The agreement was a test of the method under the available data and assumptions, not a guarantee that every transmission spectrum uniquely determines mass. [de Wit & Seager (2013)](https://doi.org/10.1126/science.1245450)
 
 **Try it.** If the example planet's radius, temperature, and composition stay fixed but its gravity doubles, what happens to its spectral band heights in the simple model? Its scale height halves, so the tenfold opacity contrast falls from about 300 to 150 ppm. Doubling the mean particle mass at the original gravity gives the same change. A slope or feature height alone cannot tell these cases apart.
 

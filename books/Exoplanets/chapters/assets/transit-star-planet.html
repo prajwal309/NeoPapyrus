@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planet transiting a star</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Avenir Next", Avenir, "Trebuchet MS", sans-serif;
+      color: #23343a;
+      background: #f4f4ef;
+    }
+
+    * { box-sizing: border-box; }
+
+    body { margin: 0; padding: 12px; }
+
+    .scene {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 14px 18px 12px;
+      overflow: hidden;
+      background: #fffefa;
+      border: 1px solid #d6ddd8;
+      border-radius: 6px;
+    }
+
+    .scene-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    h1 { margin: 0; font-size: 19px; line-height: 1.2; }
+
+    .summary { margin: 4px 0 0; color: #526267; font-size: 13px; }
+
+    button {
+      flex: 0 0 auto;
+      min-width: 116px;
+      min-height: 36px;
+      padding: 6px 10px;
+      color: #23343a;
+      background: #f0eee3;
+      border: 1px solid #bdc8c3;
+      border-radius: 4px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #e7e5d8; }
+
+    button:focus-visible { outline: 3px solid #3e7970; outline-offset: 2px; }
+
+    .sky {
+      position: relative;
+      height: 245px;
+      overflow: hidden;
+      background-color: #edf2ef;
+      background-image: radial-gradient(#b8c5c0 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+      border-radius: 4px;
+    }
+
+    .orbit-line {
+      position: absolute;
+      top: 50%;
+      left: 8%;
+      width: 84%;
+      border-top: 1px dashed #849691;
+    }
+
+    .star {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      width: 174px;
+      height: 174px;
+      transform: translate(-50%, -50%);
+      border: 1px solid #d99a25;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 36%, #fff8c7 0 12%, #ffdf73 39%, #f6bd4b 72%, #d89027 100%);
+      box-shadow: 0 0 0 11px rgb(246 189 75 / 15%), 0 0 34px rgb(226 161 51 / 36%);
+    }
+
+    .star-label, .planet-label {
+      position: absolute;
+      z-index: 4;
+      top: calc(50% + 96px);
+      color: #33464b;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .star-label { left: 50%; transform: translateX(-50%); }
+
+    .planet-label { left: 12px; }
+
+    .planet {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #8eaca5;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #586b72, #26343a 70%);
+      box-shadow: 0 0 0 4px rgb(62 121 112 / 16%);
+      animation: cross-star 8s linear infinite;
+      animation-delay: -4s;
+    }
+
+    .curve-area { position: relative; margin-top: 10px; }
+
+    .curve-area svg { display: block; width: 100%; height: 84px; }
+
+    .curve-label {
+      position: absolute;
+      top: 2px;
+      left: 8px;
+      color: #526267;
+      font-size: 11px;
+    }
+
+    .curve-cursor {
+      position: absolute;
+      top: 18px;
+      bottom: 17px;
+      left: 5%;
+      width: 2px;
+      background: #653faa;
+      animation: track-transit 8s linear infinite;
+      animation-delay: -4s;
+    }
+
+    .axis-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 3%;
+      color: #526267;
+      font-size: 10px;
+    }
+
+    .paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
+
+    @keyframes cross-star {
+      from { transform: translate(-50%, -50%) translateX(-230px); }
+      to { transform: translate(-50%, -50%) translateX(230px); }
+    }
+
+    @keyframes track-transit {
+      from { left: 5%; }
+      to { left: 95%; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 6px; }
+      .scene { padding: 10px; }
+      .scene-header { gap: 8px; }
+      h1 { font-size: 16px; }
+      .summary { max-width: 210px; font-size: 12px; }
+      button { min-width: 98px; padding: 5px 7px; font-size: 12px; }
+      .sky { height: 210px; }
+      .star { width: 146px; height: 146px; }
+      .star-label, .planet-label { top: calc(50% + 82px); }
+      .planet-label { left: 8px; }
+      .planet { animation-name: cross-star-mobile; }
+
+      @keyframes cross-star-mobile {
+        from { transform: translate(-50%, -50%) translateX(-175px); }
+        to { transform: translate(-50%, -50%) translateX(175px); }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .planet, .curve-cursor { animation-play-state: paused; }
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" id="scene">
+    <header class="scene-header">
+      <div>
+        <h1>A planet crosses its star</h1>
+        <p class="summary">The transit briefly lowers the star's measured brightness.</p>
+      </div>
+      <button id="motion-toggle" type="button" aria-pressed="true">Pause animation</button>
+    </header>
+
+    <div class="sky" role="img" aria-label="A small dark planet moves across the face of a large yellow star.">
+      <div class="orbit-line" aria-hidden="true"></div>
+      <div class="star" aria-hidden="true"></div>
+      <div class="planet" aria-hidden="true"></div>
+      <span class="star-label" aria-hidden="true">STAR</span>
+      <span class="planet-label" aria-hidden="true">PLANET</span>
+    </div>
+
+    <div class="curve-area">
+      <span class="curve-label">Relative stellar brightness</span>
+      <svg viewBox="0 0 760 90" role="img" aria-label="The light curve has a shallow dip while the planet crosses the star.">
+        <path d="M 26 38 H 202 C 221 38 226 76 251 76 H 509 C 534 76 539 38 558 38 H 734"
+          fill="none" stroke="#176a60" stroke-width="3" stroke-linecap="round" />
+        <path d="M 26 82 H 734" fill="none" stroke="#bdc8c3" stroke-width="1" />
+      </svg>
+      <div class="curve-cursor" aria-hidden="true"></div>
+      <div class="axis-labels" aria-hidden="true"><span>Before transit</span><span>Time</span><span>After transit</span></div>
+    </div>
+  </main>
+
+  <script>
+    const scene = document.getElementById("scene");
+    const motionToggle = document.getElementById("motion-toggle");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let isPlaying = !reducedMotion.matches;
+
+    function updateMotionControl() {
+      scene.classList.toggle("paused", !isPlaying);
+      motionToggle.textContent = isPlaying ? "Pause animation" : "Play animation";
+      motionToggle.setAttribute("aria-pressed", String(isPlaying));
+    }
+
+    motionToggle.addEventListener("click", () => {
+      isPlaying = !isPlaying;
+      updateMotionControl();
+    });
+
+    if (!isPlaying) updateMotionControl();
+  </script>
+</body>
+</html>

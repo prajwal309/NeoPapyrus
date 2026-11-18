@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="title description">
+  <title id="title">Synthetic radial velocities and an illustrative Lomb–Scargle periodogram</title>
+  <desc id="description">The upper graph shows uneven synthetic radial-velocity measurements folded at a 4.73-day period with a fitted sinusoid. The lower graph shows periodogram power with a candidate peak at 0.211 cycles per day and lower daily aliases.</desc>
+  <rect width="1000" height="600" rx="8" fill="#fffefa"/>
+  <text x="52" y="42" fill="#23343a" font-family="Georgia,serif" font-size="25" font-weight="bold">Finding a period in radial-velocity data</text>
+  <text x="52" y="70" fill="#657579" font-family="Arial,sans-serif" font-size="14">Synthetic example: 4.73-day signal, 3 m/s semi-amplitude, uneven sampling</text>
+
+  <text x="80" y="108" fill="#176a60" font-family="Arial,sans-serif" font-size="16" font-weight="bold">Measurements folded at the candidate period</text>
+  <g stroke="#dce4df" stroke-width="1">
+    <line x1="90" y1="150" x2="950" y2="150"/>
+    <line x1="90" y1="218" x2="950" y2="218"/>
+    <line x1="90" y1="286" x2="950" y2="286"/>
+    <line x1="305" y1="130" x2="305" y2="308"/>
+    <line x1="520" y1="130" x2="520" y2="308"/>
+    <line x1="735" y1="130" x2="735" y2="308"/>
+  </g>
+  <g stroke="#7c8b87" stroke-width="1.5">
+    <line x1="90" y1="130" x2="90" y2="308"/>
+    <line x1="90" y1="308" x2="950" y2="308"/>
+  </g>
+  <g fill="#526267" font-family="Arial,sans-serif" font-size="12">
+    <text x="76" y="154" text-anchor="end">+3</text>
+    <text x="76" y="222" text-anchor="end">0</text>
+    <text x="76" y="290" text-anchor="end">-3</text>
+    <text x="90" y="329" text-anchor="middle">0</text>
+    <text x="305" y="329" text-anchor="middle">0.25</text>
+    <text x="520" y="329" text-anchor="middle">0.50</text>
+    <text x="735" y="329" text-anchor="middle">0.75</text>
+    <text x="950" y="329" text-anchor="middle">1.00</text>
+  </g>
+  <text x="520" y="350" fill="#526267" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">Orbital phase</text>
+  <text x="28" y="222" fill="#526267" font-family="Arial,sans-serif" font-size="13" text-anchor="middle" transform="rotate(-90 28 222)">Radial velocity (m/s)</text>
+
+  <path d="M90 218 C165 218 188 157 270 157 C352 157 380 218 520 218 C660 218 688 279 770 279 C852 279 875 218 950 218"
+    fill="none" stroke="#176a60" stroke-width="3.5" stroke-linecap="round"/>
+  <g stroke="#31464c" stroke-width="1.3" fill="#31464c">
+    <path d="M125 182v18 M120 182h10 M120 200h10"/><circle cx="125" cy="191" r="4"/>
+    <path d="M177 168v18 M172 168h10 M172 186h10"/><circle cx="177" cy="177" r="4"/>
+    <path d="M225 154v18 M220 154h10 M220 172h10"/><circle cx="225" cy="163" r="4"/>
+    <path d="M279 158v18 M274 158h10 M274 176h10"/><circle cx="279" cy="167" r="4"/>
+    <path d="M333 176v18 M328 176h10 M328 194h10"/><circle cx="333" cy="185" r="4"/>
+    <path d="M381 207v18 M376 207h10 M376 225h10"/><circle cx="381" cy="216" r="4"/>
+    <path d="M433 229v18 M428 229h10 M428 247h10"/><circle cx="433" cy="238" r="4"/>
+    <path d="M479 254v18 M474 254h10 M474 272h10"/><circle cx="479" cy="263" r="4"/>
+    <path d="M555 216v18 M550 216h10 M550 234h10"/><circle cx="555" cy="225" r="4"/>
+    <path d="M611 175v18 M606 175h10 M606 193h10"/><circle cx="611" cy="184" r="4"/>
+    <path d="M666 148v18 M661 148h10 M661 166h10"/><circle cx="666" cy="157" r="4"/>
+    <path d="M714 155v18 M709 155h10 M709 173h10"/><circle cx="714" cy="164" r="4"/>
+    <path d="M771 208v18 M766 208h10 M766 226h10"/><circle cx="771" cy="217" r="4"/>
+    <path d="M824 230v18 M819 230h10 M819 248h10"/><circle cx="824" cy="239" r="4"/>
+    <path d="M880 257v18 M875 257h10 M875 275h10"/><circle cx="880" cy="266" r="4"/>
+    <path d="M925 213v18 M920 213h10 M920 231h10"/><circle cx="925" cy="222" r="4"/>
+  </g>
+  <line x1="700" y1="102" x2="727" y2="102" stroke="#176a60" stroke-width="3.5"/>
+  <text x="734" y="107" fill="#526267" font-family="Arial,sans-serif" font-size="12">fitted sinusoid</text>
+  <circle cx="858" cy="102" r="4" fill="#31464c"/>
+  <text x="870" y="107" fill="#526267" font-family="Arial,sans-serif" font-size="12">synthetic data</text>
+
+  <line x1="52" y1="371" x2="948" y2="371" stroke="#ccd6d1" stroke-width="1.3"/>
+  <text x="80" y="397" fill="#653faa" font-family="Arial,sans-serif" font-size="16" font-weight="bold">Lomb–Scargle power across trial frequencies</text>
+  <g stroke="#dce4df" stroke-width="1">
+    <line x1="90" y1="430" x2="950" y2="430"/>
+    <line x1="90" y1="475" x2="950" y2="475"/>
+    <line x1="90" y1="520" x2="950" y2="520"/>
+    <line x1="377" y1="416" x2="377" y2="536"/>
+    <line x1="663" y1="416" x2="663" y2="536"/>
+  </g>
+  <g stroke="#7c8b87" stroke-width="1.5">
+    <line x1="90" y1="416" x2="90" y2="536"/>
+    <line x1="90" y1="536" x2="950" y2="536"/>
+  </g>
+  <g fill="#526267" font-family="Arial,sans-serif" font-size="12">
+    <text x="76" y="524" text-anchor="end">low</text>
+    <text x="76" y="434" text-anchor="end">high</text>
+    <text x="90" y="556" text-anchor="middle">0</text>
+    <text x="377" y="556" text-anchor="middle">0.5</text>
+    <text x="663" y="556" text-anchor="middle">1.0</text>
+    <text x="950" y="556" text-anchor="middle">1.5</text>
+  </g>
+  <text x="520" y="580" fill="#526267" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">Trial frequency (cycles/day)</text>
+  <text x="28" y="475" fill="#526267" font-family="Arial,sans-serif" font-size="13" text-anchor="middle" transform="rotate(-90 28 475)">Relative power</text>
+
+  <path d="M90 520 C145 520 165 513 185 478 C198 454 202 425 219 423 C239 421 244 459 259 490 C273 517 294 520 330 520
+           C440 520 497 518 519 493 C534 472 539 461 550 460 C563 459 569 478 580 502 C590 519 604 520 663 520
+           C733 520 769 516 788 491 C803 472 808 464 819 464 C832 464 838 482 848 504 C859 519 873 520 950 520"
+    fill="none" stroke="#653faa" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="211" y1="417" x2="211" y2="536" stroke="#bd633f" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <circle cx="211" cy="428" r="6" fill="#bd633f" stroke="#fffefa" stroke-width="2"/>
+  <text x="231" y="427" fill="#a84e36" font-family="Arial,sans-serif" font-size="14" font-weight="bold">Candidate: f = 0.211 d⁻¹</text>
+  <text x="231" y="447" fill="#a84e36" font-family="Arial,sans-serif" font-size="13">P ≈ 4.73 days</text>
+  <text x="537" y="451" fill="#526267" font-family="Arial,sans-serif" font-size="12">daily aliases</text>
+  <text x="50" y="594" fill="#657579" font-family="Arial,sans-serif" font-size="11">Schematic peak shapes and points; real significance depends on noise, search range, and sampling window.</text>
+</svg>

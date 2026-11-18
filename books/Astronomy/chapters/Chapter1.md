@@ -32,16 +32,6 @@ Why?
 
 Astronomy begins with noticing.
 
-<figure style="float: right; width: 35%; margin: 0 0 1rem 1.5rem;">
-  <img src="/books/Astronomy/chapters/figures/HR8799.gif"
-     alt="Directly Imaged Planets Around HR 8799"
-     style="width: 100%; border-radius: 6px;" />
-  <figcaption style="font-size: 0.85rem; color: #555; margin-top: 0.4rem;">
-    Figure 1. Direct image of the planetary system around HR 8799. The central star is suppressed by a coronagraph, allowing multiple giant planets to be seen directly.
-  </figcaption>
-</figure>
-
-
 ---
 
 ## Why Does the Sky Move?
